@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="901d8814-09cb-49a0-8aa6-2ad7bbc34f9a" name="Changes" comment="Archivos de parte de Daniel">
-      <change afterPath="$PROJECT_DIR$/app/controller/basura_controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controller/jornada_controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controller/reporte_controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/basura_recolectada.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/jornada_limpieza.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repository/basura_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repository/jornada_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/basura_recolectada.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/jornada_limpieza.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/basura_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/jornada_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto-02.pdf" beforeDir="false" />
+    <list default="true" id="901d8814-09cb-49a0-8aa6-2ad7bbc34f9a" name="Changes" comment="Partes de Daniel">
+      <change afterPath="$PROJECT_DIR$/app/config/database.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/core/dependencies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/core/security.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,17 +33,32 @@
     <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "ORM",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;ORM&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app" />
+    </key>
+  </component>
   <component name="TaskManager">
+    <task id="LOCAL-00001" summary="Partes de Daniel">
+      <option name="closed" value="true" />
+      <created>1782266470165</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782266470165</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Archivos de parte de Daniel" />
+    <MESSAGE value="Partes de Daniel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Partes de Daniel" />
   </component>
 </project>
