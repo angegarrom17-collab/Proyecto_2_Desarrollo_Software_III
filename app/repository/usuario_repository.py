@@ -8,7 +8,7 @@ class UsuarioRepository:
         self.db = SessionLocal()
 
     def create(self, email, hashed_password, rol="encargado"):
-        usuario = Usuario(
+        usuario = UsuarioORM(
             email=email,
             hashed_password=hashed_password,
             rol=rol
