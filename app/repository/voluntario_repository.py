@@ -1,6 +1,6 @@
 from sqlalchemy import func
 from app.config.database import SessionLocal
-from app.models.voluntario import Voluntario
+from app.models.voluntario import VoluntarioORM
 
 
 class VoluntarioRepository:
@@ -8,7 +8,7 @@ class VoluntarioRepository:
         self.db = SessionLocal()
 
     def create(self, cedula, nombre, email, edad, organizacion):
-        voluntario = Voluntario(
+        voluntario = VoluntarioORM(
             cedula=cedula,
             nombre=nombre,
             email=email,
@@ -21,13 +21,13 @@ class VoluntarioRepository:
         return voluntario
 
     def get(self, voluntario_id):
-        return self.db.query(Voluntario).filter_by(id=voluntario_id).first()
+        return self.db.query(VoluntarioORM).filter_by(id=voluntario_id).first()
 
     def get_by_cedula(self, cedula):
-        return self.db.query(Voluntario).filter_by(cedula=cedula).first()
+        return self.db.query(VoluntarioORM).filter_by(cedula=cedula).first()
 
     def get_all(self):
-        return self.db.query(Voluntario).all()
+        return self.db.query(VoluntarioORM).all()
 
     def update(self, voluntario_id, cedula, nombre, email, edad, organizacion):
         voluntario = self.get(voluntario_id)
@@ -48,7 +48,7 @@ class VoluntarioRepository:
         return voluntario
 
     def get_by_organizacion(self, organizacion):
-        return self.db.query(Voluntario).filter(func.lower(Voluntario.organizacion) == organizacion.lower()).all()
+        return self.db.query(VoluntarioORM).filter(func.lower(VoluntarioORM.organizacion) == organizacion.lower()).all()
 
     def search_by_age_range(self, min_age, max_age):
-        return self.db.query(Voluntario).filter(Voluntario.edad >= min_age, Voluntario.edad <= max_age).all()
+        return self.db.query(VoluntarioORM).filter(VoluntarioORM.edad >= min_age, VoluntarioORM.edad <= max_age).all()
