@@ -4,33 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="Web de voluntarios">
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/basura.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/fauna.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/jornadas.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/material.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/reporte.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/voluntarios.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/zonas.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/basura.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/fauna.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/jornadas.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/material.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/reporte.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/voluntarios.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" afterDir="false" />
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="WEBS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782592785562</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="WEBS">
+      <option name="closed" value="true" />
+      <created>1782597900600</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1782597900600</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +160,7 @@
     <MESSAGE value="Partes de Daniel" />
     <MESSAGE value="primer commit" />
     <MESSAGE value="Web de voluntarios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Web de voluntarios" />
+    <MESSAGE value="WEBS" />
+    <option name="LAST_COMMIT_MESSAGE" value="WEBS" />
   </component>
 </project>

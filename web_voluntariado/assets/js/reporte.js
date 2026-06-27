@@ -81,7 +81,7 @@ function limpiar() {
 document.getElementById("btnGenerar").addEventListener("click", generar);
 document.getElementById("btnLimpiar").addEventListener("click", limpiar);
 document.getElementById("btnSalir").addEventListener("click", () => { 
-    if (confirm("¿Desea salir?")) window.location.href = "principal.html"; 
+    if (confirm("¿Desea salir?")) window.location.href = "../index.html";
 });
 
 document.addEventListener("DOMContentLoaded", () => { 

@@ -217,7 +217,7 @@ btnLimpiar.addEventListener("click", () => {
 });
 btnSalir.addEventListener("click", () => {
     if (confirm("¿Desea salir del módulo de usuarios?")) {
-        window.location.href = "principal.html";
+        window.location.href = "../index.html";
     }
 });
 btnBorrar.addEventListener("click", eliminarUsuario);

@@ -202,7 +202,7 @@ document.getElementById("btnLimpiar").addEventListener("click", () => {
     mostrarMensaje("Campos limpiados.", "success");
 });
 document.getElementById("btnSalir").addEventListener("click", () => {
-    if (confirm("¿Desea salir?")) window.location.href = "principal.html";
+    if (confirm("¿Desea salir?")) window.location.href = "../index.html";
 });
 document.getElementById("btnBorrar").addEventListener("click", eliminar);
 
