@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="primer commit">
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/img/Background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/img/fondo.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/img/fondo_principal.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/img/fondoo.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_voluntariado/js/app.js" afterDir="false" />
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="Web de voluntarios">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/img/Background.png" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/img/Background.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/img/fondo.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/img/fondo.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/img/fondo_principal.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/img/fondo_principal.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/img/fondoo.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/img/fondoo.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -42,7 +44,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git&quot;,
-    &quot;accountId&quot;: &quot;f76547fa-8463-4499-9c87-f3e945825ef5&quot;
+    &quot;accountId&quot;: &quot;580c3f6f-459c-4233-bd4a-cc780ffa663b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -59,11 +61,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "ORM",
-    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo",
+    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo/web_voluntariado",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -73,16 +78,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web_voluntariado" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web_voluntariado/assets" />
+      <recent name="$PROJECT_DIR$/web_voluntariado/assent" />
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-02acdf704d18-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28539.27" />
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
       </set>
     </attachedChunks>
   </component>
@@ -120,6 +128,9 @@
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
