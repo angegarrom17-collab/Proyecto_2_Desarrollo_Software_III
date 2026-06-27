@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basura Recolectada - Sistema de Monitoreo Costero</title>
+    <link rel="stylesheet" href="../assets/css/basura.css">
+<base target="_blank">
+</head>
+<body>
+    <header class="topbar">
+        <div class="bloque-texto">
+            <h1>Basura Recolectada</h1>
+            <p>Sistema de monitoreo costero · Módulo de residuos</p>
+        </div>
+        <div class="bloque-btns">
+            <button id="btnRegistrar" class="btn-primario">Registrar</button>
+            <button id="btnEditar" class="btn-secundario">Editar</button>
+            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
+            <button id="btnSalir" class="btn-outline">Salir</button>
+        </div>
+    </header>
+
+    <main class="contenedor">
+        <section class="formulario">
+            <div class="grupo-campos">
+                <div class="campo">
+                    <label for="entry_tipo">TIPO DE RESIDUO</label>
+                    <input type="text" id="entry_tipo" placeholder="Ej: vidrio, plástico, red">
+                </div>
+                <div class="campo">
+                    <label for="entry_peso">PESO (kg)</label>
+                    <input type="text" id="entry_peso" placeholder="Peso en kilos">
+                </div>
+                <div class="campo">
+                    <label for="entry_fecha">FECHA</label>
+                    <input type="text" id="entry_fecha" placeholder="DD-MM">
+                </div>
+            </div>
+        </section>
+
+        <div class="separador"></div>
+
+        <section class="tabla-section">
+            <div class="tabla-header">
+                <h2>REGISTROS DE BASURA</h2>
+            </div>
+            <div class="tabla-contenedor">
+                <table id="tablaBasura">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo de Residuo</th>
+                            <th>Peso (kg)</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyBasura"></tbody>
+                </table>
+            </div>
+            <p id="lblFooter" class="footer-tabla">Mostrando 0 registro(s)</p>
+        </section>
+    </main>
+
+    <div id="messageBox" class="message-box hidden"></div>
+    <script src="../assets/js/basura.js"></script>
+</body>
+</html>
