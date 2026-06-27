@@ -4,48 +4,35 @@
     <meta charset="UTF-8">
     <title>Gestión de Usuarios</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            margin: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(135deg, #1a237e, #4fc3f7);
+            font-family: 'Patrick Hand', cursive;
+        }
+        .panel-gestion {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px; border-radius: 25px; width: 80%; max-width: 800px;
+        }
+        input { padding: 10px; width: 100%; border: 2px solid #b3e5fc; border-radius: 10px; margin-bottom: 10px; }
+    </style>
 </head>
 <body>
-
-<div class="main-container">
-    <h2>Gestión de Usuarios</h2>
-
-    <div class="form-section">
-        <input type="text" placeholder="ID">
-        <input type="text" placeholder="NOMBRE COMPLETO">
-        <input type="text" placeholder="CORREO ELECTRÓNICO">
-        <input type="password" placeholder="CONTRASEÑA">
-        <input type="text" placeholder="TIPO DE USUARIO">
-
-        <div class="btn-group">
-            <button class="action-btn">Registrar</button>
-            <button class="action-btn">Editar</button>
-            <button class="action-btn">Limpiar</button>
-            <button class="action-btn">Salir</button>
-        </div>
+    <div class="panel-gestion">
+        <h2>Gestión de Usuarios</h2>
+        <form id="usuarioForm">
+            <input type="text" id="email" placeholder="Correo">
+            <input type="password" id="password" placeholder="Contraseña">
+            <input type="text" id="rol" placeholder="Rol">
+            <button type="submit" class="btn-action">Registrar</button>
+        </form>
+        <table class="data-table">
+            <thead><tr><th>Email</th><th>Rol</th></tr></thead>
+            <tbody id="usuariosTable"></tbody>
+        </table>
+        <a href="index.html" class="btn-action" style="margin-top: 20px;">Volver</a>
     </div>
-
-    <h3>USUARIOS REGISTRADOS</h3>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Tipo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>11937</td>
-                <td>angelica</td>
-                <td>angeee@gmail.com</td>
-                <td>encargado</td>
-            </tr>
-        </tbody>
-    </table>
-    <button class="delete-btn">Borrar por ID</button>
-</div>
-
+    <script src="js/app.js"></script>
 </body>
 </html>

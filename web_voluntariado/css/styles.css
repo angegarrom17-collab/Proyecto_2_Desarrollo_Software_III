@@ -1,207 +1,28 @@
-/* ==========================================================================
-   Estilos Generales - Fondo Marino
-   ========================================================================== */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    
-    /* Imagen de fondo */
-    background-image: url('../img/fondoo.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* ==========================================================================
-   Encabezado - Sin fondo, solo el texto flotando
-   ========================================================================== */
-header {
-    text-align: center;
-    margin-top: 10px; /* Reduje esto de 50px a 10px para que el título suba */
-    margin-bottom: 20px;
-    background: transparent;
-    padding: 20px 40px;
-}
-
-h1 {
-    color: #0f0d6e;                    /* 1. COLOR */
-    font-family: 'Patrick Hand', sans-serif;  /* 2. FUENTE */
-    font-size: 3.5rem;                 /* 3. TAMAÑO */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
-    margin: 0;
-    letter-spacing: 2px;
-}
-
-header p {
-    color: #0f0d6e; /* 1. Cambia este código por el color que quieras (ej: #000000 para negro) */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+/* Botones compartidos */
+.btn-action {
+    background-color: #90caf9;
+    color: #1a237e;
+    font-family: 'Patrick Hand', cursive;
     font-weight: bold;
-    
-    /* 2. Añade estas líneas para cambiar la fuente y el tamaño */
-    font-family: 'Patrick Hand', sans-serif; /* Pon aquí el nombre de la fuente que prefieras */
-    font-size: 1.3rem;               /* Ajusta el tamaño (1.2rem es un poco más grande) */
-}
-
-/* ==========================================================================
-   Panel de Botones - Solo la cuadrícula, sin fondo ni sombras
-   ========================================================================== */
-.menu-dashboard {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    
-    /* AJUSTE PARA SUBIR LOS BOTONES */
-    margin-top: -50px; /* Prueba con -50px, si quieres que suban más, usa -70px o -80px */
-}
-
-.btn-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 850px; 
-    width: 90%;
-    
-    /* Centrado automático base */
-    margin: 0 auto; 
-    
-    /* Ajuste fino: un valor más pequeño hará un movimiento menor */
-    margin-left: -7px; 
-    
-    background: transparent;
-    padding: 30px;
-}
-
-/* ==========================================================================
-   Estilos de los Botones (Efecto de flotación)
-   ========================================================================== */
-/* ==========================================================================
-   Estilos de los Botones (Efecto de flotación)
-   ========================================================================== */
-.menu-btn {
-    /* Altura definida - Cambia 80px si quieres que sean más cortos o más altos */
-    height: 80px;
-
-    /* Centrado y diseño */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    /* Estilos estéticos */
-    text-decoration: none; /* Quita el subrayado del enlace */
-    color: #263238;       /* Color del texto */
-    font-weight: bold;
-    font-family: 'Patrick Hand', sans-serif;
-    border-radius: 15px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
-    padding: 0 10px;      /* Espacio lateral para que el texto no toque bordes */
-}
-
-.menu-btn:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 25px rgba(0,0,0,0.3);
-}
-
-/* ==========================================================================
-   PÁGINA: USUARIOS
-   ========================================================================== */
-.usuarios-container {
-    width: 90%;
-    max-width: 1000px;
-    background: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para la tabla */
-    padding: 30px;
-    border-radius: 20px;
-    margin-top: 20px;
-}
-
-.usuarios-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.usuarios-table th, .usuarios-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-/* Un botón para regresar al inicio */
-.btn-back {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #0f0d6e;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-/* Agrega esto a tu CSS para limpiar los links */
-.btn-grid a {
-    text-decoration: none;
+    font-size: 16px;
+    padding: 12px 25px;
     border: none;
-}
-
-/* Esto asegura que los enlaces se vean y comporten como tus botones originales */
-.btn-grid a.menu-btn {
-    text-decoration: none;       /* Quita el subrayado */
-    color: #263238;              /* Mantiene el color de letra original */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 120px;               /* La altura que ya tenías */
-}
-
-/*AGREGO USUARIO
-/* Contenedor principal */
-.main-container {
-    width: 80%;
-    margin: 50px auto;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
     border-radius: 15px;
-}
-
-.form-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.action-btn {
-    padding: 10px 20px;
-    background-color: #5d4037; /* Color café parecido a tu foto */
-    color: white;
-    border: none;
     cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
+.btn-action:hover { background-color: #42a5f5; transform: scale(1.05); }
+
+/* Tablas compartidas */
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-family: 'Patrick Hand', cursive;
+    background: white;
 }
 
-.data-table th, .data-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
+.data-table th { background-color: #90caf9; padding: 12px; text-align: left; }
+.data-table td { padding: 12px; border-bottom: 1px solid #ddd; }
