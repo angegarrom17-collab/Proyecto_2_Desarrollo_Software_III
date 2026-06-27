@@ -86,27 +86,122 @@ header p {
    Estilos de los Botones (Efecto de flotación)
    ========================================================================== */
 .menu-btn {
-    /* Mantenemos tus estilos actuales */
-    padding: 20px 20px; /* Reduje el padding vertical para controlar mejor la altura */
-    border: none;
-    border-radius: 15px;
-    font-size: 1.1rem;
-    font-family: 'Patrick Hand', sans-serif;
+    /* Altura definida - Cambia 80px si quieres que sean más cortos o más altos */
+    height: 80px;
+
+    /* Centrado y diseño */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* Estilos estéticos */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    color: #263238;       /* Color del texto */
     font-weight: bold;
-    color: #263238;
-    cursor: pointer;
+    font-family: 'Patrick Hand', sans-serif;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
-    
-    /* NUEVAS LÍNEAS PARA IGUALAR ALTURA */
-    height: 120px;           /* Altura fija para todos */
-    display: flex;           /* Activa flexbox */
-    align-items: center;     /* Centra verticalmente */
-    justify-content: center; /* Centra horizontalmente */
-    text-align: center;      /* Asegura que el texto se alinee al centro */
+    padding: 0 10px;      /* Espacio lateral para que el texto no toque bordes */
 }
 
 .menu-btn:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
+   PÁGINA: USUARIOS
+   ========================================================================== */
+.usuarios-container {
+    width: 90%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para la tabla */
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.usuarios-table th, .usuarios-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Un botón para regresar al inicio */
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0f0d6e;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Agrega esto a tu CSS para limpiar los links */
+.btn-grid a {
+    text-decoration: none;
+    border: none;
+}
+
+/* Esto asegura que los enlaces se vean y comporten como tus botones originales */
+.btn-grid a.menu-btn {
+    text-decoration: none;       /* Quita el subrayado */
+    color: #263238;              /* Mantiene el color de letra original */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 120px;               /* La altura que ya tenías */
+}
+
+/*AGREGO USUARIO
+/* Contenedor principal */
+.main-container {
+    width: 80%;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background-color: #5d4037; /* Color café parecido a tu foto */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.data-table th, .data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
 }
