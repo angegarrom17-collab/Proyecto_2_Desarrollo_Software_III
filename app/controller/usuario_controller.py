@@ -10,6 +10,7 @@ usuario_service = UsuarioService()
 def crear_usuario(usuario: UsuarioRegistroSchema):
     try:
         return usuario_service.crear_usuario(
+            id=usuario.id,
             email=usuario.email,
             password=usuario.password,
             rol=usuario.rol
@@ -24,7 +25,7 @@ def listar_usuarios():
 
 
 @router.get("/{usuario_id}", response_model=UsuarioSchema)
-def obtener_usuario(usuario_id: int):
+def obtener_usuario(usuario_id: str):
     usuario = usuario_service.obtener_usuario(usuario_id)
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -32,7 +33,7 @@ def obtener_usuario(usuario_id: int):
 
 
 @router.put("/{usuario_id}", response_model=UsuarioSchema)
-def actualizar_usuario(usuario_id: int, usuario: UsuarioRegistroSchema):
+def actualizar_usuario(usuario_id: str, usuario: UsuarioRegistroSchema):
     try:
         return usuario_service.actualizar_usuario(
             usuario_id=usuario_id,
@@ -45,7 +46,7 @@ def actualizar_usuario(usuario_id: int, usuario: UsuarioRegistroSchema):
 
 
 @router.delete("/{usuario_id}")
-def eliminar_usuario(usuario_id: int):
+def eliminar_usuario(usuario_id: str):
     try:
         usuario_service.eliminar_usuario(usuario_id)
         return {"status": "success", "message": "Usuario eliminado"}

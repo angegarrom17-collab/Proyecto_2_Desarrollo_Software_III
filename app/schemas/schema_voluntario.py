@@ -1,8 +1,9 @@
 from pydantic import BaseModel, ConfigDict
 
 class VoluntarioRegistroSchema(BaseModel):
-    cedula: str
+    id: str
     nombre: str
+    telefono: str
     email: str
     edad: int
     organizacion: str
@@ -11,6 +12,7 @@ class VoluntarioSchema(BaseModel):
     id: int
     cedula: str
     nombre: str
+    telefono: str
     email: str
     edad: int
     organizacion: str

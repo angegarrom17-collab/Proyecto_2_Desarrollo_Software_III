@@ -10,8 +10,9 @@ voluntario_service = VoluntarioService()
 def crear_voluntario(voluntario: VoluntarioRegistroSchema):
     try:
         return voluntario_service.crear_voluntario(
-            cedula=voluntario.cedula,
+            cedula=voluntario.id,
             nombre=voluntario.nombre,
+            telefono=voluntario.telefono,
             email=voluntario.email,
             edad=voluntario.edad,
             organizacion=voluntario.organizacion
@@ -38,8 +39,9 @@ def actualizar_voluntario(voluntario_id: int, voluntario: VoluntarioRegistroSche
     try:
         return voluntario_service.actualizar_voluntario(
             voluntario_id=voluntario_id,
-            cedula=voluntario.cedula,
+            cedula=voluntario.id,
             nombre=voluntario.nombre,
+            telefono=voluntario.telefono,
             email=voluntario.email,
             edad=voluntario.edad,
             organizacion=voluntario.organizacion

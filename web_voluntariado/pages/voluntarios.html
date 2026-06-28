@@ -4,60 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Voluntarios - Sistema de Monitoreo Costero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/voluntarios.css">
 <base target="_blank">
 </head>
 <body>
     <header class="topbar">
         <div class="bloque-texto">
-            <h1>Registro de Voluntarios</h1>
-            <p>Sistema de voluntariado · Módulo de voluntarios</p>
+            <div class="logo-icon">
+    <i class="fas fa-fish"></i>
+</div>
+            <div class="texto-header">
+                <h1>Registro de Voluntarios</h1>
+                <p>Sistema de voluntariado · Módulo de voluntarios</p>
+            </div>
         </div>
         <div class="bloque-btns">
-            <button id="btnRegistrar" class="btn-primario">Registrar</button>
-            <button id="btnEditar" class="btn-secundario">Editar</button>
-            <button id="btnEliminar" class="btn-outline">Eliminar por ID</button>
-            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
-            <button id="btnSalir" class="btn-outline">Salir</button>
+            <button id="btnRegistrar" class="btn-primario">
+                <i class="fas fa-plus"></i> Registrar
+            </button>
+            <button id="btnEditar" class="btn-secundario">
+                <i class="fas fa-pencil-alt"></i> Editar
+            </button>
+            <button id="btnEliminar" class="btn-outline">
+                <i class="fas fa-trash-alt"></i> Eliminar por ID
+            </button>
+            <button id="btnLimpiar" class="btn-outline">
+                <i class="fas fa-broom"></i> Limpiar
+            </button>
+            <button id="btnSalir" class="btn-salir">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
         </div>
     </header>
 
     <main class="contenedor">
-        <section class="formulario">
+        <!-- Formulario -->
+        <section class="formulario-card">
+            <div class="card-header">
+                <i class="fas fa-user-circle"></i>
+                <span>Información del voluntario</span>
+            </div>
             <div class="grupo-campos">
                 <div class="campo">
-                    <label for="entry_id">IDENTIFICADOR (ID)</label>
+                    <label for="entry_id">
+                        <i class="fas fa-id-card"></i> IDENTIFICADOR (ID)
+                    </label>
                     <input type="text" id="entry_id" placeholder="Ej: 85099">
                 </div>
                 <div class="campo">
-                    <label for="entry_nombre">NOMBRE COMPLETO</label>
+                    <label for="entry_nombre">
+                        <i class="fas fa-user"></i> NOMBRE COMPLETO
+                    </label>
                     <input type="text" id="entry_nombre" placeholder="Nombre del voluntario">
                 </div>
                 <div class="campo">
-                    <label for="entry_telefono">TELÉFONO DE CONTACTO</label>
+                    <label for="entry_telefono">
+                        <i class="fas fa-phone"></i> TELÉFONO DE CONTACTO
+                    </label>
                     <input type="text" id="entry_telefono" placeholder="Teléfono">
                 </div>
                 <div class="campo">
-                    <label for="entry_edad">EDAD</label>
+                    <label for="entry_edad">
+                        <i class="fas fa-calendar-alt"></i> EDAD
+                    </label>
                     <input type="text" id="entry_edad" placeholder="Mayor de 18">
                 </div>
                 <div class="campo">
-                    <label for="entry_correo">CORREO ELECTRÓNICO</label>
+                    <label for="entry_correo">
+                        <i class="fas fa-envelope"></i> CORREO ELECTRÓNICO
+                    </label>
                     <input type="email" id="entry_correo" placeholder="correo@ejemplo.com">
                 </div>
                 <div class="campo">
-                    <label for="entry_organizacion">ORGANIZACIÓN / INSTITUCIÓN</label>
+                    <label for="entry_organizacion">
+                        <i class="fas fa-building"></i> ORGANIZACIÓN / INSTITUCIÓN
+                    </label>
                     <input type="text" id="entry_organizacion" placeholder="Organización">
                 </div>
             </div>
+            <div class="heart-decoration">
+                <i class="fas fa-heart"></i>
+            </div>
         </section>
 
-        <div class="separador"></div>
-
+        <!-- Tabla -->
         <section class="tabla-section">
-            <div class="tabla-header">
-                <h2>VOLUNTARIOS REGISTRADOS</h2>
+            <div class="tabla-toolbar">
+                <div class="tabla-title">
+                    <i class="fas fa-users"></i>
+                    <span>Voluntarios registrados</span>
+                </div>
+                <div class="tabla-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchId" placeholder="Buscar por ID...">
+                    </div>
+                    <button id="btnFiltros" class="btn-filtros">
+                        <i class="fas fa-filter"></i> Filtros
+                    </button>
+                </div>
             </div>
+
             <div class="tabla-contenedor">
                 <table id="tablaVoluntarios">
                     <thead>
@@ -68,12 +116,23 @@
                             <th>Edad</th>
                             <th>Correo</th>
                             <th>Organización</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tbodyVoluntarios"></tbody>
+                    <tbody id="tbodyVoluntarios">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
                 </table>
             </div>
-            <p id="lblFooter" class="footer-tabla">Mostrando 0 registro(s)</p>
+
+            <div class="footer-tabla">
+                <p id="lblFooter">Mostrando 0 registro(s)</p>
+                <div class="heart-divider">
+                    <span class="line"></span>
+                    <i class="fas fa-heart"></i>
+                    <span class="line"></span>
+                </div>
+            </div>
         </section>
     </main>
 

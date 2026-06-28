@@ -11,7 +11,7 @@ class UsuarioService:
         if rol.strip().lower() not in ["encargado"]:
             raise ValueError("Tipo de usuario no válido. Solo se acepta: encargado")
 
-    def crear_usuario(self, email, password, rol):
+    def crear_usuario(self, id, email, password, rol):
         if self.repo.get_by_email(email.strip()):
             raise ValueError("El correo electrónico ya se encuentra registrado.")
 
@@ -21,6 +21,7 @@ class UsuarioService:
         self.validar_reglas_negocio(email, rol)
 
         return self.repo.create(
+            id=str(id).strip(),
             email=email.strip(),
             hashed_password=password,
             rol=rol.strip().lower()

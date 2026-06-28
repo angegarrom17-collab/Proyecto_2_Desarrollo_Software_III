@@ -4,9 +4,9 @@ class VoluntarioService:
     def __init__(self):
         self.repo = VoluntarioRepository()
 
-    def _validar_reglas_negocio(self, cedula, nombre, email, edad, organizacion):
-        campos_obligatorios = ("cedula", "nombre", "email", "organizacion")
-        valores = (cedula, nombre, email, organizacion)
+    def _validar_reglas_negocio(self, cedula, nombre, telefono, email, edad, organizacion):
+        campos_obligatorios = ("cedula", "nombre", "telefono", "email", "organizacion")
+        valores = (cedula, nombre, telefono, email, organizacion)
 
         for campo, valor in zip(campos_obligatorios, valores):
             if not str(valor).strip():
@@ -19,15 +19,16 @@ class VoluntarioService:
         if "@" not in email:
             raise ValueError("El correo no tiene formato válido")
 
-    def crear_voluntario(self, cedula, nombre, email, edad, organizacion):
+    def crear_voluntario(self, cedula, nombre, telefono, email, edad, organizacion):
         if self.repo.get_by_cedula(str(cedula).strip()):
             raise ValueError(f"Ya existe un voluntario con ID {cedula}")
 
-        self._validar_reglas_negocio(cedula, nombre, email, edad, organizacion)
+        self._validar_reglas_negocio(cedula, nombre, telefono, email, edad, organizacion)
 
         return self.repo.create(
             cedula=str(cedula).strip(),
             nombre=str(nombre).strip(),
+            telefono=str(telefono).strip(),
             email=str(email).strip(),
             edad=edad,
             organizacion=str(organizacion).strip()
@@ -39,17 +40,18 @@ class VoluntarioService:
     def listar_voluntarios(self):
         return self.repo.get_all()
 
-    def actualizar_voluntario(self, voluntario_id, cedula, nombre, email, edad, organizacion):
+    def actualizar_voluntario(self, voluntario_id, cedula, nombre, telefono, email, edad, organizacion):
         voluntario = self.repo.get(voluntario_id)
         if not voluntario:
             raise ValueError(f"No se encontró un voluntario con ID '{voluntario_id}'.")
 
-        self._validar_reglas_negocio(cedula, nombre, email, edad, organizacion)
+        self._validar_reglas_negocio(cedula, nombre, telefono, email, edad, organizacion)
 
         return self.repo.update(
             voluntario_id=voluntario_id,
             cedula=str(cedula).strip(),
             nombre=str(nombre).strip(),
+            telefono=str(telefono).strip(),
             email=str(email).strip(),
             edad=edad,
             organizacion=str(organizacion).strip()

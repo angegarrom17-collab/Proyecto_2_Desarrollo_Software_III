@@ -7,10 +7,11 @@ class VoluntarioRepository:
     def __init__(self):
         self.db = SessionLocal()
 
-    def create(self, cedula, nombre, email, edad, organizacion):
+    def create(self, cedula, nombre, telefono, email, edad, organizacion):
         voluntario = VoluntarioORM(
             cedula=cedula,
             nombre=nombre,
+            telefono=telefono,
             email=email,
             edad=edad,
             organizacion=organizacion
@@ -29,11 +30,12 @@ class VoluntarioRepository:
     def get_all(self):
         return self.db.query(VoluntarioORM).all()
 
-    def update(self, voluntario_id, cedula, nombre, email, edad, organizacion):
+    def update(self, voluntario_id, cedula, nombre, telefono, email, edad, organizacion):
         voluntario = self.get(voluntario_id)
         if voluntario:
             voluntario.cedula = cedula
             voluntario.nombre = nombre
+            voluntario.telefono = telefono
             voluntario.email = email
             voluntario.edad = edad
             voluntario.organizacion = organizacion
