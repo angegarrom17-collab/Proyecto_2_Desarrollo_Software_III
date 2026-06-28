@@ -2,56 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Protección del Mar</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 80px;
-            background-image: url('img/fondoo.jpeg');
-            background-size: cover;
-            background-position: center;
-            font-family: 'Patrick Hand', cursive;
-            color: #1a237e;
-        }
-
-        header { text-align: center; margin-bottom: 60px; }
-        h1 { font-size: 3rem; margin: 0; }
-        p { margin: 10px 0 0 0; font-size: 1.1rem; }
-
-        .btn-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 800px;
-            width: 90%;
-            margin-top: 0;
-        }
-
-        .menu-box {
-        padding: 45px 20px;
-
-        border-radius: 15px;
-        text-decoration: none;
-        color: #1a237e;
-        font-weight: bold;
-
-        font-size: 1.25rem;
-
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    }
-        .menu-box:hover { transform: scale(1.03); }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protección del Mar - Panel Principal</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Patrick+Hand&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+<base target="_blank">
 </head>
 <body>
 
@@ -60,16 +17,24 @@
         <p>Pequeñas acciones, grandes cambios</p>
     </header>
 
-    <div class="btn-grid">
-        <a href="usuarios.html" class="menu-box" style="background-color: #90caf9;">Usuarios</a>
-        <a href="jornadas.html" class="menu-box" style="background-color: #a5d6a7;">Jornadas</a>
-        <a href="voluntarios.html" class="menu-box" style="background-color: #ffe082;">Voluntarios</a>
-        <a href="zonas.html" class="menu-box" style="background-color: #80cbc4;">Zonas</a>
-        <a href="material.html" class="menu-box" style="background-color: #f48fb1;">Material</a>
-        <a href="animal-afectado.html" class="menu-box" style="background-color: #80deea;">Animal Afectado</a>
-        <a href="basura-recolectada.html" class="menu-box" style="background-color: #ce93d8;">Basura Recolectada</a>
-        <a href="reporte.html" class="menu-box" style="background-color: #c5e1a5;">Reporte</a>
-    </div>
+    <main>
+        <section class="menu-dashboard">
+            <div class="btn-grid">
+                <button class="menu-btn" style="background-color: #90caf9;" onclick="window.location.href='pages/usuarios.html'">Usuarios</button>
+                <button class="menu-btn" style="background-color: #a5d6a7;" onclick="window.location.href='pages/jornadas.html'">Jornadas</button>
+                <button class="menu-btn" style="background-color: #ffe082;" onclick="window.location.href='pages/voluntarios.html'">Voluntarios</button>
+                <button class="menu-btn" style="background-color: #80cbc4;" onclick="window.location.href='pages/zonas.html'">Zonas</button>
+                <button class="menu-btn" style="background-color: #f48fb1;" onclick="window.location.href='pages/material.html'">Material</button>
+                <button class="menu-btn" style="background-color: #80deea;" onclick="window.location.href='pages/fauna.html'">Animal Afectado</button>
+                <button class="menu-btn" style="background-color: #ce93d8;" onclick="window.location.href='pages/basura.html'">Basura Recolectada</button>
+                <button class="menu-btn" style="background-color: #c5e1a5;" onclick="window.location.href='pages/reporte.html'">Reporte</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>JUNTOS HACEMOS LA DIFERENCIA</p>
+    </footer>
 
 </body>
 </html>

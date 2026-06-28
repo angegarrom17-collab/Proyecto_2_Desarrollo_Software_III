@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit html usuarios">
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="WEBS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_voluntariado/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/usuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +28,8 @@
       <list>
         <option value="Python Script" />
         <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -40,7 +50,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git&quot;,
-    &quot;accountId&quot;: &quot;f76547fa-8463-4499-9c87-f3e945825ef5&quot;
+    &quot;accountId&quot;: &quot;580c3f6f-459c-4233-bd4a-cc780ffa663b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -61,8 +71,11 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "ORM",
-    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo",
+    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo/web_voluntariado",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -72,16 +85,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web_voluntariado" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web_voluntariado/assets" />
+      <recent name="$PROJECT_DIR$/web_voluntariado/assent" />
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-02acdf704d18-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28539.27" />
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
       </set>
     </attachedChunks>
   </component>
@@ -117,22 +133,34 @@
       <option name="project" value="LOCAL" />
       <updated>1782504123890</updated>
     </task>
-    <task id="LOCAL-00004" summary="commit html usuarios">
+    <task id="LOCAL-00004" summary="Web de voluntarios">
       <option name="closed" value="true" />
-      <created>1782592627418</created>
+      <created>1782592785561</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1782592627418</updated>
+      <updated>1782592785562</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="WEBS">
+      <option name="closed" value="true" />
+      <created>1782597900600</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1782597900600</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
     <MESSAGE value="Partes de Daniel" />
     <MESSAGE value="primer commit" />
-    <MESSAGE value="commit html usuarios" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit html usuarios" />
+    <MESSAGE value="Web de voluntarios" />
+    <MESSAGE value="WEBS" />
+    <option name="LAST_COMMIT_MESSAGE" value="WEBS" />
   </component>
 </project>

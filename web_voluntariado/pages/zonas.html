@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Zonas - Sistema de Monitoreo Costero</title>
+    <link rel="stylesheet" href="../assets/css/zonas.css">
+    <base target="_blank">
+</head>
+<body>
+    <header class="topbar">
+        <div class="bloque-texto">
+            <h1>Gestión de Zonas</h1>
+            <p>Sistema de monitoreo costero · Módulo de zonas</p>
+        </div>
+        <div class="bloque-btns">
+            <button id="btnRegistrar" class="btn-primario">Registrar</button>
+            <button id="btnEditar" class="btn-secundario">Editar</button>
+            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
+            <button id="btnSalir" class="btn-outline">Salir</button>
+        </div>
+    </header>
+
+    <main class="contenedor">
+        <section class="formulario">
+            <div class="grupo-campos">
+                <div class="campo">
+                    <label for="entry_id">ID ZONA</label>
+                    <input type="text" id="entry_id" placeholder="Número entero">
+                </div>
+                <div class="campo">
+                    <label for="entry_nombre">NOMBRE</label>
+                    <input type="text" id="entry_nombre" placeholder="Nombre de la zona">
+                </div>
+                <div class="campo">
+                    <label for="entry_ubicacion">UBICACIÓN</label>
+                    <input type="text" id="entry_ubicacion" placeholder="Ubicación">
+                </div>
+                <div class="campo">
+                    <label for="entry_nivel">NIVEL DE CONTAMINACIÓN</label>
+                    <input type="text" id="entry_nivel" placeholder="bajo / medio / alto / critico">
+                </div>
+                <div class="campo campo-doble">
+                    <label for="entry_descripcion">DESCRIPCIÓN</label>
+                    <input type="text" id="entry_descripcion" placeholder="Descripción de la zona">
+                </div>
+            </div>
+        </section>
+
+        <div class="separador-ola"></div>
+
+        <section class="tabla-section">
+            <div class="tabla-header">
+                <h2>ZONAS REGISTRADAS</h2>
+                <button id="btnBorrar" class="btn-borrar-id">Borrar por ID</button>
+            </div>
+            <div class="tabla-contenedor">
+                <table id="tablaZonas">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Ubicación</th>
+                            <th>Contaminación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyZonas"></tbody>
+                </table>
+            </div>
+            <p id="lblFooter" class="footer-tabla">Mostrando 0 zona(s) registrada(s)</p>
+        </section>
+    </main>
+
+    <div id="messageBox" class="message-box hidden"></div>
+    <script src="../assets/js/zonas.js"></script>
+</body>
+</html>

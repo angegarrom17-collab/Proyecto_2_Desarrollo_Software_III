@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fauna Afectada - Sistema de Monitoreo Costero</title>
+    <link rel="stylesheet" href="../assets/css/fauna.css">
+<base target="_blank">
+</head>
+<body>
+    <header class="topbar">
+        <div class="bloque-texto">
+            <h1>Fauna Afectada</h1>
+            <p>Sistema de monitoreo costero · Módulo de fauna marina</p>
+        </div>
+        <div class="bloque-btns">
+            <button id="btnRegistrar" class="btn-primario">Registrar</button>
+            <button id="btnEditar" class="btn-secundario">Editar</button>
+            <button id="btnBuscar" class="btn-outline">Buscar ID</button>
+            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
+            <button id="btnSalir" class="btn-outline">Salir</button>
+        </div>
+    </header>
+
+    <main class="contenedor">
+        <section class="formulario">
+            <div class="grupo-campos">
+                <div class="campo">
+                    <label for="entry_id">ID ANIMAL</label>
+                    <input type="text" id="entry_id" placeholder="Ej: 45">
+                </div>
+                <div class="campo">
+                    <label for="entry_especie">ESPECIE</label>
+                    <input type="text" id="entry_especie" placeholder="Ej: tortuga, pez">
+                </div>
+                <div class="campo">
+                    <label for="entry_estado">ESTADO</label>
+                    <input type="text" id="entry_estado" placeholder="vivo / herido / muerto">
+                </div>
+                <div class="campo campo-doble">
+                    <label for="entry_descripcion">DESCRIPCIÓN</label>
+                    <input type="text" id="entry_descripcion" placeholder="Descripción del estado">
+                </div>
+            </div>
+        </section>
+
+        <div class="separador"></div>
+
+        <section class="tabla-section">
+            <div class="tabla-header">
+                <h2>ANIMALES REGISTRADOS</h2>
+                <button id="btnBorrar" class="btn-borrar-id">Borrar por ID</button>
+            </div>
+            <div class="tabla-contenedor">
+                <table id="tablaFauna">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Especie</th>
+                            <th>Estado</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyFauna"></tbody>
+                </table>
+            </div>
+            <p id="lblFooter" class="footer-tabla">Mostrando 0 animal(es) registrado(s)</p>
+        </section>
+    </main>
+
+    <div id="messageBox" class="message-box hidden"></div>
+    <script src="../assets/js/fauna.js"></script>
+</body>
+</html>
