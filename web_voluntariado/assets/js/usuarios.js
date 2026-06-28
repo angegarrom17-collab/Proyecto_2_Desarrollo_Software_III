@@ -1,3 +1,11 @@
+// ============================================
+// CONFIGURACIÓN DE LA API
+// ============================================
+const API_URL = 'http://127.0.0.1:8000';
+
+// ============================================
+// REFERENCIAS AL DOM
+// ============================================
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryCorreo = document.getElementById("entry_correo");
@@ -13,52 +21,31 @@ const btnLimpiar = document.getElementById("btnLimpiar");
 const btnSalir = document.getElementById("btnSalir");
 const btnBorrar = document.getElementById("btnBorrar");
 
-const STORAGE_KEY = "usuarios_monitoreo";
 let idEditando = null;
 
-const datosIniciales = [
-    { id_usuario: "11937", nombre: "angelica", correo: "angeee@gmail.com", contrasena: "angelica123", tipo: "encargado" },
-    { id_usuario: "0062", nombre: "britney", correo: "britney@gmail.com", contrasena: "britney123", tipo: "encargado" },
-    { id_usuario: "11938", nombre: "daniel", correo: "dannn@gmail.com", contrasena: "daniel123", tipo: "encargado" },
-    { id_usuario: "12", nombre: "root", correo: "root@root", contrasena: "root123", tipo: "encargado" }
-];
-
+// ============================================
+// MENSAJES
+// ============================================
 function mostrarMensaje(texto, tipo = "success") {
     messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
+    messageBox.classList.remove("hidden");
 
     setTimeout(() => {
         messageBox.classList.add("hidden");
     }, 3000);
 }
 
-function obtenerUsuarios() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    
-    if (!data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
-    
-    try {
-        return JSON.parse(data);
-    } catch {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
-}
-
-function guardarUsuarios(usuarios) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
-}
-
+// ============================================
+// LIMPIAR CAMPOS
+// ============================================
 function limpiarCampos() {
     entryId.value = "";
     entryNombre.value = "";
     entryCorreo.value = "";
     entryContrasena.value = "";
     entryTipo.value = "encargado";
-    
+
     idEditando = null;
     entryId.disabled = false;
 
@@ -67,123 +54,172 @@ function limpiarCampos() {
     });
 }
 
-function validarCampos(id, nombre, correo, contrasena, tipo) {
-    if (!id || !nombre || !correo || !contrasena || !tipo) {
-        mostrarMensaje("Complete todos los campos.", "warning");
+// ============================================
+// VALIDAR CAMPOS
+// ============================================
+function validarCampos(correo, contrasena, tipo) {
+    if (!correo || !contrasena || !tipo) {
+        mostrarMensaje("Complete todos los campos obligatorios (correo, contraseña, tipo).", "warning");
         return false;
     }
-    
-    if (!/^\d+$/.test(id)) {
-        mostrarMensaje("El ID debe ser numérico.", "error");
-        return false;
-    }
-    
+
     if (!correo.includes("@")) {
         mostrarMensaje("El correo no tiene formato válido.", "error");
         return false;
     }
-    
+
     if (contrasena.length < 6) {
         mostrarMensaje("La contraseña debe tener al menos 6 caracteres.", "error");
         return false;
     }
-    
+
     if (tipo !== "encargado") {
         mostrarMensaje("Tipo de usuario no válido. Solo se acepta: encargado", "error");
         return false;
     }
-    
+
     return true;
 }
 
-function cargarTabla() {
-    const usuarios = obtenerUsuarios();
-    tbodyUsuarios.innerHTML = "";
+// ============================================
+// CARGAR USUARIOS DESDE LA API (GET)
+// ============================================
+async function cargarTabla() {
+    try {
+        const respuesta = await fetch(`${API_URL}/usuarios/`);
 
-    usuarios.forEach((u) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${u.id_usuario}</td>
-            <td>${u.nombre}</td>
-            <td>${u.correo}</td>
-            <td>${u.tipo}</td>
-        `;
+        if (!respuesta.ok) {
+            throw new Error('Error al cargar usuarios');
+        }
 
-        tr.addEventListener("click", () => {
-            document.querySelectorAll("#tbodyUsuarios tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
+        const usuarios = await respuesta.json();
+        tbodyUsuarios.innerHTML = "";
 
-            entryId.value = u.id_usuario;
-            entryNombre.value = u.nombre;
-            entryCorreo.value = u.correo;
-            entryContrasena.value = u.contrasena;
-            entryTipo.value = u.tipo;
-            
-            idEditando = u.id_usuario;
-            entryId.disabled = true;
+        usuarios.forEach((u) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${u.id}</td>
+                <td>${u.email.split('@')[0]}</td>  <!-- Usamos parte del email como nombre -->
+                <td>${u.email}</td>
+                <td>${u.rol}</td>
+            `;
+
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#tbodyUsuarios tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
+
+                entryId.value = u.id;
+                entryNombre.value = u.email.split('@')[0];  // Parte del email como nombre
+                entryCorreo.value = u.email;
+                entryContrasena.value = "";  // No mostramos la contraseña por seguridad
+                entryTipo.value = u.rol;
+
+                idEditando = u.id;
+                entryId.disabled = true;
+            });
+
+            tbodyUsuarios.appendChild(tr);
         });
 
-        tbodyUsuarios.appendChild(tr);
-    });
+        lblFooter.textContent = `Mostrando ${usuarios.length} registro(s)`;
 
-    lblFooter.textContent = `Mostrando ${usuarios.length} registro(s)`;
-}
-
-function registrarUsuario() {
-    const id = entryId.value.trim();
-    const nombre = entryNombre.value.trim();
-    const correo = entryCorreo.value.trim();
-    const contrasena = entryContrasena.value.trim();
-    const tipo = entryTipo.value.trim();
-
-    if (!validarCampos(id, nombre, correo, contrasena, tipo)) return;
-
-    const usuarios = obtenerUsuarios();
-
-    if (usuarios.some(u => u.id_usuario === id)) {
-        mostrarMensaje(`Ya existe un usuario con ID ${id}.`, "error");
-        return;
+    } catch (error) {
+        mostrarMensaje("❌ Error al cargar usuarios: " + error.message, "error");
+        console.error(error);
     }
-
-    usuarios.push({ id_usuario: id, nombre, correo, contrasena, tipo });
-    guardarUsuarios(usuarios);
-
-    mostrarMensaje(`Usuario '${nombre}' registrado.`, "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
-function editarUsuario() {
-    const id = entryId.value.trim();
-    const nombre = entryNombre.value.trim();
+// ============================================
+// REGISTRAR USUARIO EN LA API (POST)
+// ============================================
+async function registrarUsuario() {
     const correo = entryCorreo.value.trim();
     const contrasena = entryContrasena.value.trim();
     const tipo = entryTipo.value.trim();
 
-    if (!validarCampos(id, nombre, correo, contrasena, tipo)) return;
+    if (!validarCampos(correo, contrasena, tipo)) return;
 
+    const usuario = {
+        email: correo,
+        password: contrasena,
+        rol: tipo
+    };
+
+    try {
+        const respuesta = await fetch(`${API_URL}/usuarios/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Usuario '${datos.email}' registrado con ID ${datos.id}.`, "success");
+            limpiarCampos();
+            cargarTabla();  // Recargar la tabla desde la API
+        } else {
+            mostrarMensaje(`❌ Error: ${datos.detail || 'Error desconocido'}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error(error);
+    }
+}
+
+// ============================================
+// EDITAR USUARIO EN LA API (PUT)
+// ============================================
+async function editarUsuario() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un usuario de la tabla para editar.", "warning");
         return;
     }
 
-    const usuarios = obtenerUsuarios();
-    const index = usuarios.findIndex(u => u.id_usuario === idEditando);
+    const correo = entryCorreo.value.trim();
+    const contrasena = entryContrasena.value.trim();
+    const tipo = entryTipo.value.trim();
 
-    if (index === -1) {
-        mostrarMensaje(`No existe usuario con ID ${id}.`, "error");
-        return;
+    if (!validarCampos(correo, contrasena, tipo)) return;
+
+    const usuario = {
+        email: correo,
+        password: contrasena,
+        rol: tipo
+    };
+
+    try {
+        const respuesta = await fetch(`${API_URL}/usuarios/${idEditando}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Usuario '${datos.email}' actualizado.`, "success");
+            limpiarCampos();
+            cargarTabla();
+        } else {
+            mostrarMensaje(`❌ Error: ${datos.detail || 'Error desconocido'}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error(error);
     }
-
-    usuarios[index] = { id_usuario: id, nombre, correo, contrasena, tipo };
-    guardarUsuarios(usuarios);
-
-    mostrarMensaje(`Usuario '${nombre}' actualizado.`, "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
-function eliminarUsuario() {
+// ============================================
+// ELIMINAR USUARIO EN LA API (DELETE)
+// ============================================
+async function eliminarUsuario() {
     const id = entryId.value.trim();
 
     if (!id) {
@@ -195,20 +231,30 @@ function eliminarUsuario() {
         return;
     }
 
-    const usuarios = obtenerUsuarios();
-    const filtrados = usuarios.filter(u => u.id_usuario !== id);
+    try {
+        const respuesta = await fetch(`${API_URL}/usuarios/${id}`, {
+            method: 'DELETE'
+        });
 
-    if (filtrados.length === usuarios.length) {
-        mostrarMensaje(`No existe usuario con ID ${id}.`, "error");
-        return;
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
+            mostrarMensaje("✅ Registro eliminado.", "success");
+            limpiarCampos();
+            cargarTabla();
+        } else {
+            mostrarMensaje(`❌ Error: ${datos.detail || 'Error desconocido'}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error(error);
     }
-
-    guardarUsuarios(filtrados);
-    mostrarMensaje("Registro eliminado.", "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
+// ============================================
+// EVENT LISTENERS
+// ============================================
 btnRegistrar.addEventListener("click", registrarUsuario);
 btnEditar.addEventListener("click", editarUsuario);
 btnLimpiar.addEventListener("click", () => {
@@ -234,6 +280,9 @@ document.querySelectorAll("input").forEach(input => {
     });
 });
 
+// ============================================
+// CARGAR AL INICIAR
+// ============================================
 document.addEventListener("DOMContentLoaded", () => {
     cargarTabla();
 });

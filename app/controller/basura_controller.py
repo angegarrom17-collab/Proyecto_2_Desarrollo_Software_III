@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from app.service.basura_service import BasuraService
-from app.schemas.basura_schema import BasuraSchema, BasuraRegistroSchema
+from app.services.basura_service import BasuraService
+from app.schemas.basura_recolectada import BasuraSchema, BasuraRegistroSchema
 import uuid
 
 router = APIRouter(prefix="/basura", tags=["Basura"])

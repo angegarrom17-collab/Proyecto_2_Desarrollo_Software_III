@@ -1,7 +1,7 @@
 from sqlalchemy.orm import joinedload
 
 from app.config.database import SessionLocal
-from app.entity.jornada_limpieza import JornadaORM, jornada_voluntario
+from app.models.jornada_limpieza import JornadaORM, jornada_voluntario
 
 class JornadaRepository:
     def __init__(self):

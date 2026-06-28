@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
-from app.service.basura_service import BasuraService
-from app.service.jornada_service import JornadaService
+from app.services.basura_service import BasuraService
+from app.services.jornada_service import JornadaService
 from app.config.database import SessionLocal
-from app.entity.animal_afectado import AnimalORM
+#from app.models.animal_afectado import AnimalORM
 
 router = APIRouter(prefix="/reportes", tags=["Reportes"])
 service_basura = BasuraService()

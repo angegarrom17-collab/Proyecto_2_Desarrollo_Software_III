@@ -1,7 +1,7 @@
 from sqlalchemy import func
 
 from app.config.database import SessionLocal
-from app.entity.basura_recolectada import BasuraORM
+from app.models.basura_recolectada import BasuraORM
 
 class BasuraRepository:
     def __init__(self):

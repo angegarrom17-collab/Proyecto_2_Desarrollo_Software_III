@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
-from app.service.jornada_service import JornadaService
-from app.schemas.jornada_schema import JornadaSchema, JornadaRegistroSchema, AsignacionVoluntarioSchema
+from app.services.jornada_service import JornadaService
+from app.schemas.jornada_limpieza import JornadaSchema, JornadaRegistroSchema, AsignacionVoluntarioSchema
 from app.config.database import SessionLocal
-from app.entity.zona import ZonaORM
+#from app.models.zona import ZonaORM
 
 router = APIRouter(prefix="/jornadas", tags=["Jornadas"])
 service = JornadaService()

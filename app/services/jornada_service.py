@@ -1,7 +1,7 @@
 from app.repository.jornada_repository import JornadaRepository
 from app.config.database import SessionLocal
-from app.entity.zona import ZonaORM
-from app.entity.voluntario import VoluntarioORM
+#from app.models.zona import ZonaORM
+from app.models.voluntario import VoluntarioORM
 
 class JornadaService:
     def __init__(self):

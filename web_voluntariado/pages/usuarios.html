@@ -4,78 +4,470 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios - Sistema de Monitoreo Costero</title>
-    <link rel="stylesheet" href="../assets/css/usuarios.css">
-<base target="_blank">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header h2 i {
+            font-size: 24px;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .menu-item {
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .menu-item.active {
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-footer img {
+            width: 60px;
+            opacity: 0.6;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .topbar p {
+            color: #888;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #1976d2;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1565c0;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-danger {
+            background: #ef5350;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53935;
+        }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ========== FORM ========== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group label i {
+            margin-right: 5px;
+            color: #1976d2;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25,118,210,0.1);
+        }
+
+        /* ========== TABLE ========== */
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-header h3 {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            width: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #1976d2;
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        tbody tr.seleccionada {
+            background: #e3f2fd;
+        }
+
+        tbody td {
+            padding: 14px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+            margin-right: 10px;
+        }
+
+        .footer-tabla {
+            margin-top: 15px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* ========== MENSAJES ========== */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .message-box.success { background: #43a047; }
+        .message-box.error { background: #e53935; }
+        .message-box.warning { background: #fb8c00; }
+        .message-box.hidden { display: none; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .sidebar .menu-item span, .sidebar-header h2 span { display: none; }
+            .main-content { margin-left: 70px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Topbar -->
-    <header class="topbar">
-        <div class="bloque-texto">
-            <h1>Gestión de Usuarios</h1>
-            <p>Sistema administrativo · Módulo de acceso</p>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-water"></i> <span>Sistema de Monitoreo Costero</span></h2>
         </div>
-        <div class="bloque-btns">
-            <button id="btnRegistrar" class="btn-primario">Registrar</button>
-            <button id="btnEditar" class="btn-secundario">Editar</button>
-            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
-            <button id="btnSalir" class="btn-outline">Salir</button>
-        </div>
-    </header>
 
-    <!-- Contenido principal -->
-    <main class="contenedor">
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user-shield"></i>
+                <span>Roles</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-key"></i>
+                <span>Permisos</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Actividad</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <i class="fas fa-anchor" style="font-size: 40px; opacity: 0.3;"></i>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div>
+                <h1>Gestión de Usuarios</h1>
+                <p>Sistema administrativo · Módulo de acceso</p>
+            </div>
+            <div class="topbar-actions">
+                <button id="btnRegistrar" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Registrar
+                </button>
+                <button id="btnEditar" class="btn btn-secondary">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button id="btnLimpiar" class="btn btn-secondary">
+                    <i class="fas fa-eraser"></i> Limpiar
+                </button>
+                <button id="btnSalir" class="btn btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </div>
+
         <!-- Formulario -->
-        <section class="formulario">
-            <div class="grupo-campos">
-                <div class="campo">
-                    <label for="entry_id">ID</label>
-                    <input type="text" id="entry_id" placeholder="Ej: 11937">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-user-plus" style="color: #1976d2;"></i>
+                Información del usuario
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> ID</label>
+                    <input type="text" id="entry_id" placeholder="Ej: 11937" disabled>
                 </div>
-                <div class="campo">
-                    <label for="entry_nombre">NOMBRE COMPLETO</label>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nombre completo</label>
                     <input type="text" id="entry_nombre" placeholder="Nombre del usuario">
                 </div>
-                <div class="campo">
-                    <label for="entry_correo">CORREO ELECTRÓNICO</label>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Correo electrónico</label>
                     <input type="email" id="entry_correo" placeholder="correo@ejemplo.com">
                 </div>
-                <div class="campo">
-                    <label for="entry_contrasena">CONTRASEÑA</label>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Contraseña</label>
                     <input type="password" id="entry_contrasena" placeholder="Mínimo 6 caracteres">
                 </div>
-                <div class="campo">
-                    <label for="entry_tipo">TIPO DE USUARIO</label>
-                    <input type="text" id="entry_tipo" placeholder="encargado" value="encargado">
+                <div class="form-group">
+                    <label><i class="fas fa-user-tag"></i> Tipo de usuario</label>
+                    <select id="entry_tipo">
+                        <option value="encargado">Encargado</option>
+                    </select>
                 </div>
             </div>
-        </section>
-
-        <!-- Separador -->
-        <div class="separador"></div>
+        </div>
 
         <!-- Tabla -->
-        <section class="tabla-section">
-            <div class="tabla-header">
-                <h2>USUARIOS REGISTRADOS</h2>
-                <button id="btnBorrar" class="btn-borrar-id">Borrar por ID</button>
+        <div class="card">
+            <div class="table-header">
+                <h3><i class="fas fa-list" style="color: #1976d2; margin-right: 8px;"></i>Usuarios registrados</h3>
+                <div class="search-box">
+                    <input type="text" placeholder="🔍 Buscar por ID...">
+                    <button id="btnBorrar" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Borrar por ID
+                    </button>
+                </div>
             </div>
-            <div class="tabla-contenedor">
-                <table id="tablaUsuarios">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Tipo</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyUsuarios">
-                        <!-- Se llena dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
+
+            <table id="tablaUsuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyUsuarios">
+                    <!-- Se llena dinámicamente -->
+                </tbody>
+            </table>
+
             <p id="lblFooter" class="footer-tabla">Mostrando 0 registro(s)</p>
-        </section>
+        </div>
     </main>
 
     <!-- Mensajes -->

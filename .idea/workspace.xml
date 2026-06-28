@@ -4,19 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="WEBS">
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit html usuarios">
+      <change afterPath="$PROJECT_DIR$/app/controller/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/basura.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/jornadas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/material.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/reporte.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/basura_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/basura_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/jornada_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/jornada_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/reporte_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/reporte_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/usuario_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/usuario_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/voluntario_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/voluntario_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/animal_afectado.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/animal_afectado.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/jornada_limpieza.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/jornada_limpieza.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/material.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/material.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/zona.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/zona.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repository/basura_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/basura_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repository/jornada_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/jornada_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/schema_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_usuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/schema_voluntario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_voluntario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/jornada_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/jornada_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/zonas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/usuarios.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +37,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
-        <option value="CSS File" />
-        <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -50,7 +59,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git&quot;,
-    &quot;accountId&quot;: &quot;580c3f6f-459c-4233-bd4a-cc780ffa663b&quot;
+    &quot;accountId&quot;: &quot;f76547fa-8463-4499-9c87-f3e945825ef5&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -65,39 +74,113 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "ORM",
-    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo/web_voluntariado",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python.exe.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ORM&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/OneDrive/Desktop/Proyecto_2_Desarrollo_Software_III&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web_voluntariado" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web_voluntariado/assets" />
-      <recent name="$PROJECT_DIR$/web_voluntariado/assent" />
       <recent name="$PROJECT_DIR$/app" />
     </key>
+  </component>
+  <component name="RunManager" selected="Python.run">
+    <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Proyecto_2_Desarrollo_Software_III" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="python.exe" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Proyecto_2_Desarrollo_Software_III" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\User\OneDrive\Desktop\Proyecto_2_Desarrollo_Software_III" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python313/python.exe" />
+      <option name="PARAMETERS" value="-m uvicorn main:app --reload" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run" type="PythonConfigurationType" factoryName="Python">
+      <module name="Proyecto_2_Desarrollo_Software_III" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\User\OneDrive\Desktop\Proyecto_2_Desarrollo_Software_III" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.python.exe" />
+      <item itemvalue="Python.run" />
+      <item itemvalue="Python.Unnamed" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
+        <option value="bundled-python-sdk-02acdf704d18-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28539.27" />
       </set>
     </attachedChunks>
   </component>
@@ -133,34 +216,22 @@
       <option name="project" value="LOCAL" />
       <updated>1782504123890</updated>
     </task>
-    <task id="LOCAL-00004" summary="Web de voluntarios">
+    <task id="LOCAL-00004" summary="commit html usuarios">
       <option name="closed" value="true" />
-      <created>1782592785561</created>
+      <created>1782592627418</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1782592785562</updated>
+      <updated>1782592627418</updated>
     </task>
-    <task id="LOCAL-00005" summary="WEBS">
-      <option name="closed" value="true" />
-      <created>1782597900600</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1782597900600</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
     <MESSAGE value="Partes de Daniel" />
     <MESSAGE value="primer commit" />
-    <MESSAGE value="Web de voluntarios" />
-    <MESSAGE value="WEBS" />
-    <option name="LAST_COMMIT_MESSAGE" value="WEBS" />
+    <MESSAGE value="commit html usuarios" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit html usuarios" />
   </component>
 </project>

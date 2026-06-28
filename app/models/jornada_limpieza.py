@@ -6,7 +6,7 @@ jornada_voluntario = Table(
     "jornada_voluntario",
     Base.metadata,
     Column("id_jornada", String(50), ForeignKey("jornadas.id_jornada"), primary_key=True),
-    Column("id_voluntario", String(50), ForeignKey("voluntarios.id_voluntario"), primary_key=True)
+    Column("id_voluntario", Integer, ForeignKey("voluntarios.id"), primary_key=True)  # <-- CORREGIDO: era id_voluntario
 )
 
 class JornadaORM(Base):
