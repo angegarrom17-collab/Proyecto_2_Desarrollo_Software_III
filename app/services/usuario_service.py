@@ -7,11 +7,10 @@ class UsuarioService:
     def validar_reglas_negocio(self, email, rol):
         if "@" not in email:
             raise ValueError("El correo no tiene formato válido")
-
         if rol.strip().lower() not in ["encargado"]:
             raise ValueError("Tipo de usuario no válido. Solo se acepta: encargado")
 
-    def crear_usuario(self, id, email, password, rol):
+    def crear_usuario(self, id, nombre, email, password, rol):
         if self.repo.get_by_email(email.strip()):
             raise ValueError("El correo electrónico ya se encuentra registrado.")
 
@@ -22,6 +21,7 @@ class UsuarioService:
 
         return self.repo.create(
             id=str(id).strip(),
+            nombre=str(nombre).strip(),        # ← NUEVO
             email=email.strip(),
             hashed_password=password,
             rol=rol.strip().lower()
@@ -33,7 +33,7 @@ class UsuarioService:
     def listar_usuarios(self):
         return self.repo.get_all()
 
-    def actualizar_usuario(self, usuario_id, email, password, rol):
+    def actualizar_usuario(self, usuario_id, nombre, email, password, rol):
         usuario = self.repo.get(usuario_id)
         if not usuario:
             raise ValueError(f"No existe usuario con ID {usuario_id}")
@@ -49,6 +49,7 @@ class UsuarioService:
 
         return self.repo.update(
             usuario_id=usuario_id,
+            nombre=str(nombre).strip(),        # ← NUEVO
             email=email.strip(),
             hashed_password=nueva_contrasena,
             rol=rol.strip().lower()
@@ -61,10 +62,8 @@ class UsuarioService:
         usuario = self.repo.get_by_email(email.strip())
         if usuario is None:
             raise ValueError("Usuario no encontrado")
-
         if usuario.hashed_password != password:
             raise ValueError("Contraseña incorrecta")
-
         return usuario
 
     def es_encargado(self, usuario_objeto) -> bool:

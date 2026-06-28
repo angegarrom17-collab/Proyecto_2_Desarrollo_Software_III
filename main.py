@@ -37,11 +37,12 @@ app.add_middleware(
 )
 
 # Registrar routers
-app.include_router(basura_router)
-app.include_router(jornada_router)
-app.include_router(reporte_router)
-app.include_router(usuario_router)
-app.include_router(voluntario_router)
+# ✅ ASÍ:
+app.include_router(basura_router,     prefix="/basura")
+app.include_router(jornada_router,    prefix="/jornadas")
+app.include_router(reporte_router,    prefix="/reportes")
+app.include_router(usuario_router,    prefix="/usuarios")
+app.include_router(voluntario_router, prefix="/voluntarios")
 
 app.mount("/web", StaticFiles(directory="web_voluntariado"), name="web")
 

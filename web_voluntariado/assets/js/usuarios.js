@@ -20,6 +20,7 @@ const btnEditar = document.getElementById("btnEditar");
 const btnLimpiar = document.getElementById("btnLimpiar");
 const btnSalir = document.getElementById("btnSalir");
 const btnBorrar = document.getElementById("btnBorrar");
+const btnBuscar = document.getElementById("btnBuscar");
 
 let idEditando = null;
 
@@ -27,7 +28,9 @@ let idEditando = null;
 // MENSAJES
 // ============================================
 function mostrarMensaje(texto, tipo = "success") {
-    if (typeof texto !== 'string') texto = JSON.stringify(texto);
+    if (typeof texto !== 'string') {
+        texto = JSON.stringify(texto);
+    }
     messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
     messageBox.classList.remove("hidden");
@@ -38,16 +41,31 @@ function mostrarMensaje(texto, tipo = "success") {
 }
 
 // ============================================
-// EXTRAER MENSAJE DE ERROR
+// EXTRAER MENSAJE DE ERROR DEL BACKEND
 // ============================================
 function extraerMensajeError(datos) {
     if (!datos) return 'Error desconocido';
-    if (typeof datos.detail === 'string') return datos.detail;
-    if (Array.isArray(datos.detail)) {
-        return datos.detail.map(e => e.msg || JSON.stringify(e)).join('; ');
+
+    if (datos.detail) {
+        if (typeof datos.detail === 'string') {
+            return datos.detail;
+        }
+        if (Array.isArray(datos.detail)) {
+            return datos.detail.map(err => {
+                if (typeof err === 'string') return err;
+                if (err.msg) return `${err.loc ? err.loc.join('.') + ': ' : ''}${err.msg}`;
+                return JSON.stringify(err);
+            }).join('; ');
+        }
+        if (typeof datos.detail === 'object') {
+            return JSON.stringify(datos.detail);
+        }
+        return String(datos.detail);
     }
+
     if (datos.message) return datos.message;
     if (datos.error) return datos.error;
+
     return JSON.stringify(datos);
 }
 
@@ -60,6 +78,7 @@ function limpiarCampos() {
     entryCorreo.value = "";
     entryContrasena.value = "";
     entryTipo.value = "encargado";
+
     idEditando = null;
     entryId.disabled = false;
 
@@ -69,63 +88,74 @@ function limpiarCampos() {
 }
 
 // ============================================
-// VALIDAR CAMPOS REGISTRO
+// VALIDAR CAMPOS (REGISTRO)
 // ============================================
-function validarCamposRegistro(id, correo, contrasena, tipo) {
-    if (!id || !correo || !contrasena || !tipo) {
-        mostrarMensaje("Complete todos los campos incluyendo el ID.", "warning");
+function validarCamposRegistro(id, nombre, correo, contrasena, tipo) {
+    if (!id || !nombre || !correo || !contrasena || !tipo) {
+        mostrarMensaje("Complete todos los campos incluyendo el ID y nombre.", "warning");
         return false;
     }
+
     if (!/^\d+$/.test(id)) {
         mostrarMensaje("El ID debe ser numérico.", "error");
         return false;
     }
+
     if (!correo.includes("@")) {
         mostrarMensaje("El correo no tiene formato válido.", "error");
         return false;
     }
+
     if (contrasena.length < 6) {
         mostrarMensaje("La contraseña debe tener al menos 6 caracteres.", "error");
         return false;
     }
+
     if (tipo !== "encargado") {
         mostrarMensaje("Tipo de usuario no válido. Solo se acepta: encargado", "error");
         return false;
     }
+
     return true;
 }
 
 // ============================================
-// VALIDAR CAMPOS EDICIÓN
+// VALIDAR CAMPOS (EDICIÓN)
 // ============================================
-function validarCamposEdicion(correo, contrasena, tipo) {
-    if (!correo || !tipo) {
-        mostrarMensaje("Complete el correo y el tipo de usuario.", "warning");
+function validarCamposEdicion(nombre, correo, contrasena, tipo) {
+    if (!nombre || !correo || !tipo) {
+        mostrarMensaje("Complete el nombre, correo y tipo de usuario.", "warning");
         return false;
     }
+
     if (!correo.includes("@")) {
         mostrarMensaje("El correo no tiene formato válido.", "error");
         return false;
     }
+
     if (contrasena && contrasena.length > 0 && contrasena.length < 6) {
         mostrarMensaje("La contraseña debe tener al menos 6 caracteres.", "error");
         return false;
     }
+
     if (tipo !== "encargado") {
         mostrarMensaje("Tipo de usuario no válido. Solo se acepta: encargado", "error");
         return false;
     }
+
     return true;
 }
 
 // ============================================
-// CARGAR USUARIOS (GET)
+// CARGAR USUARIOS DESDE LA API (GET)
 // ============================================
 async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/usuarios/`, {
             method: 'GET',
-            headers: { 'Accept': 'application/json' }
+            headers: {
+                'Accept': 'application/json'
+            }
         });
 
         if (!respuesta.ok) {
@@ -143,10 +173,9 @@ async function cargarTabla() {
 
         usuarios.forEach((u) => {
             const tr = document.createElement("tr");
-            const nombreMostrar = u.nombre || (u.email ? u.email.split('@')[0] : '');
             tr.innerHTML = `
                 <td>${u.id}</td>
-                <td>${nombreMostrar}</td>
+                <td>${u.nombre || (u.email ? u.email.split('@')[0] : '')}</td>
                 <td>${u.email}</td>
                 <td>${u.rol}</td>
             `;
@@ -156,7 +185,7 @@ async function cargarTabla() {
                 tr.classList.add("seleccionada");
 
                 entryId.value = u.id;
-                entryNombre.value = nombreMostrar;
+                entryNombre.value = u.nombre || (u.email ? u.email.split('@')[0] : '');
                 entryCorreo.value = u.email;
                 entryContrasena.value = "";
                 entryTipo.value = u.rol;
@@ -177,19 +206,20 @@ async function cargarTabla() {
 }
 
 // ============================================
-// REGISTRAR USUARIO (POST)
+// REGISTRAR USUARIO EN LA API (POST)
 // ============================================
 async function registrarUsuario() {
     const id = entryId.value.trim();
+    const nombre = entryNombre.value.trim();
     const correo = entryCorreo.value.trim();
     const contrasena = entryContrasena.value.trim();
     const tipo = entryTipo.value.trim();
 
-    if (!validarCamposRegistro(id, correo, contrasena, tipo)) return;
+    if (!validarCamposRegistro(id, nombre, correo, contrasena, tipo)) return;
 
-    // Solo enviamos lo que el backend espera (sin 'nombre')
     const usuario = {
         id: id,
+        nombre: nombre,
         email: correo,
         password: contrasena,
         rol: tipo
@@ -212,7 +242,7 @@ async function registrarUsuario() {
         }
 
         if (respuesta.ok || respuesta.status === 201) {
-            mostrarMensaje(`✅ Usuario '${datos.email || correo}' registrado correctamente.`, "success");
+            mostrarMensaje(`✅ Usuario '${correo}' registrado correctamente.`, "success");
             limpiarCampos();
             setTimeout(cargarTabla, 300);
         } else {
@@ -226,7 +256,7 @@ async function registrarUsuario() {
 }
 
 // ============================================
-// EDITAR USUARIO (PUT)
+// EDITAR USUARIO EN LA API (PUT)
 // ============================================
 async function editarUsuario() {
     if (!idEditando) {
@@ -234,13 +264,15 @@ async function editarUsuario() {
         return;
     }
 
+    const nombre = entryNombre.value.trim();
     const correo = entryCorreo.value.trim();
     const contrasena = entryContrasena.value.trim();
     const tipo = entryTipo.value.trim();
 
-    if (!validarCamposEdicion(correo, contrasena, tipo)) return;
+    if (!validarCamposEdicion(nombre, correo, contrasena, tipo)) return;
 
     const usuario = {
+        nombre: nombre,
         email: correo,
         password: contrasena,
         rol: tipo
@@ -277,7 +309,7 @@ async function editarUsuario() {
 }
 
 // ============================================
-// ELIMINAR USUARIO (DELETE)
+// ELIMINAR USUARIO EN LA API (DELETE)
 // ============================================
 async function eliminarUsuario() {
     const id = entryId.value.trim();
@@ -287,12 +319,16 @@ async function eliminarUsuario() {
         return;
     }
 
-    if (!confirm(`¿Está seguro de eliminar el registro con ID '${id}'?`)) return;
+    if (!confirm(`¿Está seguro de eliminar el registro con ID '${id}'?`)) {
+        return;
+    }
 
     try {
         const respuesta = await fetch(`${API_URL}/usuarios/${id}`, {
             method: 'DELETE',
-            headers: { 'Accept': 'application/json' }
+            headers: {
+                'Accept': 'application/json'
+            }
         });
 
         let datos = {};
@@ -316,6 +352,76 @@ async function eliminarUsuario() {
 }
 
 // ============================================
+// BUSCAR USUARIO POR ID (GET)
+// ============================================
+async function buscarUsuario() {
+    const id = entryId.value.trim();
+
+    if (!id) {
+        mostrarMensaje("Ingrese un ID en el campo correspondiente para buscar.", "warning");
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${API_URL}/usuarios/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!respuesta.ok) {
+            const datos = await respuesta.json().catch(() => ({}));
+            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
+        }
+
+        const usuario = await respuesta.json();
+        tbodyUsuarios.innerHTML = "";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${usuario.id}</td>
+            <td>${usuario.nombre || (usuario.email ? usuario.email.split('@')[0] : '')}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.rol}</td>
+        `;
+
+        // ✅ Llenar los campos del formulario automáticamente al buscar
+        entryId.value = usuario.id;
+        entryNombre.value = usuario.nombre || (usuario.email ? usuario.email.split('@')[0] : '');
+        entryCorreo.value = usuario.email;
+        entryContrasena.value = "";
+        entryTipo.value = usuario.rol;
+        idEditando = usuario.id;
+        entryId.disabled = true;
+
+        // Seleccionar la fila visualmente
+        tr.classList.add("seleccionada");
+        tr.addEventListener("click", () => {
+            document.querySelectorAll("#tbodyUsuarios tr").forEach(r => r.classList.remove("seleccionada"));
+            tr.classList.add("seleccionada");
+
+            entryId.value = usuario.id;
+            entryNombre.value = usuario.nombre || (usuario.email ? usuario.email.split('@')[0] : '');
+            entryCorreo.value = usuario.email;
+            entryContrasena.value = "";
+            entryTipo.value = usuario.rol;
+
+            idEditando = usuario.id;
+            entryId.disabled = true;
+        });
+
+        tbodyUsuarios.appendChild(tr);
+        lblFooter.textContent = `Mostrando 1 registro(s) (búsqueda por ID: ${id})`;
+        mostrarMensaje(`✅ Usuario encontrado: ${usuario.nombre || usuario.email}`, "success");
+
+    } catch (error) {
+        mostrarMensaje("❌ Error al buscar: " + error.message, "error");
+        console.error("Error buscarUsuario:", error);
+    }
+}
+
+// ============================================
 // EVENT LISTENERS
 // ============================================
 btnRegistrar.addEventListener("click", registrarUsuario);
@@ -330,16 +436,19 @@ btnSalir.addEventListener("click", () => {
     }
 });
 btnBorrar.addEventListener("click", eliminarUsuario);
+btnBuscar.addEventListener("click", buscarUsuario);
 
 document.querySelectorAll("input").forEach(input => {
     input.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
-            idEditando ? editarUsuario() : registrarUsuario();
+            if (idEditando) {
+                editarUsuario();
+            } else {
+                registrarUsuario();
+            }
         }
     });
 });
 
-// ============================================
 // CARGAR AL INICIAR
-// ============================================
 document.addEventListener("DOMContentLoaded", cargarTabla);

@@ -1,65 +1,84 @@
 from fastapi import APIRouter, HTTPException
 from app.services.usuario_service import UsuarioService
-from app.schemas.schema_usuario import UsuarioSchema, UsuarioRegistroSchema
+from app.schemas.schema_usuario import (
+    UsuarioRegistroSchema,
+    UsuarioActualizarSchema,
+    UsuarioSchema
+)
 
-router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
-usuario_service = UsuarioService()
-
-
-@router.post("/", response_model=UsuarioSchema)
-def crear_usuario(usuario: UsuarioRegistroSchema):
-    try:
-        return usuario_service.crear_usuario(
-            id=usuario.id,
-            email=usuario.email,
-            password=usuario.password,
-            rol=usuario.rol
-        )
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+router = APIRouter()
+service = UsuarioService()
 
 
+# ────────────────────────────────────────────
+# LISTAR TODOS LOS USUARIOS
+# GET /usuarios/
+# ────────────────────────────────────────────
 @router.get("/", response_model=list[UsuarioSchema])
 def listar_usuarios():
-    return usuario_service.listar_usuarios()
+    """Devuelve la lista completa de usuarios registrados."""
+    return service.listar_usuarios()
 
 
+# ────────────────────────────────────────────
+# OBTENER UN USUARIO POR ID
+# GET /usuarios/{usuario_id}
+# ────────────────────────────────────────────
 @router.get("/{usuario_id}", response_model=UsuarioSchema)
 def obtener_usuario(usuario_id: str):
-    usuario = usuario_service.obtener_usuario(usuario_id)
+    """Devuelve un usuario específico por su ID."""
+    usuario = service.obtener_usuario(usuario_id)
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario
 
 
-@router.put("/{usuario_id}", response_model=UsuarioSchema)
-def actualizar_usuario(usuario_id: str, usuario: UsuarioRegistroSchema):
+# ────────────────────────────────────────────
+# CREAR NUEVO USUARIO
+# POST /usuarios/
+# ────────────────────────────────────────────
+@router.post("/", response_model=UsuarioSchema)
+def crear_usuario(data: UsuarioRegistroSchema):
+    """Registra un nuevo usuario en el sistema."""
     try:
-        return usuario_service.actualizar_usuario(
-            usuario_id=usuario_id,
-            email=usuario.email,
-            password=usuario.password,
-            rol=usuario.rol
+        return service.crear_usuario(
+            id=data.id,
+            nombre=data.nombre,
+            email=data.email,
+            password=data.password,
+            rol=data.rol
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
+# ────────────────────────────────────────────
+# ACTUALIZAR USUARIO
+# PUT /usuarios/{usuario_id}
+# ────────────────────────────────────────────
+@router.put("/{usuario_id}", response_model=UsuarioSchema)
+def actualizar_usuario(usuario_id: str, data: UsuarioActualizarSchema):
+    """Actualiza los datos de un usuario existente."""
+    try:
+        return service.actualizar_usuario(
+            usuario_id=usuario_id,
+            nombre=data.nombre,
+            email=data.email,
+            password=data.password or "",
+            rol=data.rol
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ────────────────────────────────────────────
+# ELIMINAR USUARIO
+# DELETE /usuarios/{usuario_id}
+# ────────────────────────────────────────────
 @router.delete("/{usuario_id}")
 def eliminar_usuario(usuario_id: str):
-    try:
-        usuario_service.eliminar_usuario(usuario_id)
-        return {"status": "success", "message": "Usuario eliminado"}
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.post("/login")
-def login(usuario: UsuarioRegistroSchema):
-    try:
-        return usuario_service.iniciar_sesion(
-            email=usuario.email,
-            password=usuario.password
-        )
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    """Elimina un usuario del sistema por su ID."""
+    usuario = service.eliminar_usuario(usuario_id)
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return {"message": "Usuario eliminado correctamente"}

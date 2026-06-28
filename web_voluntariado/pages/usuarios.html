@@ -160,6 +160,15 @@
             background: #e53935;
         }
 
+        .btn-success {
+            background: #43a047;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #388e3c;
+        }
+
         /* ========== CARDS ========== */
         .card {
             background: white;
@@ -348,6 +357,7 @@
             .form-grid { grid-template-columns: 1fr; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <!-- Sidebar -->
@@ -422,7 +432,10 @@
             <div class="table-header">
                 <h3><i class="fas fa-list" style="color: #1976d2; margin-right: 8px;"></i>Usuarios registrados</h3>
                 <div class="search-box">
-                    <input type="text" placeholder="🔍 Buscar por ID...">
+                    <!-- ✅ NUEVO: Botón Buscar en lugar del input -->
+                    <button id="btnBuscar" class="btn btn-success">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
                     <button id="btnBorrar" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Borrar por ID
                     </button>
