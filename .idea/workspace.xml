@@ -6,23 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit html usuario">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/usuario_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/usuario_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/voluntario_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/voluntario_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/usuario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/voluntario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/voluntario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/zona.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/zona.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repository/usuario_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/usuario_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repository/voluntario_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/voluntario_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/schema_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_usuario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/schema_voluntario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_voluntario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/voluntario_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/voluntario_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/voluntarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/voluntarios.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/voluntarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/voluntarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/voluntarios.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +27,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -100,7 +84,7 @@
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.python.exe">
     <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Proyecto_2_Desarrollo_Software_III" />
       <option name="ENV_FILES" value="" />
@@ -349,6 +333,17 @@
     </task>
     <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
