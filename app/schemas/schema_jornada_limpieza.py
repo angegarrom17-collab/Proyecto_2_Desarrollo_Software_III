@@ -3,12 +3,13 @@ from typing import List, Optional
 
 
 class ZonaResumenSchema(BaseModel):
-    id: int
+    id_zona: int
     nombre_zona: str
     ubicacion: str
     nivel_contaminacion: str
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class VoluntarioResumenSchema(BaseModel):
     cedula: str
@@ -24,6 +25,7 @@ class JornadaSchema(BaseModel):
     cantidad_basura_total: int
     observaciones: str
     id_zona: int
+    cantidad_voluntarios: int = 0          # <-- NUEVO
     zona: Optional[ZonaResumenSchema] = None
     voluntarios: List[VoluntarioResumenSchema] = []
 
@@ -37,6 +39,7 @@ class JornadaRegistroSchema(BaseModel):
     cantidad_basura_total: int
     observaciones: str
     id_zona: int
+    cantidad_voluntarios: int = 0          # <-- NUEVO
 
 
 class AsignacionVoluntarioSchema(BaseModel):

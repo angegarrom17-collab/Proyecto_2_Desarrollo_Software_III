@@ -149,8 +149,8 @@ async function cargarTabla() {
 
         jornadas.forEach((j) => {
             const tr = document.createElement("tr");
-            // La API devuelve cantidad de voluntarios en la lista
-            const numVoluntarios = j.voluntarios ? j.voluntarios.length : 0;
+            // Usar el campo cantidad_voluntarios del backend
+            const numVoluntarios = j.cantidad_voluntarios !== undefined ? j.cantidad_voluntarios : 0;
 
             tr.innerHTML = `
                 <td>${j.id_jornada}</td>
@@ -170,7 +170,7 @@ async function cargarTabla() {
                 entryBasura.value = j.cantidad_basura_total;
                 entryObs.value = j.observaciones;
                 entryZona.value = j.id_zona;
-                entryVoluntarios.value = numVoluntarios;
+                entryVoluntarios.value = j.cantidad_voluntarios !== undefined ? j.cantidad_voluntarios : 0;
 
                 idEditando = j.id_jornada;
                 entryId.disabled = true;
@@ -208,7 +208,8 @@ async function registrarJornada() {
         descripcion: desc,
         cantidad_basura_total: valid.cantidad,
         observaciones: obs,
-        id_zona: valid.idZona
+        id_zona: valid.idZona,
+        cantidad_voluntarios: valid.voluntarios
     };
 
     try {
@@ -266,7 +267,8 @@ async function editarJornada() {
         descripcion: desc,
         cantidad_basura_total: valid.cantidad,
         observaciones: obs,
-        id_zona: valid.idZona
+        id_zona: valid.idZona,
+        cantidad_voluntarios: valid.voluntarios
     };
 
     try {
@@ -374,7 +376,7 @@ async function verReporte() {
                         <td>${j.Fecha || j.fecha}</td>
                         <td>${j.Descripcion || j.descripcion}</td>
                         <td>${j["Basura (kg)"] || j.cantidad_basura_total}</td>
-                        <td>${j.Voluntarios || (j.voluntarios ? j.voluntarios.length : 0)}</td>
+                        <td>${j.Voluntarios !== undefined ? j.Voluntarios : (j.cantidad_voluntarios !== undefined ? j.cantidad_voluntarios : 0)}</td>
                         <td>${j.Zona || (j.zona ? j.zona.nombre_zona : 'N/A')}</td>
                      </tr>`;
         });

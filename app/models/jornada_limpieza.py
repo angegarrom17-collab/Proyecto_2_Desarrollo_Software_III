@@ -20,6 +20,7 @@ class JornadaORM(Base):
     cantidad_basura_total = Column(Integer, nullable=False)
     observaciones = Column(Text, nullable=False)
     id_zona = Column(Integer, ForeignKey("zonas.id_zona"), nullable=False)
+    cantidad_voluntarios = Column(Integer, nullable=True, default=0)   # <-- NUEVO
 
     zona = relationship("ZonaORM", backref="jornadas")
     voluntarios = relationship("VoluntarioORM", secondary=jornada_voluntario, backref="jornadas_asignadas")

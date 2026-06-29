@@ -4,13 +4,14 @@ from pydantic import BaseModel, ConfigDict
 class MaterialSchema(BaseModel):
     id: int
     nombre: str
-    unidad_medida: str
-    cantidad_disponible: int
+    descripcion: str | None = None
+    cantidad: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class MaterialCrearSchema(BaseModel):
+    id: int
     nombre: str
-    unidad_medida: str
-    cantidad_disponible: int
+    descripcion: str | None = None
+    cantidad: int

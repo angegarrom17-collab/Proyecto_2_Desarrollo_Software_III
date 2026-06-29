@@ -18,6 +18,9 @@ from app.controller.jornada_controller import router as jornada_router
 from app.controller.reporte_controller import router as reporte_router
 from app.controller.usuario_controller import router as usuario_router
 from app.controller.voluntario_controller import router as voluntario_router
+from app.controller.zona_controller import router as zona_router
+from app.controller.material_controller import router as material_router
+from app.controller.fauna_controller import router as fauna_router
 
 # Crear tablas automáticamente (solo desarrollo)
 Base.metadata.create_all(bind=engine)
@@ -41,6 +44,9 @@ app.include_router(jornada_router,    prefix="/jornadas")
 app.include_router(reporte_router,    prefix="/reportes")
 app.include_router(usuario_router,    prefix="/usuarios")
 app.include_router(voluntario_router, prefix="/voluntarios")
+app.include_router(zona_router, prefix="/zonas")
+app.include_router(material_router, prefix="/materiales")
+app.include_router(fauna_router, prefix="/fauna")
 
 app.mount("/web", StaticFiles(directory="web_voluntariado"), name="web")
 

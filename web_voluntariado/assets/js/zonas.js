@@ -1,3 +1,7 @@
+// CONFIGURACIÓN DE LA API
+const API_URL = 'http://127.0.0.1:8000';
+
+// REFERENCIAS AL DOM
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryUbicacion = document.getElementById("entry_ubicacion");
@@ -7,41 +11,33 @@ const tbody = document.getElementById("tbodyZonas");
 const lblFooter = document.getElementById("lblFooter");
 const messageBox = document.getElementById("messageBox");
 
-const STORAGE_KEY = "zonas_monitoreo";
 let idEditando = null;
-
-const datosIniciales = [
-    { id_zona: 1, nombre_zona: "playa", ubicacion: "pz", nivel_contaminacion: "medio", descripcion: "mucha basura" },
-    { id_zona: 3, nombre_zona: "oceano", ubicacion: "puntarenas", nivel_contaminacion: "alto", descripcion: "sucia" }
-];
 
 function mostrarMensaje(texto, tipo = "success") {
     messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
-    
+    messageBox.classList.remove("hidden");
     setTimeout(() => {
         messageBox.classList.add("hidden");
-    }, 3000);
+    }, 4000);
 }
 
-function obtenerZonas() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    
-    if (!data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
+function extraerMensajeError(datos) {
+    if (!datos) return 'Error desconocido';
+    if (datos.detail) {
+        if (typeof datos.detail === 'string') return datos.detail;
+        if (Array.isArray(datos.detail)) {
+            return datos.detail.map(err => {
+                if (typeof err === 'string') return err;
+                if (err.msg) return `${err.loc ? err.loc.join('.') + ': ' : ''}${err.msg}`;
+                return JSON.stringify(err);
+            }).join('; ');
+        }
+        return JSON.stringify(datos.detail);
     }
-    
-    try {
-        return JSON.parse(data);
-    } catch {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
-}
-
-function guardarZonas(lista) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+    if (datos.message) return datos.message;
+    if (datos.error) return datos.error;
+    return JSON.stringify(datos);
 }
 
 function limpiarCampos() {
@@ -50,149 +46,194 @@ function limpiarCampos() {
     entryUbicacion.value = "";
     entryNivel.value = "";
     entryDescripcion.value = "";
-    
     idEditando = null;
     entryId.disabled = false;
-    
     document.querySelectorAll("#tbodyZonas tr").forEach(tr => tr.classList.remove("seleccionada"));
 }
 
-function validar(id, nombre, ubicacion, nivel) {
+function validarCampos(id, nombre, ubicacion, nivel) {
     if (!id || !nombre || !ubicacion || !nivel) {
         mostrarMensaje("Complete todos los campos obligatorios.", "warning");
         return false;
     }
-    
-    const idNum = parseInt(id);
-    
-    if (isNaN(idNum)) {
-        mostrarMensaje("El ID debe ser un número entero.", "error");
+    if (!/^\d+$/.test(id)) {
+        mostrarMensaje("El ID debe ser numérico.", "error");
         return false;
     }
-    
     const niveles = ["bajo", "medio", "alto", "critico"];
-    
     if (!niveles.includes(nivel.toLowerCase())) {
         mostrarMensaje(`Nivel inválido. Use: ${niveles.join(", ")}`, "error");
         return false;
     }
-    
-    return { idNum };
+    return true;
 }
 
-function cargarTabla() {
-    const zonas = obtenerZonas();
-    tbody.innerHTML = "";
-    
-    zonas.forEach((z) => {
-        const tr = document.createElement("tr");
-        
-        tr.innerHTML = `<td>${z.id_zona}</td><td>${z.nombre_zona}</td><td>${z.ubicacion}</td><td>${z.nivel_contaminacion}</td>`;
-        
-        tr.addEventListener("click", () => {
-            document.querySelectorAll("#tbodyZonas tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
-            
-            entryId.value = z.id_zona;
-            entryNombre.value = z.nombre_zona;
-            entryUbicacion.value = z.ubicacion;
-            entryNivel.value = z.nivel_contaminacion;
-            entryDescripcion.value = z.descripcion || "";
-            
-            idEditando = z.id_zona;
-            entryId.disabled = true;
+async function cargarTabla() {
+    try {
+        const respuesta = await fetch(`${API_URL}/zonas/`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
         });
-        
-        tbody.appendChild(tr);
-    });
-    
-    lblFooter.textContent = `Mostrando ${zonas.length} zona(s) registrada(s)`;
-}
-
-function registrar() {
-    const id = entryId.value.trim();
-    const nombre = entryNombre.value.trim();
-    const ubicacion = entryUbicacion.value.trim();
-    const nivel = entryNivel.value.trim().toLowerCase();
-    const desc = entryDescripcion.value.trim();
-    
-    const valid = validar(id, nombre, ubicacion, nivel);
-    if (!valid) return;
-    
-    const zonas = obtenerZonas();
-    
-    if (zonas.some(z => z.id_zona === valid.idNum)) {
-        mostrarMensaje(`Ya existe una zona con ID ${valid.idNum}.`, "error");
-        return;
+        if (!respuesta.ok) {
+            const datos = await respuesta.json().catch(() => ({}));
+            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
+        }
+        const zonas = await respuesta.json();
+        tbody.innerHTML = "";
+        if (!Array.isArray(zonas) || zonas.length === 0) {
+            lblFooter.textContent = "Mostrando 0 registro(s)";
+            return;
+        }
+        zonas.forEach((z) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${z.id_zona}</td><td>${z.nombre_zona}</td><td>${z.ubicacion}</td><td>${z.nivel_contaminacion}</td>`;
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#tbodyZonas tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
+                entryId.value = z.id_zona;
+                entryNombre.value = z.nombre_zona;
+                entryUbicacion.value = z.ubicacion;
+                entryNivel.value = z.nivel_contaminacion;
+                entryDescripcion.value = z.descripcion || "";
+                idEditando = z.id_zona;
+                entryId.disabled = true;
+            });
+            tbody.appendChild(tr);
+        });
+        lblFooter.textContent = `Mostrando ${zonas.length} zona(s) registrada(s)`;
+    } catch (error) {
+        mostrarMensaje("❌ Error al cargar zonas: " + error.message, "error");
+        console.error("Error cargarTabla:", error);
     }
-    
-    zonas.push({ 
-        id_zona: valid.idNum, 
-        nombre_zona: nombre, 
-        ubicacion, 
-        nivel_contaminacion: nivel, 
-        descripcion: desc 
-    });
-    
-    guardarZonas(zonas);
-    mostrarMensaje(`Zona '${nombre}' registrada correctamente.`, "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
-function editar() {
+async function registrar() {
     const id = entryId.value.trim();
     const nombre = entryNombre.value.trim();
     const ubicacion = entryUbicacion.value.trim();
     const nivel = entryNivel.value.trim().toLowerCase();
-    const desc = entryDescripcion.value.trim();
-    
+    const descripcion = entryDescripcion.value.trim();
+
+    if (!validarCampos(id, nombre, ubicacion, nivel)) return;
+
+    const zona = {
+        id_zona: parseInt(id),
+        nombre_zona: nombre,
+        ubicacion: ubicacion,
+        nivel_contaminacion: nivel,
+        descripcion: descripcion
+    };
+
+    try {
+        const respuesta = await fetch(`${API_URL}/zonas/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(zona)
+        });
+
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok || respuesta.status === 201) {
+            mostrarMensaje(`✅ Zona '${nombre}' registrada correctamente.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error registrar:", error);
+    }
+}
+
+async function editar() {
     if (!idEditando) {
         mostrarMensaje("Seleccione una zona de la tabla para editar.", "warning");
         return;
     }
-    
-    const valid = validar(id, nombre, ubicacion, nivel);
-    if (!valid) return;
-    
-    const zonas = obtenerZonas();
-    const idx = zonas.findIndex(z => z.id_zona === idEditando);
-    
-    if (idx === -1) {
-        mostrarMensaje(`No existe zona con ID ${valid.idNum}.`, "error");
-        return;
-    }
-    
-    zonas[idx] = { 
-        id_zona: valid.idNum, 
-        nombre_zona: nombre, 
-        ubicacion, 
-        nivel_contaminacion: nivel, 
-        descripcion: desc 
+
+    const id = entryId.value.trim();
+    const nombre = entryNombre.value.trim();
+    const ubicacion = entryUbicacion.value.trim();
+    const nivel = entryNivel.value.trim().toLowerCase();
+    const descripcion = entryDescripcion.value.trim();
+
+    if (!validarCampos(id, nombre, ubicacion, nivel)) return;
+
+    const zona = {
+        nombre_zona: nombre,
+        ubicacion: ubicacion,
+        nivel_contaminacion: nivel,
+        descripcion: descripcion
     };
-    
-    guardarZonas(zonas);
-    mostrarMensaje(`Zona '${nombre}' actualizada correctamente.`, "success");
-    limpiarCampos();
-    cargarTabla();
+
+    try {
+        const respuesta = await fetch(`${API_URL}/zonas/${idEditando}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(zona)
+        });
+
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Zona actualizada correctamente.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error editar:", error);
+    }
 }
 
-function eliminar() {
+async function eliminar() {
     const id = entryId.value.trim();
-    
     if (!id) {
         mostrarMensaje("Ingrese un ID para borrar.", "warning");
         return;
     }
-    
     if (!confirm(`¿Está seguro de eliminar el registro con ID '${id}'?`)) return;
-    
-    const zonas = obtenerZonas().filter(z => String(z.id_zona) !== id);
-    
-    guardarZonas(zonas);
-    mostrarMensaje("Registro eliminado.", "success");
-    limpiarCampos();
-    cargarTabla();
+
+    try {
+        const respuesta = await fetch(`${API_URL}/zonas/${id}`, {
+            method: 'DELETE',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok) {
+            mostrarMensaje("✅ Registro eliminado.", "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error eliminar:", error);
+    }
 }
 
 document.getElementById("btnRegistrar").addEventListener("click", registrar);
@@ -206,6 +247,4 @@ document.getElementById("btnSalir").addEventListener("click", () => {
 });
 document.getElementById("btnBorrar").addEventListener("click", eliminar);
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarTabla();
-});
+document.addEventListener("DOMContentLoaded", cargarTabla);

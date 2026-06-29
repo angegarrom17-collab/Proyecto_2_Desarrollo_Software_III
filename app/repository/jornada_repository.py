@@ -8,41 +8,34 @@ class JornadaRepository:
     def __init__(self):
         self.db = SessionLocal()
 
-    def _close(self):
-        self.db.close()
-
-    def create(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona):
+    def create(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona, cantidad_voluntarios=0):
         jornada = JornadaORM(
             id_jornada=id_jornada,
             fecha=fecha,
             descripcion=descripcion,
             cantidad_basura_total=cantidad_basura_total,
             observaciones=observaciones,
-            id_zona=id_zona
+            id_zona=id_zona,
+            cantidad_voluntarios=cantidad_voluntarios
         )
         self.db.add(jornada)
         self.db.commit()
         self.db.refresh(jornada)
-        self._close()
         return jornada
 
     def get(self, id_jornada):
-        result = self.db.query(JornadaORM).options(
+        return self.db.query(JornadaORM).options(
             joinedload(JornadaORM.zona),
             joinedload(JornadaORM.voluntarios)
         ).filter_by(id_jornada=id_jornada).first()
-        self._close()
-        return result
 
     def get_all(self):
-        result = self.db.query(JornadaORM).options(
+        return self.db.query(JornadaORM).options(
             joinedload(JornadaORM.zona),
             joinedload(JornadaORM.voluntarios)
         ).all()
-        self._close()
-        return result
 
-    def update(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona):
+    def update(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona, cantidad_voluntarios=0):
         jornada = self.get(id_jornada)
         if jornada:
             jornada.fecha = fecha
@@ -50,9 +43,9 @@ class JornadaRepository:
             jornada.cantidad_basura_total = cantidad_basura_total
             jornada.observaciones = observaciones
             jornada.id_zona = id_zona
+            jornada.cantidad_voluntarios = cantidad_voluntarios
             self.db.commit()
             self.db.refresh(jornada)
-            self._close()
         return jornada
 
     def delete(self, id_jornada):
@@ -60,7 +53,6 @@ class JornadaRepository:
         if jornada:
             self.db.delete(jornada)
             self.db.commit()
-            self._close()
         return jornada
 
     def assign_voluntario(self, id_jornada, id_voluntario):
@@ -71,34 +63,27 @@ class JornadaRepository:
             )
         )
         self.db.commit()
-        self._close()
 
     def count_voluntarios(self, id_jornada):
-        count = self.db.query(func.count()).select_from(jornada_voluntario).filter_by(
+        return self.db.query(func.count()).select_from(jornada_voluntario).filter_by(
             id_jornada=id_jornada
-        ).scalar()
-        self._close()
-        return count or 0
+        ).scalar() or 0
 
     def get_voluntarios(self, id_jornada):
         jornada = self.get(id_jornada)
         return jornada.voluntarios if jornada else []
 
     def get_by_zona(self, id_zona):
-        result = self.db.query(JornadaORM).options(
+        return self.db.query(JornadaORM).options(
             joinedload(JornadaORM.zona),
             joinedload(JornadaORM.voluntarios)
         ).filter_by(id_zona=id_zona).all()
-        self._close()
-        return result
 
     def get_by_fecha_range(self, fecha_desde, fecha_hasta):
-        result = self.db.query(JornadaORM).options(
+        return self.db.query(JornadaORM).options(
             joinedload(JornadaORM.zona),
             joinedload(JornadaORM.voluntarios)
         ).filter(
             JornadaORM.fecha >= fecha_desde,
             JornadaORM.fecha <= fecha_hasta
         ).all()
-        self._close()
-        return result

@@ -29,7 +29,7 @@ class JornadaService:
         if not observaciones or observaciones.strip() == "":
             raise ValueError("Las observaciones no pueden estar vacias")
 
-    def create_jornada(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona):
+    def create_jornada(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona, cantidad_voluntarios=0):
         if not id_jornada or id_jornada.strip() == "":
             raise ValueError("El id no puede estar vacio")
         if self.repo.get(id_jornada):
@@ -44,7 +44,8 @@ class JornadaService:
             descripcion.strip(),
             cantidad_basura_total,
             observaciones.strip(),
-            id_zona
+            id_zona,
+            cantidad_voluntarios
         )
 
     def get_jornada(self, id_jornada):
@@ -53,7 +54,7 @@ class JornadaService:
     def list_jornadas(self):
         return self.repo.get_all()
 
-    def update_jornada(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona):
+    def update_jornada(self, id_jornada, fecha, descripcion, cantidad_basura_total, observaciones, id_zona, cantidad_voluntarios=0):
         jornada = self.repo.get(id_jornada)
         if not jornada:
             return None
@@ -67,7 +68,8 @@ class JornadaService:
             descripcion.strip(),
             cantidad_basura_total,
             observaciones.strip(),
-            id_zona
+            id_zona,
+            cantidad_voluntarios
         )
 
     def delete_jornada(self, id_jornada):
@@ -97,7 +99,7 @@ class JornadaService:
         jornadas = self.list_jornadas()
         reporte = []
         for jornada in jornadas:
-            cantidad_voluntarios = len(jornada.voluntarios) if jornada.voluntarios else 0
+            cantidad_voluntarios = jornada.cantidad_voluntarios if jornada.cantidad_voluntarios is not None else 0
             reporte.append({
                 "ID": jornada.id_jornada,
                 "Fecha": jornada.fecha,
@@ -120,7 +122,7 @@ class JornadaService:
             if id_zona is not None and jornada.id_zona != id_zona:
                 continue
 
-            cantidad_voluntarios = len(jornada.voluntarios) if jornada.voluntarios else 0
+            cantidad_voluntarios = jornada.cantidad_voluntarios if jornada.cantidad_voluntarios is not None else 0
             resultado.append({
                 "ID": jornada.id_jornada,
                 "Fecha": jornada.fecha,

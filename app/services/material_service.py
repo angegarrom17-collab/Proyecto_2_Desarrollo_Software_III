@@ -5,19 +5,21 @@ class MaterialService:
     def __init__(self):
         self.repo = MaterialRepository()
 
-    def _validar_campos(self, nombre, unidad_medida, cantidad_disponible):
-        for campo, valor in [("nombre", nombre), ("unidad_medida", unidad_medida)]:
-            if not str(valor).strip():
-                raise ValueError(f"El campo '{campo}' no puede estar vacío")
-        if cantidad_disponible < 0:
-            raise ValueError("La cantidad disponible no puede ser negativa")
+    def _validar_campos(self, nombre, cantidad):
+        if not str(nombre).strip():
+            raise ValueError("El campo 'nombre' no puede estar vacío")
+        if cantidad < 0:
+            raise ValueError("La cantidad no puede ser negativa")
 
-    def crear_material(self, nombre, unidad_medida, cantidad_disponible):
-        self._validar_campos(nombre, unidad_medida, cantidad_disponible)
+    def crear_material(self, id, nombre, descripcion, cantidad):
+        self._validar_campos(nombre, cantidad)
+        if self.repo.obtener(id):
+            raise ValueError(f"Ya existe un material con ID '{id}'")
         return self.repo.crear(
+            id=id,
             nombre=str(nombre).strip(),
-            unidad_medida=str(unidad_medida).strip(),
-            cantidad_disponible=cantidad_disponible
+            descripcion=str(descripcion).strip() if descripcion else None,
+            cantidad=cantidad
         )
 
     def obtener_material(self, material_id):
@@ -26,16 +28,16 @@ class MaterialService:
     def listar_materiales(self):
         return self.repo.obtener_todos()
 
-    def actualizar_material(self, material_id, nombre, unidad_medida, cantidad_disponible):
+    def actualizar_material(self, material_id, nombre, descripcion, cantidad):
         material = self.repo.obtener(material_id)
         if not material:
             raise ValueError(f"No se encontró un material con ID '{material_id}'.")
-        self._validar_campos(nombre, unidad_medida, cantidad_disponible)
+        self._validar_campos(nombre, cantidad)
         return self.repo.actualizar(
             material_id=material_id,
             nombre=str(nombre).strip(),
-            unidad_medida=str(unidad_medida).strip(),
-            cantidad_disponible=cantidad_disponible
+            descripcion=str(descripcion).strip() if descripcion else None,
+            cantidad=cantidad
         )
 
     def eliminar_material(self, material_id):
@@ -50,15 +52,15 @@ class MaterialService:
         material = self.repo.obtener(material_id)
         if not material:
             raise ValueError(f"No se encontró un material con ID '{material_id}'.")
-        if material.cantidad_disponible < cantidad:
+        if material.cantidad < cantidad:
             raise ValueError(
-                f"Stock insuficiente. Disponible: {material.cantidad_disponible}, solicitado: {cantidad}"
+                f"Stock insuficiente. Disponible: {material.cantidad}, solicitado: {cantidad}"
             )
         return self.repo.actualizar(
             material_id=material_id,
             nombre=material.nombre,
-            unidad_medida=material.unidad_medida,
-            cantidad_disponible=material.cantidad_disponible - cantidad
+            descripcion=material.descripcion,
+            cantidad=material.cantidad - cantidad
         )
 
     def reporte_stock_bajo(self, umbral=10):

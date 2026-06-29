@@ -1,3 +1,11 @@
+// ============================================
+// CONFIGURACIÓN DE LA API
+// ============================================
+const API_URL = 'http://127.0.0.1:8000';
+
+// ============================================
+// REFERENCIAS AL DOM
+// ============================================
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryUnidad = document.getElementById("entry_unidad");
@@ -6,233 +14,315 @@ const tbody = document.getElementById("tbodyMateriales");
 const lblFooter = document.getElementById("lblFooter");
 const messageBox = document.getElementById("messageBox");
 
-const STORAGE_KEY = "materiales_monitoreo";
 let idEditando = null;
 
-const datosIniciales = [
-    { 
-        idMaterial: "2", 
-        nombre: "vidrio", 
-        unidadMedida: "p", 
-        cantidadDisponible: 25 
-    }
-];
-
+// ============================================
+// MENSAJES
+// ============================================
 function mostrarMensaje(texto, tipo = "success") {
-    messageBox.textContent = texto; 
+    if (typeof texto !== 'string') texto = JSON.stringify(texto);
+    messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
-    
-    setTimeout(() => {
-        messageBox.classList.add("hidden");
-    }, 3000);
+    messageBox.classList.remove("hidden");
+    setTimeout(() => messageBox.classList.add("hidden"), 4000);
 }
 
-function obtenerMateriales() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    
-    if (!data) { 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales)); 
-        return [...datosIniciales]; 
+function extraerMensajeError(datos) {
+    if (!datos) return 'Error desconocido';
+    if (datos.detail) {
+        if (typeof datos.detail === 'string') return datos.detail;
+        if (Array.isArray(datos.detail)) {
+            return datos.detail.map(err => err.msg || JSON.stringify(err)).join('; ');
+        }
+        return JSON.stringify(datos.detail);
     }
-    
-    try { 
-        return JSON.parse(data); 
-    } catch { 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales)); 
-        return [...datosIniciales]; 
-    }
+    if (datos.message) return datos.message;
+    if (datos.error) return datos.error;
+    return JSON.stringify(datos);
 }
 
-function guardarMateriales(lista) { 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista)); 
-}
-
+// ============================================
+// LIMPIAR CAMPOS
+// ============================================
 function limpiarCampos() {
-    entryId.value = ""; 
-    entryNombre.value = ""; 
-    entryUnidad.value = ""; 
+    entryId.value = "";
+    entryNombre.value = "";
+    entryUnidad.value = "";
     entryCantidad.value = "";
-    
-    idEditando = null; 
+    idEditando = null;
     entryId.disabled = false;
-    
     document.querySelectorAll("#tbodyMateriales tr").forEach(tr => tr.classList.remove("seleccionada"));
 }
 
-function validar(id, nombre, unidad, cantidad) {
-    if (!id || !nombre || !unidad || !cantidad) { 
-        mostrarMensaje("Complete todos los campos.", "warning"); 
-        return false; 
+// ============================================
+// VALIDAR CAMPOS
+// ============================================
+function validarCampos(id, nombre, cantidad) {
+    if (!id || !nombre || cantidad === "") {
+        mostrarMensaje("Complete todos los campos obligatorios.", "warning");
+        return false;
     }
-    
+    const idNum = parseInt(id);
+    if (isNaN(idNum) || idNum <= 0) {
+        mostrarMensaje("El ID debe ser un número entero positivo.", "error");
+        return false;
+    }
     const cant = parseInt(cantidad);
-    
-    if (isNaN(cant) || cant < 0) { 
-        mostrarMensaje("La cantidad debe ser un número entero no negativo.", "error"); 
-        return false; 
+    if (isNaN(cant) || cant < 0) {
+        mostrarMensaje("La cantidad debe ser un número entero no negativo.", "error");
+        return false;
     }
-    
-    return { cant };
+    return { id: idNum, cant };
 }
 
-function cargarTabla() {
-    const materiales = obtenerMateriales();
-    tbody.innerHTML = "";
-    
-    materiales.forEach((m) => {
-        const tr = document.createElement("tr");
-        
-        tr.innerHTML = `<td>${m.idMaterial}</td><td>${m.nombre}</td><td>${m.unidadMedida}</td><td>${m.cantidadDisponible}</td>`;
-        
-        tr.addEventListener("click", () => {
-            document.querySelectorAll("#tbodyMateriales tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
-            
-            entryId.value = m.idMaterial; 
-            entryNombre.value = m.nombre; 
-            entryUnidad.value = m.unidadMedida; 
-            entryCantidad.value = m.cantidadDisponible;
-            
-            idEditando = m.idMaterial; 
-            entryId.disabled = true;
+// ============================================
+// CARGAR MATERIALES (GET)
+// ============================================
+async function cargarTabla() {
+    try {
+        const respuesta = await fetch(`${API_URL}/materiales/`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
         });
-        
-        tbody.appendChild(tr);
-    });
-    
-    lblFooter.textContent = `Mostrando ${materiales.length} material(es) en inventario`;
+
+        if (!respuesta.ok) {
+            const datos = await respuesta.json().catch(() => ({}));
+            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
+        }
+
+        const materiales = await respuesta.json();
+        tbody.innerHTML = "";
+
+        if (!Array.isArray(materiales) || materiales.length === 0) {
+            lblFooter.textContent = "Mostrando 0 material(es)";
+            return;
+        }
+
+        materiales.forEach((m) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${m.id}</td>
+                <td>${m.nombre}</td>
+                <td>${m.descripcion || ''}</td>
+                <td>${m.cantidad}</td>
+            `;
+
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#tbodyMateriales tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
+
+                entryId.value = m.id;
+                entryNombre.value = m.nombre;
+                entryUnidad.value = m.descripcion || '';
+                entryCantidad.value = m.cantidad;
+
+                idEditando = m.id;
+                entryId.disabled = true;
+            });
+
+            tbody.appendChild(tr);
+        });
+
+        lblFooter.textContent = `Mostrando ${materiales.length} material(es) en inventario`;
+
+    } catch (error) {
+        mostrarMensaje("❌ Error al cargar materiales: " + error.message, "error");
+        console.error("Error cargarTabla:", error);
+    }
 }
 
-function registrar() {
-    const id = entryId.value.trim(); 
-    const nombre = entryNombre.value.trim(); 
-    const unidad = entryUnidad.value.trim(); 
-    const cantidad = entryCantidad.value.trim();
-    
-    const valid = validar(id, nombre, unidad, cantidad);
-    if (!valid) return;
-    
-    const materiales = obtenerMateriales();
-    
-    if (materiales.some(m => m.idMaterial === id)) { 
-        mostrarMensaje(`Ya existe un material con ID ${id}.`, "error"); 
-        return; 
-    }
-    
-    materiales.push({ 
-        idMaterial: id, 
-        nombre, 
-        unidadMedida: unidad, 
-        cantidadDisponible: valid.cant 
-    });
-    
-    guardarMateriales(materiales);
-    mostrarMensaje(`Material '${nombre}' registrado.`, "success"); 
-    limpiarCampos(); 
-    cargarTabla();
-}
-
-function editar() {
-    const id = entryId.value.trim(); 
-    const nombre = entryNombre.value.trim(); 
-    const unidad = entryUnidad.value.trim(); 
-    const cantidad = entryCantidad.value.trim();
-    
-    if (!idEditando) { 
-        mostrarMensaje("Seleccione un material de la tabla para editar.", "warning"); 
-        return; 
-    }
-    
-    const valid = validar(id, nombre, unidad, cantidad);
-    if (!valid) return;
-    
-    const materiales = obtenerMateriales();
-    const idx = materiales.findIndex(m => m.idMaterial === idEditando);
-    
-    if (idx === -1) { 
-        mostrarMensaje(`No existe material con ID ${id}.`, "error"); 
-        return; 
-    }
-    
-    materiales[idx] = { 
-        idMaterial: id, 
-        nombre, 
-        unidadMedida: unidad, 
-        cantidadDisponible: valid.cant 
-    };
-    
-    guardarMateriales(materiales);
-    mostrarMensaje(`Material '${nombre}' actualizado.`, "success"); 
-    limpiarCampos(); 
-    cargarTabla();
-}
-
-function usarMaterial() {
-    const id = entryId.value.trim(); 
-    const cantidad = entryCantidad.value.trim();
-    
-    if (!id || !cantidad) { 
-        mostrarMensaje("Ingrese ID y cantidad a usar.", "warning"); 
-        return; 
-    }
-    
-    const cant = parseInt(cantidad);
-    
-    if (isNaN(cant) || cant <= 0) { 
-        mostrarMensaje("La cantidad debe ser un número entero positivo.", "error"); 
-        return; 
-    }
-    
-    const materiales = obtenerMateriales();
-    const idx = materiales.findIndex(m => m.idMaterial === id);
-    
-    if (idx === -1) { 
-        mostrarMensaje("Material no encontrado.", "error"); 
-        return; 
-    }
-    
-    if (materiales[idx].cantidadDisponible < cant) { 
-        mostrarMensaje("No hay suficiente stock.", "error"); 
-        return; 
-    }
-    
-    materiales[idx].cantidadDisponible -= cant;
-    
-    guardarMateriales(materiales);
-    mostrarMensaje(`Se usaron ${cant} unidades del material '${id}'.`, "success"); 
-    cargarTabla();
-}
-
-function eliminar() {
+// ============================================
+// REGISTRAR MATERIAL (POST)
+// ============================================
+async function registrar() {
     const id = entryId.value.trim();
-    
-    if (!id) { 
-        mostrarMensaje("Ingrese un ID para borrar.", "warning"); 
-        return; 
+    const nombre = entryNombre.value.trim();
+    const descripcion = entryUnidad.value.trim();
+    const cantidad = entryCantidad.value.trim();
+
+    const valid = validarCampos(id, nombre, cantidad);
+    if (!valid) return;
+
+    const material = {
+        id: valid.id,
+        nombre: nombre,
+        descripcion: descripcion,
+        cantidad: valid.cant
+    };
+
+    try {
+        const respuesta = await fetch(`${API_URL}/materiales/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(material)
+        });
+
+        let datos = {};
+        const texto = await respuesta.text();
+        if (texto) { try { datos = JSON.parse(texto); } catch (e) { datos = { raw: texto }; } }
+
+        if (respuesta.ok || respuesta.status === 201) {
+            mostrarMensaje(`✅ Material '${nombre}' registrado.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error registrar:", error);
     }
-    
-    if (!confirm(`¿Está seguro de eliminar el registro con ID '${id}'?`)) return;
-    
-    const materiales = obtenerMateriales().filter(m => m.idMaterial !== id);
-    
-    guardarMateriales(materiales);
-    mostrarMensaje("Registro eliminado.", "success"); 
-    limpiarCampos(); 
-    cargarTabla();
 }
 
+// ============================================
+// EDITAR MATERIAL (PUT)
+// ============================================
+async function editar() {
+    if (!idEditando) {
+        mostrarMensaje("Seleccione un material de la tabla para editar.", "warning");
+        return;
+    }
+
+    const nombre = entryNombre.value.trim();
+    const descripcion = entryUnidad.value.trim();
+    const cantidad = entryCantidad.value.trim();
+
+    const valid = validarCampos(entryId.value, nombre, cantidad);
+    if (!valid) return;
+
+    const material = {
+        id: valid.id,
+        nombre: nombre,
+        descripcion: descripcion,
+        cantidad: valid.cant
+    };
+
+    try {
+        const respuesta = await fetch(`${API_URL}/materiales/${idEditando}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(material)
+        });
+
+        let datos = {};
+        const texto = await respuesta.text();
+        if (texto) { try { datos = JSON.parse(texto); } catch (e) { datos = { raw: texto }; } }
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Material '${nombre}' actualizado.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error editar:", error);
+    }
+}
+
+// ============================================
+// USAR MATERIAL (POST /usar/{id})
+// ============================================
+async function usarMaterial() {
+    if (!idEditando) {
+        mostrarMensaje("Seleccione un material de la tabla para usar.", "warning");
+        return;
+    }
+
+    const cantidad = entryCantidad.value.trim();
+    if (!cantidad) {
+        mostrarMensaje("Ingrese la cantidad a usar.", "warning");
+        return;
+    }
+
+    const cant = parseInt(cantidad);
+    if (isNaN(cant) || cant <= 0) {
+        mostrarMensaje("La cantidad debe ser un número entero positivo.", "error");
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${API_URL}/materiales/usar/${idEditando}?cantidad=${cant}`, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        let datos = {};
+        const texto = await respuesta.text();
+        if (texto) { try { datos = JSON.parse(texto); } catch (e) { datos = { raw: texto }; } }
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Se usaron ${cant} unidades.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error usarMaterial:", error);
+    }
+}
+
+// ============================================
+// ELIMINAR MATERIAL (DELETE)
+// ============================================
+async function eliminar() {
+    if (!idEditando) {
+        mostrarMensaje("Seleccione un material de la tabla para eliminar.", "warning");
+        return;
+    }
+
+    if (!confirm(`¿Está seguro de eliminar el material con ID '${idEditando}'?`)) return;
+
+    try {
+        const respuesta = await fetch(`${API_URL}/materiales/${idEditando}`, {
+            method: 'DELETE',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        let datos = {};
+        const texto = await respuesta.text();
+        if (texto) { try { datos = JSON.parse(texto); } catch (e) { datos = { raw: texto }; } }
+
+        if (respuesta.ok) {
+            mostrarMensaje("✅ Material eliminado.", "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error eliminar:", error);
+    }
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
 document.getElementById("btnRegistrar").addEventListener("click", registrar);
 document.getElementById("btnEditar").addEventListener("click", editar);
 document.getElementById("btnUsar").addEventListener("click", usarMaterial);
-document.getElementById("btnLimpiar").addEventListener("click", () => { 
-    limpiarCampos(); 
-    mostrarMensaje("Campos limpiados.", "success"); 
+document.getElementById("btnLimpiar").addEventListener("click", () => {
+    limpiarCampos();
+    mostrarMensaje("Campos limpiados.", "success");
 });
-document.getElementById("btnSalir").addEventListener("click", () => { 
+document.getElementById("btnSalir").addEventListener("click", () => {
     if (confirm("¿Desea salir?")) window.location.href = "../index.html";
 });
 document.getElementById("btnBorrar").addEventListener("click", eliminar);
 
-document.addEventListener("DOMContentLoaded", () => { 
-    cargarTabla(); 
-});
+// CARGAR AL INICIAR
+document.addEventListener("DOMContentLoaded", cargarTabla);

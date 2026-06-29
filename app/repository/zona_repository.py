@@ -6,20 +6,24 @@ class ZonaRepository:
     def __init__(self):
         self.db = SessionLocal()
 
-    def crear(self, nombre_zona, ubicacion, nivel_contaminacion, descripcion):
-        zona = ZonaORM(
-            nombre_zona=nombre_zona,
-            ubicacion=ubicacion,
-            nivel_contaminacion=nivel_contaminacion,
-            descripcion=descripcion
-        )
+    def crear(self, id_zona, nombre_zona, ubicacion, nivel_contaminacion, descripcion):
+        kwargs = {
+            "nombre_zona": nombre_zona,
+            "ubicacion": ubicacion,
+            "nivel_contaminacion": nivel_contaminacion,
+            "descripcion": descripcion
+        }
+        if id_zona is not None:
+            kwargs["id_zona"] = id_zona
+
+        zona = ZonaORM(**kwargs)
         self.db.add(zona)
         self.db.commit()
         self.db.refresh(zona)
         return zona
 
     def obtener(self, zona_id):
-        return self.db.query(ZonaORM).filter_by(id=zona_id).first()
+        return self.db.query(ZonaORM).filter_by(id_zona=zona_id).first()
 
     def obtener_todos(self):
         return self.db.query(ZonaORM).all()
@@ -32,6 +36,7 @@ class ZonaRepository:
             zona.nivel_contaminacion = nivel_contaminacion
             zona.descripcion = descripcion
             self.db.commit()
+            self.db.refresh(zona)
         return zona
 
     def eliminar(self, zona_id):
