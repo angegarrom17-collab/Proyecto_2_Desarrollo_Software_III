@@ -9,7 +9,7 @@ class UsuarioRepository:
     def create(self, id, nombre, email, hashed_password, rol="encargado"):
         usuario = UsuarioORM(
             id=id,
-            nombre=nombre,        # ← NUEVO
+            nombre=nombre,
             email=email,
             hashed_password=hashed_password,
             rol=rol
@@ -20,7 +20,7 @@ class UsuarioRepository:
         return usuario
 
     def get(self, usuario_id):
-        return self.db.query(UsuarioORM).filter_by(id=str(usuario_id)).first()
+        return self.db.query(UsuarioORM).filter_by(id=usuario_id).first()
 
     def get_all(self):
         return self.db.query(UsuarioORM).all()

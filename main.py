@@ -7,7 +7,7 @@ from app.config.database import engine, Base
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
 from app.models.zona import ZonaORM
-from app.models.animal_afectado import AnimalORM
+from app.models.animal_afectado import AnimalAfectadoORM
 from app.models.basura_recolectada import BasuraORM
 from app.models.jornada_limpieza import JornadaORM
 from app.models.material import MaterialORM
@@ -36,8 +36,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Registrar routers
-# ✅ ASÍ:
 app.include_router(basura_router,     prefix="/basura")
 app.include_router(jornada_router,    prefix="/jornadas")
 app.include_router(reporte_router,    prefix="/reportes")
@@ -52,3 +50,8 @@ def root():
         "message": "API Proyecto Oceano funcionando",
         "docs": "http://localhost:8000/docs"
     }
+
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

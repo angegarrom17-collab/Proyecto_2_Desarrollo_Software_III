@@ -1,430 +1,242 @@
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = "http://127.0.0.1:8000/voluntarios/";
 
-// ============================================
-// REFERENCIAS AL DOM
-// ============================================
-const entryId = document.getElementById("entry_id");
-const entryNombre = document.getElementById("entry_nombre");
-const entryTelefono = document.getElementById("entry_telefono");
-const entryEdad = document.getElementById("entry_edad");
-const entryCorreo = document.getElementById("entry_correo");
-const entryOrganizacion = document.getElementById("entry_organizacion");
-const tbodyVoluntarios = document.getElementById("tbodyVoluntarios");
-const lblFooter = document.getElementById("lblFooter");
+const tableBody = document.getElementById("voluntariosTable");
 const messageBox = document.getElementById("messageBox");
-const searchId = document.getElementById("searchId");
+const errorAlert = document.getElementById("errorAlert");
+const errorText = document.getElementById("errorText");
+const contador = document.getElementById("contador");
 
-const btnRegistrar = document.getElementById("btnRegistrar");
-const btnEditar = document.getElementById("btnEditar");
-const btnEliminar = document.getElementById("btnEliminar");
-const btnLimpiar = document.getElementById("btnLimpiar");
-const btnSalir = document.getElementById("btnSalir");
-const btnFiltros = document.getElementById("btnFiltros");
-
-let idEditando = null;
-
-// ============================================
-// MENSAJES
-// ============================================
-function mostrarMensaje(texto, tipo = "success") {
-    if (typeof texto !== 'string') texto = JSON.stringify(texto);
-    messageBox.textContent = texto;
-    messageBox.className = `message-box ${tipo}`;
+function showMessage(text, type = "success") {
+    messageBox.textContent = text;
     messageBox.classList.remove("hidden");
-
+    messageBox.style.background = type === "success" ? "#5cb85c" : "#d9534f";
+    messageBox.style.color = "white";
     setTimeout(() => {
         messageBox.classList.add("hidden");
-    }, 4000);
+    }, 3000);
 }
 
-// ============================================
-// EXTRAER MENSAJE DE ERROR
-// ============================================
-function extraerMensajeError(datos) {
-    if (!datos) return 'Error desconocido';
-    if (typeof datos.detail === 'string') return datos.detail;
-    if (Array.isArray(datos.detail)) {
-        return datos.detail.map(e => e.msg || JSON.stringify(e)).join('; ');
-    }
-    if (datos.message) return datos.message;
-    if (datos.error) return datos.error;
-    return JSON.stringify(datos);
+function showError(text) {
+    errorText.textContent = text;
+    errorAlert.classList.remove("hidden");
+    setTimeout(() => {
+        errorAlert.classList.add("hidden");
+    }, 5000);
 }
 
-// ============================================
-// LIMPIAR CAMPOS
-// ============================================
-function limpiarCampos() {
-    entryId.value = "";
-    entryNombre.value = "";
-    entryTelefono.value = "";
-    entryEdad.value = "";
-    entryCorreo.value = "";
-    entryOrganizacion.value = "";
-    idEditando = null;
-    entryId.disabled = false;
-
-    document.querySelectorAll("#tbodyVoluntarios tr").forEach(tr => {
-        tr.classList.remove("seleccionada");
-    });
+function obtenerDatosFormulario() {
+    return {
+        id: document.getElementById("id").value.trim(),
+        nombre: document.getElementById("nombre").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        edad: document.getElementById("edad").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        organizacion: document.getElementById("organizacion").value.trim()
+    };
 }
 
-// ============================================
-// VALIDAR CAMPOS REGISTRO
-// ============================================
-function validarCamposRegistro(id, nombre, telefono, edad, correo, organizacion) {
-    if (!id || !nombre || !telefono || !edad || !correo || !organizacion) {
-        mostrarMensaje("Complete todos los campos.", "warning");
+function llenarFormulario(v) {
+    document.getElementById("id").value = v.id;
+    document.getElementById("nombre").value = v.nombre;
+    document.getElementById("telefono").value = v.telefono;
+    document.getElementById("edad").value = v.edad;
+    document.getElementById("email").value = v.email;
+    document.getElementById("organizacion").value = v.organizacion;
+}
+
+function limpiarFormulario() {
+    document.getElementById("voluntarioForm").reset();
+    showMessage("Formulario limpiado");
+}
+
+function validarEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+function validarTelefono(telefono) {
+    return /^[0-9]{8,15}$/.test(telefono);
+}
+
+function validarCampos(data) {
+    if (!data.id || !data.nombre || !data.telefono || !data.edad || !data.email || !data.organizacion) {
+        showMessage("Todos los campos son obligatorios", "error");
         return false;
     }
-
-    if (!/^\d+$/.test(id)) {
-        mostrarMensaje("El ID debe ser numérico.", "error");
+    if (isNaN(parseInt(data.id)) || parseInt(data.id) <= 0) {
+        showMessage("El ID debe ser un numero mayor a 0", "error");
         return false;
     }
-
-    if (!correo.includes("@")) {
-        mostrarMensaje("El correo no tiene formato válido.", "error");
+    if (parseInt(data.edad) < 18) {
+        showMessage("La edad debe ser mayor o igual a 18", "error");
         return false;
     }
-
-    const edadNum = parseInt(edad);
-    if (isNaN(edadNum) || edadNum < 18) {
-        mostrarMensaje("La edad debe ser mayor o igual a 18.", "error");
+    if (!validarEmail(data.email)) {
+        showMessage("Ingrese un correo electronico valido", "error");
         return false;
     }
-
+    if (!validarTelefono(data.telefono)) {
+        showMessage("El telefono debe contener solo numeros (8-15 digitos)", "error");
+        return false;
+    }
     return true;
 }
 
-// ============================================
-// VALIDAR CAMPOS EDICIÓN
-// ============================================
-function validarCamposEdicion(nombre, telefono, edad, correo, organizacion) {
-    if (!nombre || !telefono || !edad || !correo || !organizacion) {
-        mostrarMensaje("Complete todos los campos.", "warning");
-        return false;
-    }
-
-    if (!correo.includes("@")) {
-        mostrarMensaje("El correo no tiene formato válido.", "error");
-        return false;
-    }
-
-    const edadNum = parseInt(edad);
-    if (isNaN(edadNum) || edadNum < 18) {
-        mostrarMensaje("La edad debe ser mayor o igual a 18.", "error");
-        return false;
-    }
-
-    return true;
-}
-
-// ============================================
-// CARGAR VOLUNTARIOS (GET)
-// ============================================
-async function cargarTabla() {
+async function cargarVoluntarios() {
+    errorAlert.classList.add("hidden");
     try {
-        const respuesta = await fetch(`${API_URL}/voluntarios/`, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error("Error al consultar la API");
+        const data = await res.json();
+
+        tableBody.innerHTML = "";
+        data.forEach(v => {
+            const row = `
+                <tr>
+                    <td>${v.id}</td>
+                    <td>${v.nombre}</td>
+                    <td>${v.telefono}</td>
+                    <td>${v.edad}</td>
+                    <td>${v.email}</td>
+                    <td>${v.organizacion}</td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
         });
+        contador.textContent = data.length;
+        return data;
+    } catch (error) {
+        console.error(error);
+        showError("Error al cargar voluntarios: " + error.message);
+        return [];
+    }
+}
 
-        if (!respuesta.ok) {
-            const datos = await respuesta.json().catch(() => ({}));
-            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
-        }
+async function buscarVoluntario() {
+    const id = document.getElementById("id").value.trim();
+    if (!id) {
+        showMessage("Ingrese el ID en el campo de arriba para buscar", "error");
+        return;
+    }
+    if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
+        showMessage("El ID debe ser un numero valido", "error");
+        return;
+    }
+    try {
+        const res = await fetch(API_URL + id);
+        if (!res.ok) throw new Error("No encontrado");
+        const v = await res.json();
+        llenarFormulario(v);
+        showMessage("Voluntario cargado en el formulario");
+    } catch (error) {
+        showError("Voluntario no encontrado");
+    }
+}
 
-        const voluntarios = await respuesta.json();
-        tbodyVoluntarios.innerHTML = "";
+async function registrarVoluntario() {
+    const data = obtenerDatosFormulario();
 
-        if (!Array.isArray(voluntarios) || voluntarios.length === 0) {
-            lblFooter.textContent = "Mostrando 0 registro(s)";
+    if (!validarCampos(data)) return;
+
+    try {
+        const checkRes = await fetch(API_URL + data.id);
+        if (checkRes.ok) {
+            showMessage("Ya existe un voluntario con ese ID. Use otro ID o use Editar.", "error");
             return;
         }
+    } catch (e) {
 
-        voluntarios.forEach((v) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${v.id}</td>
-                <td>${v.nombre}</td>
-                <td>${v.telefono}</td>
-                <td>${v.edad}</td>
-                <td>${v.correo || v.email}</td>
-                <td>${v.organizacion || v.institucion}</td>
-                <td>
-                    <div class="acciones">
-                        <button class="btn-ver" title="Ver" onclick="event.stopPropagation(); verVoluntario('${v.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-editar-row" title="Editar" onclick="event.stopPropagation(); cargarVoluntarioEnFormulario('${v.id}')">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-eliminar-row" title="Eliminar" onclick="event.stopPropagation(); eliminarVoluntario('${v.id}')">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
-
-            tr.addEventListener("click", () => {
-                document.querySelectorAll("#tbodyVoluntarios tr").forEach(r => r.classList.remove("seleccionada"));
-                tr.classList.add("seleccionada");
-                cargarVoluntarioEnFormulario(v.id);
-            });
-
-            tbodyVoluntarios.appendChild(tr);
-        });
-
-        lblFooter.textContent = `Mostrando ${voluntarios.length} registro(s)`;
-
-    } catch (error) {
-        mostrarMensaje("❌ Error al cargar voluntarios: " + error.message, "error");
-        console.error("Error cargarTabla:", error);
     }
-}
 
-// ============================================
-// CARGAR VOLUNTARIO EN FORMULARIO (para editar)
-// ============================================
-function cargarVoluntarioEnFormulario(id) {
-    // Buscar en la tabla el voluntario y cargar sus datos
-    // En una implementación real, harías un GET /voluntarios/{id}
-    // Por ahora, buscamos en las filas visibles
-    const filas = document.querySelectorAll("#tbodyVoluntarios tr");
-    filas.forEach(tr => {
-        if (tr.cells[0].textContent === id) {
-            document.querySelectorAll("#tbodyVoluntarios tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
-
-            entryId.value = tr.cells[0].textContent;
-            entryNombre.value = tr.cells[1].textContent;
-            entryTelefono.value = tr.cells[2].textContent;
-            entryEdad.value = tr.cells[3].textContent;
-            entryCorreo.value = tr.cells[4].textContent;
-            entryOrganizacion.value = tr.cells[5].textContent;
-
-            idEditando = tr.cells[0].textContent;
-            entryId.disabled = true;
-        }
-    });
-}
-
-// ============================================
-// VER VOLUNTARIO (placeholder)
-// ============================================
-function verVoluntario(id) {
-    mostrarMensaje(`👁️ Ver detalle del voluntario ID: ${id}`, "success");
-}
-
-// ============================================
-// REGISTRAR VOLUNTARIO (POST)
-// ============================================
-async function registrarVoluntario() {
-    const id = entryId.value.trim();
-    const nombre = entryNombre.value.trim();
-    const telefono = entryTelefono.value.trim();
-    const edad = entryEdad.value.trim();
-    const correo = entryCorreo.value.trim();
-    const organizacion = entryOrganizacion.value.trim();
-
-    if (!validarCamposRegistro(id, nombre, telefono, edad, correo, organizacion)) return;
-
-    const voluntario = {
-        id: id,
-        nombre: nombre,
-        telefono: telefono,
-        edad: parseInt(edad),
-        email: correo,
-        organizacion: organizacion
+    const payload = {
+        id: parseInt(data.id),
+        nombre: data.nombre,
+        telefono: data.telefono,
+        edad: parseInt(data.edad),
+        email: data.email,
+        organizacion: data.organizacion
     };
 
     try {
-        const respuesta = await fetch(`${API_URL}/voluntarios/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(voluntario)
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
         });
-
-        let datos = {};
-        const textoRespuesta = await respuesta.text();
-        if (textoRespuesta) {
-            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
-        }
-
-        if (respuesta.ok || respuesta.status === 201) {
-            mostrarMensaje(`✅ Voluntario '${nombre}' registrado correctamente.`, "success");
-            limpiarCampos();
-            setTimeout(cargarTabla, 300);
+        if (res.ok) {
+            showMessage("Voluntario registrado correctamente");
+            document.getElementById("voluntarioForm").reset();
+            cargarVoluntarios();
         } else {
-            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+            const err = await res.json();
+            showMessage("Error al registrar: " + (err.detail || "Error del servidor"), "error");
         }
-
     } catch (error) {
-        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
-        console.error("Error registrar:", error);
+        showMessage("Error de conexion. Asegurese de que el servidor este corriendo en http://127.0.0.1:8000", "error");
     }
 }
 
-// ============================================
-// EDITAR VOLUNTARIO (PUT)
-// ============================================
 async function editarVoluntario() {
-    if (!idEditando) {
-        mostrarMensaje("Seleccione un voluntario de la tabla para editar.", "warning");
-        return;
-    }
+    const data = obtenerDatosFormulario();
 
-    const nombre = entryNombre.value.trim();
-    const telefono = entryTelefono.value.trim();
-    const edad = entryEdad.value.trim();
-    const correo = entryCorreo.value.trim();
-    const organizacion = entryOrganizacion.value.trim();
+    if (!validarCampos(data)) return;
 
-    if (!validarCamposEdicion(nombre, telefono, edad, correo, organizacion)) return;
-
-    const voluntario = {
-        nombre: nombre,
-        telefono: telefono,
-        edad: parseInt(edad),
-        email: correo,
-        organizacion: organizacion
+    const id = parseInt(data.id);
+    const payload = {
+        id: id,
+        nombre: data.nombre,
+        telefono: data.telefono,
+        edad: parseInt(data.edad),
+        email: data.email,
+        organizacion: data.organizacion
     };
 
     try {
-        const respuesta = await fetch(`${API_URL}/voluntarios/${idEditando}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(voluntario)
+        const res = await fetch(API_URL + id, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
         });
-
-        let datos = {};
-        const textoRespuesta = await respuesta.text();
-        if (textoRespuesta) {
-            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
-        }
-
-        if (respuesta.ok) {
-            mostrarMensaje(`✅ Voluntario actualizado correctamente.`, "success");
-            limpiarCampos();
-            setTimeout(cargarTabla, 300);
+        if (res.ok) {
+            showMessage("Voluntario actualizado correctamente");
+            document.getElementById("voluntarioForm").reset();
+            cargarVoluntarios();
         } else {
-            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+            const err = await res.json();
+            showMessage("Error al actualizar: " + (err.detail || "Error del servidor"), "error");
         }
-
     } catch (error) {
-        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
-        console.error("Error editar:", error);
+        showMessage("Error de conexion. Asegurese de que el servidor este corriendo en http://127.0.0.1:8000", "error");
     }
 }
 
-// ============================================
-// ELIMINAR VOLUNTARIO (DELETE)
-// ============================================
-async function eliminarVoluntario(id) {
-    const idEliminar = id || entryId.value.trim();
+async function eliminarVoluntario() {
+    const id = document.getElementById("id").value.trim();
 
-    if (!idEliminar) {
-        mostrarMensaje("Ingrese un ID para eliminar.", "warning");
+    if (!id) {
+        showMessage("Ingrese el ID del voluntario a eliminar", "error");
+        return;
+    }
+    if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
+        showMessage("El ID debe ser un numero valido", "error");
         return;
     }
 
-    if (!confirm(`¿Está seguro de eliminar el voluntario con ID '${idEliminar}'?`)) return;
+    if (!confirm("¿Esta seguro de eliminar el voluntario con ID " + id + "?")) return;
 
     try {
-        const respuesta = await fetch(`${API_URL}/voluntarios/${idEliminar}`, {
-            method: 'DELETE',
-            headers: { 'Accept': 'application/json' }
-        });
-
-        let datos = {};
-        const textoRespuesta = await respuesta.text();
-        if (textoRespuesta) {
-            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
-        }
-
-        if (respuesta.ok) {
-            mostrarMensaje("✅ Voluntario eliminado.", "success");
-            limpiarCampos();
-            setTimeout(cargarTabla, 300);
+        const res = await fetch(API_URL + id, { method: "DELETE" });
+        if (res.ok) {
+            showMessage("Voluntario eliminado correctamente");
+            document.getElementById("voluntarioForm").reset();
+            cargarVoluntarios();
         } else {
-            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+            const err = await res.json();
+            showMessage("Error al eliminar: " + (err.detail || "Voluntario no encontrado"), "error");
         }
-
     } catch (error) {
-        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
-        console.error("Error eliminar:", error);
+        showMessage("Error de conexion. Asegurese de que el servidor este corriendo en http://127.0.0.1:8000", "error");
     }
 }
 
-// ============================================
-// BUSCAR POR ID
-// ============================================
-function buscarPorId() {
-    const idBuscar = searchId.value.trim();
-    if (!idBuscar) {
-        cargarTabla();
-        return;
-    }
-
-    const filas = document.querySelectorAll("#tbodyVoluntarios tr");
-    let encontrado = false;
-
-    filas.forEach(tr => {
-        if (tr.cells[0].textContent === idBuscar) {
-            tr.style.display = "";
-            encontrado = true;
-        } else {
-            tr.style.display = "none";
-        }
-    });
-
-    if (encontrado) {
-        lblFooter.textContent = `Mostrando 1 registro(s)`;
-    } else {
-        lblFooter.textContent = `No se encontraron registros`;
-    }
-}
-
-// ============================================
-// EVENT LISTENERS
-// ============================================
-btnRegistrar.addEventListener("click", registrarVoluntario);
-btnEditar.addEventListener("click", editarVoluntario);
-btnEliminar.addEventListener("click", () => eliminarVoluntario());
-btnLimpiar.addEventListener("click", () => {
-    limpiarCampos();
-    mostrarMensaje("Campos limpiados.", "success");
-});
-btnSalir.addEventListener("click", () => {
-    if (confirm("¿Desea salir del módulo de voluntarios?")) {
-        window.location.href = "../index.html";
-    }
-});
-btnFiltros.addEventListener("click", () => {
-    mostrarMensaje("🚧 Filtros aún no implementados.", "warning");
-});
-
-searchId.addEventListener("input", buscarPorId);
-
-document.querySelectorAll("input").forEach(input => {
-    input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            idEditando ? editarVoluntario() : registrarVoluntario();
-        }
-    });
-});
-
-// ============================================
-// CARGAR AL INICIAR
-// ============================================
-document.addEventListener("DOMContentLoaded", cargarTabla);
+cargarVoluntarios();

@@ -1,11 +1,11 @@
-// ============================================
+
 // CONFIGURACIÓN DE LA API
-// ============================================
+
 const API_URL = 'http://127.0.0.1:8000';
 
-// ============================================
+
 // REFERENCIAS AL DOM
-// ============================================
+
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryCorreo = document.getElementById("entry_correo");
@@ -24,9 +24,7 @@ const btnBuscar = document.getElementById("btnBuscar");
 
 let idEditando = null;
 
-// ============================================
-// MENSAJES
-// ============================================
+
 function mostrarMensaje(texto, tipo = "success") {
     if (typeof texto !== 'string') {
         texto = JSON.stringify(texto);
@@ -40,9 +38,7 @@ function mostrarMensaje(texto, tipo = "success") {
     }, 4000);
 }
 
-// ============================================
-// EXTRAER MENSAJE DE ERROR DEL BACKEND
-// ============================================
+
 function extraerMensajeError(datos) {
     if (!datos) return 'Error desconocido';
 
@@ -69,9 +65,7 @@ function extraerMensajeError(datos) {
     return JSON.stringify(datos);
 }
 
-// ============================================
-// LIMPIAR CAMPOS
-// ============================================
+
 function limpiarCampos() {
     entryId.value = "";
     entryNombre.value = "";
@@ -87,9 +81,7 @@ function limpiarCampos() {
     });
 }
 
-// ============================================
-// VALIDAR CAMPOS (REGISTRO)
-// ============================================
+
 function validarCamposRegistro(id, nombre, correo, contrasena, tipo) {
     if (!id || !nombre || !correo || !contrasena || !tipo) {
         mostrarMensaje("Complete todos los campos incluyendo el ID y nombre.", "warning");
@@ -119,9 +111,7 @@ function validarCamposRegistro(id, nombre, correo, contrasena, tipo) {
     return true;
 }
 
-// ============================================
-// VALIDAR CAMPOS (EDICIÓN)
-// ============================================
+
 function validarCamposEdicion(nombre, correo, contrasena, tipo) {
     if (!nombre || !correo || !tipo) {
         mostrarMensaje("Complete el nombre, correo y tipo de usuario.", "warning");
@@ -146,9 +136,7 @@ function validarCamposEdicion(nombre, correo, contrasena, tipo) {
     return true;
 }
 
-// ============================================
-// CARGAR USUARIOS DESDE LA API (GET)
-// ============================================
+
 async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/usuarios/`, {
@@ -205,9 +193,7 @@ async function cargarTabla() {
     }
 }
 
-// ============================================
-// REGISTRAR USUARIO EN LA API (POST)
-// ============================================
+
 async function registrarUsuario() {
     const id = entryId.value.trim();
     const nombre = entryNombre.value.trim();
@@ -255,9 +241,7 @@ async function registrarUsuario() {
     }
 }
 
-// ============================================
-// EDITAR USUARIO EN LA API (PUT)
-// ============================================
+
 async function editarUsuario() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un usuario de la tabla para editar.", "warning");
@@ -308,9 +292,7 @@ async function editarUsuario() {
     }
 }
 
-// ============================================
-// ELIMINAR USUARIO EN LA API (DELETE)
-// ============================================
+
 async function eliminarUsuario() {
     const id = entryId.value.trim();
 
@@ -351,9 +333,7 @@ async function eliminarUsuario() {
     }
 }
 
-// ============================================
-// BUSCAR USUARIO POR ID (GET)
-// ============================================
+
 async function buscarUsuario() {
     const id = entryId.value.trim();
 
@@ -386,7 +366,7 @@ async function buscarUsuario() {
             <td>${usuario.rol}</td>
         `;
 
-        // ✅ Llenar los campos del formulario automáticamente al buscar
+
         entryId.value = usuario.id;
         entryNombre.value = usuario.nombre || (usuario.email ? usuario.email.split('@')[0] : '');
         entryCorreo.value = usuario.email;
@@ -421,9 +401,7 @@ async function buscarUsuario() {
     }
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
+
 btnRegistrar.addEventListener("click", registrarUsuario);
 btnEditar.addEventListener("click", editarUsuario);
 btnLimpiar.addEventListener("click", () => {
@@ -450,5 +428,5 @@ document.querySelectorAll("input").forEach(input => {
     });
 });
 
-// CARGAR AL INICIAR
+
 document.addEventListener("DOMContentLoaded", cargarTabla);

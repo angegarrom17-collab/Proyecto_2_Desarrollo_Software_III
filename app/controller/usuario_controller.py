@@ -10,20 +10,13 @@ router = APIRouter()
 service = UsuarioService()
 
 
-# ────────────────────────────────────────────
-# LISTAR TODOS LOS USUARIOS
-# GET /usuarios/
-# ────────────────────────────────────────────
 @router.get("/", response_model=list[UsuarioSchema])
 def listar_usuarios():
     """Devuelve la lista completa de usuarios registrados."""
     return service.listar_usuarios()
 
 
-# ────────────────────────────────────────────
-# OBTENER UN USUARIO POR ID
-# GET /usuarios/{usuario_id}
-# ────────────────────────────────────────────
+
 @router.get("/{usuario_id}", response_model=UsuarioSchema)
 def obtener_usuario(usuario_id: str):
     """Devuelve un usuario específico por su ID."""
@@ -33,10 +26,7 @@ def obtener_usuario(usuario_id: str):
     return usuario
 
 
-# ────────────────────────────────────────────
-# CREAR NUEVO USUARIO
-# POST /usuarios/
-# ────────────────────────────────────────────
+
 @router.post("/", response_model=UsuarioSchema)
 def crear_usuario(data: UsuarioRegistroSchema):
     """Registra un nuevo usuario en el sistema."""
@@ -52,10 +42,7 @@ def crear_usuario(data: UsuarioRegistroSchema):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ────────────────────────────────────────────
-# ACTUALIZAR USUARIO
-# PUT /usuarios/{usuario_id}
-# ────────────────────────────────────────────
+
 @router.put("/{usuario_id}", response_model=UsuarioSchema)
 def actualizar_usuario(usuario_id: str, data: UsuarioActualizarSchema):
     """Actualiza los datos de un usuario existente."""
@@ -71,10 +58,7 @@ def actualizar_usuario(usuario_id: str, data: UsuarioActualizarSchema):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ────────────────────────────────────────────
-# ELIMINAR USUARIO
-# DELETE /usuarios/{usuario_id}
-# ────────────────────────────────────────────
+
 @router.delete("/{usuario_id}")
 def eliminar_usuario(usuario_id: str):
     """Elimina un usuario del sistema por su ID."""
