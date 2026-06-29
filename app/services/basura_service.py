@@ -1,5 +1,6 @@
 from app.repository.basura_repository import BasuraRepository
 
+
 class BasuraService:
     def __init__(self):
         self.repo = BasuraRepository()
@@ -58,3 +59,6 @@ class BasuraService:
 
     def residuos_por_tipo(self):
         return self.repo.group_by_tipo()
+
+    def conteo_por_tipo(self):
+        return self.repo.count_by_tipo()

@@ -1,8 +1,9 @@
 from pydantic import BaseModel, ConfigDict
-from typing import List
+from typing import List, Optional
+
 
 class ZonaResumenSchema(BaseModel):
-    id_zona: int
+    id: int
     nombre_zona: str
     ubicacion: str
     nivel_contaminacion: str
@@ -10,10 +11,11 @@ class ZonaResumenSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class VoluntarioResumenSchema(BaseModel):
-    id_voluntario: str
+    cedula: str
     nombre: str
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class JornadaSchema(BaseModel):
     id_jornada: str
@@ -22,10 +24,11 @@ class JornadaSchema(BaseModel):
     cantidad_basura_total: int
     observaciones: str
     id_zona: int
-    zona: ZonaResumenSchema | None = None
+    zona: Optional[ZonaResumenSchema] = None
     voluntarios: List[VoluntarioResumenSchema] = []
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class JornadaRegistroSchema(BaseModel):
     id_jornada: str
@@ -35,5 +38,12 @@ class JornadaRegistroSchema(BaseModel):
     observaciones: str
     id_zona: int
 
+
 class AsignacionVoluntarioSchema(BaseModel):
     id_voluntario: str
+
+
+class JornadaFiltroSchema(BaseModel):
+    fecha_desde: Optional[str] = None
+    fecha_hasta: Optional[str] = None
+    id_zona: Optional[int] = None

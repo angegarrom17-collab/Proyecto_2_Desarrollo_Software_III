@@ -6,8 +6,9 @@ jornada_voluntario = Table(
     "jornada_voluntario",
     Base.metadata,
     Column("id_jornada", String(50), ForeignKey("jornadas.id_jornada"), primary_key=True),
-    Column("id_voluntario", Integer, ForeignKey("voluntarios.id"), primary_key=True)  # <-- CORREGIDO: era id_voluntario
+    Column("id_voluntario", Integer, ForeignKey("voluntarios.id"), primary_key=True)
 )
+
 
 class JornadaORM(Base):
     __tablename__ = "jornadas"
@@ -18,10 +19,10 @@ class JornadaORM(Base):
     descripcion = Column(Text, nullable=False)
     cantidad_basura_total = Column(Integer, nullable=False)
     observaciones = Column(Text, nullable=False)
-    id_zona = Column(Integer, ForeignKey("zonas.id_zona"), nullable=False)
+    id_zona = Column(Integer, ForeignKey("zonas.id"), nullable=False)
 
-    zona = relationship("ZonaORM")
-    voluntarios = relationship("VoluntarioORM", secondary=jornada_voluntario)
+    zona = relationship("ZonaORM", backref="jornadas")
+    voluntarios = relationship("VoluntarioORM", secondary=jornada_voluntario, backref="jornadas_asignadas")
 
     def __repr__(self):
         return (

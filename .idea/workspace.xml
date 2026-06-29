@@ -6,14 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit html voluntario y usuario">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/usuario_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/usuario_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/usuario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repository/usuario_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/usuario_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/schema_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_usuario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/usuario_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/usuario_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/usuarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/basura_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/basura_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/jornada_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/jornada_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/reporte_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/reporte_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/basura_recolectada.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/basura_recolectada.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/jornada_limpieza.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/jornada_limpieza.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repository/basura_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/basura_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repository/jornada_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/jornada_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/basura_recolectada.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_basura_recolectada.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/jornada_limpieza.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_jornada_limpieza.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/basura_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/basura_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/jornada_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/jornada_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +48,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git&quot;,
-    &quot;accountId&quot;: &quot;f76547fa-8463-4499-9c87-f3e945825ef5&quot;
+    &quot;accountId&quot;: &quot;580c3f6f-459c-4233-bd4a-cc780ffa663b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -60,29 +63,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.borrar_tablas.executor&quot;: &quot;Run&quot;,
-    &quot;Python.borrar_todo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.python.exe.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run.executor&quot;: &quot;Run&quot;,
-    &quot;Python.verificar.executor&quot;: &quot;Run&quot;,
-    &quot;Python.verificar_estructura.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ORM&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/OneDrive/Desktop/Proyecto_2_Desarrollo_Software_III&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.borrar_tablas.executor": "Run",
+    "Python.borrar_todo.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.python.exe.executor": "Run",
+    "Python.run.executor": "Run",
+    "Python.verificar.executor": "Run",
+    "Python.verificar_estructura.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "ORM",
+    "last_opened_file_path": "/home/daniel/Escritorio/archivos",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -91,7 +96,7 @@
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run">
+  <component name="RunManager" selected="Python.python.exe">
     <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Proyecto_2_Desarrollo_Software_III" />
       <option name="ENV_FILES" value="" />
@@ -101,11 +106,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -128,6 +134,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/borrar_tablas.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -150,6 +158,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/borrar_todo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -168,11 +178,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13" />
       <option name="WORKING_DIRECTORY" value="C:\Users\User\OneDrive\Desktop\Proyecto_2_Desarrollo_Software_III" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python313/python.exe" />
       <option name="PARAMETERS" value="-m uvicorn main:app --reload" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -191,11 +202,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13" />
       <option name="WORKING_DIRECTORY" value="C:\Users\User\OneDrive\Desktop\Proyecto_2_Desarrollo_Software_III" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -218,6 +230,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/verificar.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -240,6 +254,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/verificar_estructura.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -270,7 +286,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-02acdf704d18-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28539.27" />
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
       </set>
     </attachedChunks>
   </component>
@@ -332,6 +348,9 @@
     </task>
     <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Archivos de parte de Daniel" />
