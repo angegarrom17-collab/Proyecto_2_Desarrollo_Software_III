@@ -1,35 +1,29 @@
 from app.repository.jornada_repository import JornadaRepository
-from app.config.database import SessionLocal
-#from app.models.zona import ZonaORM
-from app.models.voluntario import VoluntarioORM
+from app.repository.zona_repository import ZonaRepository
+from app.repository.voluntario_repository import VoluntarioRepository
+
 
 class JornadaService:
     def __init__(self):
         self.repo = JornadaRepository()
+        self.zona_repo = ZonaRepository()
+        self.voluntario_repo = VoluntarioRepository()
 
     def _validate_zona_exists(self, id_zona):
-        db = SessionLocal()
-        try:
-            zona = db.query(ZonaORM).filter_by(id_zona=id_zona).first()
-            if not zona:
-                raise ValueError(f"La zona con id '{id_zona}' no existe")
-        finally:
-            db.close()
+        zona = self.zona_repo.obtener(id_zona)
+        if not zona:
+            raise ValueError(f"La zona con id '{id_zona}' no existe")
 
     def _validate_voluntario_exists(self, id_voluntario):
-        db = SessionLocal()
-        try:
-            vol = db.query(VoluntarioORM).filter_by(id_voluntario=id_voluntario).first()
-            if not vol:
-                raise ValueError(f"El voluntario '{id_voluntario}' no existe")
-        finally:
-            db.close()
+        vol = self.voluntario_repo.get_by_cedula(id_voluntario)
+        if not vol:
+            raise ValueError(f"El voluntario con cedula '{id_voluntario}' no existe")
 
     def _validate_common_data(self, fecha, descripcion, cantidad_basura_total, observaciones):
         if not fecha or fecha.strip() == "":
             raise ValueError("La fecha no puede estar vacia")
         if not descripcion or descripcion.strip() == "":
-            raise ValueError("La descripción no puede estar vacia")
+            raise ValueError("La descripcion no puede estar vacia")
         if cantidad_basura_total <= 0:
             raise ValueError("La basura debe ser mayor a cero")
         if not observaciones or observaciones.strip() == "":
@@ -88,21 +82,22 @@ class JornadaService:
 
         cantidad_actual = self.repo.count_voluntarios(id_jornada)
         if cantidad_actual >= 20:
-            raise ValueError("Limite de 20 alcanzado")
+            raise ValueError("Limite de 20 voluntarios alcanzado")
 
         actuales = self.repo.get_voluntarios(id_jornada)
-        ids_actuales = [v.id_voluntario for v in actuales]
-        if id_voluntario in ids_actuales:
+        cedulas_actuales = [v.cedula for v in actuales]
+        if id_voluntario in cedulas_actuales:
             raise ValueError("El voluntario ya esta asignado")
 
-        self.repo.assign_voluntario(id_jornada, id_voluntario)
+        vol = self.voluntario_repo.get_by_cedula(id_voluntario)
+        self.repo.assign_voluntario(id_jornada, vol.id)
         return {"message": f"Voluntario '{id_voluntario}' asignado a jornada '{id_jornada}'."}
 
     def reporte_jornadas(self):
         jornadas = self.list_jornadas()
         reporte = []
         for jornada in jornadas:
-            cantidad_voluntarios = self.repo.count_voluntarios(jornada.id_jornada)
+            cantidad_voluntarios = len(jornada.voluntarios) if jornada.voluntarios else 0
             reporte.append({
                 "ID": jornada.id_jornada,
                 "Fecha": jornada.fecha,
@@ -112,3 +107,26 @@ class JornadaService:
                 "Zona": jornada.zona.nombre_zona if jornada.zona else "N/A"
             })
         return reporte
+
+    def filtrar_jornadas(self, fecha_desde=None, fecha_hasta=None, id_zona=None):
+        jornadas = self.list_jornadas()
+
+        resultado = []
+        for jornada in jornadas:
+            if fecha_desde and jornada.fecha < fecha_desde:
+                continue
+            if fecha_hasta and jornada.fecha > fecha_hasta:
+                continue
+            if id_zona is not None and jornada.id_zona != id_zona:
+                continue
+
+            cantidad_voluntarios = len(jornada.voluntarios) if jornada.voluntarios else 0
+            resultado.append({
+                "ID": jornada.id_jornada,
+                "Fecha": jornada.fecha,
+                "Descripcion": jornada.descripcion,
+                "Basura (kg)": jornada.cantidad_basura_total,
+                "Voluntarios": cantidad_voluntarios,
+                "Zona": jornada.zona.nombre_zona if jornada.zona else "N/A"
+            })
+        return resultado

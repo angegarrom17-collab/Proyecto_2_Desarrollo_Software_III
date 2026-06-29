@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Float
 from app.config.database import Base
 
+
 class BasuraORM(Base):
     __tablename__ = "basura_recolectada"
     __table_args__ = {'extend_existing': True}

@@ -1,70 +1,94 @@
+// ============================================
+// CONFIGURACIÓN DE LA API
+// ============================================
+const API_URL = 'http://127.0.0.1:8000';
 
+// ============================================
+// REFERENCIAS AL DOM
+// ============================================
 const entryTipo = document.getElementById("entry_tipo");
 const entryPeso = document.getElementById("entry_peso");
 const entryFecha = document.getElementById("entry_fecha");
-const tbody = document.getElementById("tbodyBasura");
+const tbodyBasura = document.getElementById("tbodyBasura");
 const lblFooter = document.getElementById("lblFooter");
 const messageBox = document.getElementById("messageBox");
 
-const STORAGE_KEY = "basura_monitoreo";
+const btnRegistrar = document.getElementById("btnRegistrar");
+const btnEditar = document.getElementById("btnEditar");
+const btnLimpiar = document.getElementById("btnLimpiar");
+const btnSalir = document.getElementById("btnSalir");
+
 let idEditando = null;
 
-const datosIniciales = [
-    { idBasura: "c955f143", tipoResiduo: "vidrio", pesoKilos: 40.0, fecha: "31-05" },
-    { idBasura: "9423d892", tipoResiduo: "plastico", pesoKilos: 80.0, fecha: "21-07" },
-    { idBasura: "0742d4f3", tipoResiduo: "red", pesoKilos: 15.0, fecha: "25-12" }
-];
-
+// ============================================
+// MENSAJES
+// ============================================
 function mostrarMensaje(texto, tipo = "success") {
+    if (typeof texto !== 'string') {
+        texto = JSON.stringify(texto);
+    }
     messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
+    messageBox.classList.remove("hidden");
 
     setTimeout(() => {
         messageBox.classList.add("hidden");
-    }, 3000);
+    }, 4000);
 }
 
-function obtenerBasura() {
-    const data = localStorage.getItem(STORAGE_KEY);
+// ============================================
+// EXTRAER MENSAJE DE ERROR DEL BACKEND
+// ============================================
+function extraerMensajeError(datos) {
+    if (!datos) return 'Error desconocido';
 
-    if (!data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
+    if (datos.detail) {
+        if (typeof datos.detail === 'string') {
+            return datos.detail;
+        }
+        if (Array.isArray(datos.detail)) {
+            return datos.detail.map(err => {
+                if (typeof err === 'string') return err;
+                if (err.msg) return `${err.loc ? err.loc.join('.') + ': ' : ''}${err.msg}`;
+                return JSON.stringify(err);
+            }).join('; ');
+        }
+        if (typeof datos.detail === 'object') {
+            return JSON.stringify(datos.detail);
+        }
+        return String(datos.detail);
     }
 
-    try {
-        return JSON.parse(data);
-    } catch {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
+    if (datos.message) return datos.message;
+    if (datos.error) return datos.error;
+
+    return JSON.stringify(datos);
 }
 
-function guardarBasura(lista) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-}
-
-function generarId() {
-    return Math.random().toString(36).substring(2, 10);
-}
-
+// ============================================
+// LIMPIAR CAMPOS
+// ============================================
 function limpiarCampos() {
     entryTipo.value = "";
     entryPeso.value = "";
     entryFecha.value = "";
     idEditando = null;
 
-    document.querySelectorAll("#tbodyBasura tr").forEach(tr => tr.classList.remove("seleccionada"));
+    document.querySelectorAll("#tbodyBasura tr").forEach(tr => {
+        tr.classList.remove("seleccionada");
+    });
 }
 
-function validar(tipo, peso, fecha) {
+// ============================================
+// VALIDAR CAMPOS
+// ============================================
+function validarCampos(tipo, peso, fecha) {
     if (!tipo || !peso || !fecha) {
         mostrarMensaje("Complete todos los campos.", "warning");
         return false;
     }
 
     const pesoNum = parseFloat(peso);
-
     if (isNaN(pesoNum) || pesoNum < 0) {
         mostrarMensaje("El peso debe ser un número válido no negativo.", "error");
         return false;
@@ -73,90 +97,221 @@ function validar(tipo, peso, fecha) {
     return { pesoNum };
 }
 
-function cargarTabla() {
-    const basura = obtenerBasura();
-    tbody.innerHTML = "";
-
-    basura.forEach((b) => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `<td>${b.idBasura}</td><td>${b.tipoResiduo}</td><td>${b.pesoKilos}</td><td>${b.fecha}</td>`;
-
-        tr.addEventListener("click", () => {
-            document.querySelectorAll("#tbodyBasura tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
-
-            entryTipo.value = b.tipoResiduo;
-            entryPeso.value = b.pesoKilos;
-            entryFecha.value = b.fecha;
-            idEditando = b.idBasura;
+// ============================================
+// CARGAR BASURA DESDE LA API (GET)
+// ============================================
+async function cargarTabla() {
+    try {
+        const respuesta = await fetch(`${API_URL}/basura/`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
         });
 
-        tbody.appendChild(tr);
-    });
+        if (!respuesta.ok) {
+            const datos = await respuesta.json().catch(() => ({}));
+            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
+        }
 
-    lblFooter.textContent = `Mostrando ${basura.length} registro(s)`;
+        const basura = await respuesta.json();
+        tbodyBasura.innerHTML = "";
+
+        if (!Array.isArray(basura) || basura.length === 0) {
+            lblFooter.textContent = "Mostrando 0 registro(s)";
+            return;
+        }
+
+        basura.forEach((b) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${b.idBasura}</td>
+                <td>${b.tipoResiduo}</td>
+                <td>${b.pesoKilos}</td>
+                <td>${b.fecha}</td>
+            `;
+
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#tbodyBasura tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
+
+                entryTipo.value = b.tipoResiduo;
+                entryPeso.value = b.pesoKilos;
+                entryFecha.value = b.fecha;
+                idEditando = b.idBasura;
+            });
+
+            tbodyBasura.appendChild(tr);
+        });
+
+        lblFooter.textContent = `Mostrando ${basura.length} registro(s)`;
+
+    } catch (error) {
+        mostrarMensaje("❌ Error al cargar basura: " + error.message, "error");
+        console.error("Error cargarTabla:", error);
+    }
 }
 
-function registrar() {
+// ============================================
+// REGISTRAR BASURA EN LA API (POST)
+// ============================================
+async function registrarBasura() {
     const tipo = entryTipo.value.trim();
     const peso = entryPeso.value.trim();
     const fecha = entryFecha.value.trim();
 
-    const valid = validar(tipo, peso, fecha);
+    const valid = validarCampos(tipo, peso, fecha);
     if (!valid) return;
 
-    const basura = obtenerBasura();
-    const id = generarId();
+    const basura = {
+        tipoResiduo: tipo,
+        pesoKilos: valid.pesoNum,
+        fecha: fecha
+    };
 
-    basura.push({ idBasura: id, tipoResiduo: tipo, pesoKilos: valid.pesoNum, fecha });
+    try {
+        const respuesta = await fetch(`${API_URL}/basura/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(basura)
+        });
 
-    guardarBasura(basura);
-    mostrarMensaje(`Residuo '${tipo}' registrado (${valid.pesoNum} kg).`, "success");
-    limpiarCampos();
-    cargarTabla();
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok || respuesta.status === 201) {
+            mostrarMensaje(`✅ Residuo '${tipo}' registrado (${valid.pesoNum} kg).`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error registrar:", error);
+    }
 }
 
-function editar() {
-    const tipo = entryTipo.value.trim();
-    const peso = entryPeso.value.trim();
-    const fecha = entryFecha.value.trim();
-
+// ============================================
+// EDITAR BASURA EN LA API (PUT)
+// ============================================
+async function editarBasura() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un registro de la tabla para editar.", "warning");
         return;
     }
 
-    const valid = validar(tipo, peso, fecha);
+    const tipo = entryTipo.value.trim();
+    const peso = entryPeso.value.trim();
+    const fecha = entryFecha.value.trim();
+
+    const valid = validarCampos(tipo, peso, fecha);
     if (!valid) return;
 
-    const basura = obtenerBasura();
-    const idx = basura.findIndex(b => b.idBasura === idEditando);
+    const basura = {
+        tipoResiduo: tipo,
+        pesoKilos: valid.pesoNum,
+        fecha: fecha
+    };
 
-    if (idx === -1) {
-        mostrarMensaje("Registro no encontrado.", "error");
+    try {
+        const respuesta = await fetch(`${API_URL}/basura/${idEditando}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(basura)
+        });
+
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok) {
+            mostrarMensaje(`✅ Residuo '${tipo}' actualizado.`, "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error editar:", error);
+    }
+}
+
+// ============================================
+// ELIMINAR BASURA EN LA API (DELETE)
+// ============================================
+async function eliminarBasura() {
+    const id = idEditando || entryTipo.value.trim(); // Usamos idEditando si hay selección
+
+    if (!idEditando) {
+        mostrarMensaje("Seleccione un registro de la tabla para eliminar.", "warning");
         return;
     }
 
-    basura[idx] = { idBasura: idEditando, tipoResiduo: tipo, pesoKilos: valid.pesoNum, fecha };
+    if (!confirm(`¿Está seguro de eliminar el registro con ID '${idEditando}'?`)) {
+        return;
+    }
 
-    guardarBasura(basura);
-    mostrarMensaje(`Residuo '${tipo}' actualizado.`, "success");
-    limpiarCampos();
-    cargarTabla();
+    try {
+        const respuesta = await fetch(`${API_URL}/basura/${idEditando}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
+        }
+
+        if (respuesta.ok) {
+            mostrarMensaje("✅ Registro eliminado.", "success");
+            limpiarCampos();
+            setTimeout(cargarTabla, 300);
+        } else {
+            mostrarMensaje(`❌ Error: ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión: " + error.message, "error");
+        console.error("Error eliminar:", error);
+    }
 }
 
-// Event Listeners
-document.getElementById("btnRegistrar").addEventListener("click", registrar);
-document.getElementById("btnEditar").addEventListener("click", editar);
-document.getElementById("btnLimpiar").addEventListener("click", () => {
+// ============================================
+// EVENT LISTENERS
+// ============================================
+btnRegistrar.addEventListener("click", registrarBasura);
+btnEditar.addEventListener("click", editarBasura);
+btnLimpiar.addEventListener("click", () => {
     limpiarCampos();
     mostrarMensaje("Campos limpiados.", "success");
 });
-document.getElementById("btnSalir").addEventListener("click", () => {
-    if (confirm("¿Desea salir?")) window.location.href = "../index.html";
+btnSalir.addEventListener("click", () => {
+    if (confirm("¿Desea salir del módulo de basura?")) {
+        window.location.href = "../index.html";
+    }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarTabla();
-});
+// Agregar botón de borrar si no existe en el HTML
+// (Se puede agregar al HTML o manejar con doble click en la tabla)
+// Por ahora, usamos la tecla Delete o un botón adicional
+
+// CARGAR AL INICIAR
+document.addEventListener("DOMContentLoaded", cargarTabla);
