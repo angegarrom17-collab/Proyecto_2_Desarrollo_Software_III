@@ -4,19 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit html voluntario y usuario">
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="ediciones">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/basura_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/basura_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/jornada_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/jornada_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/reporte_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/reporte_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/basura_recolectada.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/basura_recolectada.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/jornada_limpieza.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/jornada_limpieza.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repository/basura_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/basura_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repository/jornada_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/jornada_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/basura_recolectada.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_basura_recolectada.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/jornada_limpieza.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_jornada_limpieza.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/basura_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/basura_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/jornada_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/jornada_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,7 +335,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782668613781</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ediciones">
+      <option name="closed" value="true" />
+      <created>1782753843029</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1782753843029</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,6 +356,7 @@
     <MESSAGE value="commit html usuarios" />
     <MESSAGE value="commit html" />
     <MESSAGE value="commit html voluntario y usuario" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit html voluntario y usuario" />
+    <MESSAGE value="ediciones" />
+    <option name="LAST_COMMIT_MESSAGE" value="ediciones" />
   </component>
 </project>
