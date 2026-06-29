@@ -3,23 +3,24 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.config.database import engine, Base
 
-# IMPORTAR TODOS LOS MODELOS para que SQLAlchemy los registre
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
 from app.models.zona import ZonaORM
-from app.models.animal_afectado import AnimalORM
+from app.models.animal_afectado import AnimalAfectadoORM
 from app.models.basura_recolectada import BasuraORM
 from app.models.jornada_limpieza import JornadaORM
 from app.models.material import MaterialORM
 
-# IMPORTAR CONTROLLERS
+from app.controller.usuario_controller import router as usuario_router
+from app.controller.voluntario_controller import router as voluntario_router
+from app.controller.zona_controller import router as zona_router
+from app.controller.fauna_controller import router as fauna_router
+from app.controller.material_controller import router as material_router
 from app.controller.basura_controller import router as basura_router
 from app.controller.jornada_controller import router as jornada_router
 from app.controller.reporte_controller import router as reporte_router
-from app.controller.usuario_controller import router as usuario_router
-from app.controller.voluntario_controller import router as voluntario_router
 
-# Crear tablas automáticamente (solo desarrollo)
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -36,19 +37,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Registrar routers
-# ✅ ASÍ:
-app.include_router(basura_router,     prefix="/basura")
-app.include_router(jornada_router,    prefix="/jornadas")
-app.include_router(reporte_router,    prefix="/reportes")
-app.include_router(usuario_router,    prefix="/usuarios")
-app.include_router(voluntario_router, prefix="/voluntarios")
-
-app.mount("/web", StaticFiles(directory="web_voluntariado"), name="web")
+app.include_router(usuario_router)
+app.include_router(voluntario_router)
+app.include_router(zona_router)
+app.include_router(fauna_router)
+app.include_router(material_router)
+app.include_router(basura_router)
+app.include_router(jornada_router)
+app.include_router(reporte_router)
+import os
+web_dir = os.path.join(os.path.dirname(__file__), "web_voluntariado")
+if os.path.exists(web_dir):
+    app.mount("/web", StaticFiles(directory=web_dir), name="web")
+else:
+    print(f"⚠️ Advertencia: No se encontró el directorio {web_dir}")
 
 @app.get("/")
 def root():
     return {
         "message": "API Proyecto Oceano funcionando",
-        "docs": "http://localhost:8000/docs"
+        "docs": "http://localhost:8000/docs",
+        "endpoints": [
+            "/usuarios",
+            "/voluntarios",
+            "/zonas",
+            "/fauna",
+            "/materiales",
+            "/basura",
+            "/jornadas",
+            "/reportes"
+        ]
     }

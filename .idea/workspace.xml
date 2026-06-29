@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="ediciones">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="web edicion" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +67,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "ORM",
-    "last_opened_file_path": "/home/daniel/Escritorio/archivos",
+    "last_opened_file_path": "/home/daniel/Escritorio/Datos bases/Proyecto #2 Desarrollo/web_voluntariado/pages",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -79,6 +77,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web_voluntariado/pages" />
+      <recent name="$PROJECT_DIR$/web_voluntariado/assets/js" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -343,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782753843029</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="web edicion">
+      <option name="closed" value="true" />
+      <created>1782758029895</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1782758029895</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,6 +365,7 @@
     <MESSAGE value="commit html" />
     <MESSAGE value="commit html voluntario y usuario" />
     <MESSAGE value="ediciones" />
-    <option name="LAST_COMMIT_MESSAGE" value="ediciones" />
+    <MESSAGE value="web edicion" />
+    <option name="LAST_COMMIT_MESSAGE" value="web edicion" />
   </component>
 </project>
