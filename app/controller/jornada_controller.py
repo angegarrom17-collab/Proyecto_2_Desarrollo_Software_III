@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.services.jornada_service import JornadaService
-from app.schemas.jornada_limpieza import JornadaSchema, JornadaRegistroSchema, AsignacionVoluntarioSchema
+from app.schemas.schema_jornada_limpieza import JornadaSchema, JornadaRegistroSchema, AsignacionVoluntarioSchema
 
 router = APIRouter(prefix="/jornadas", tags=["Jornadas"])
 service = JornadaService()
