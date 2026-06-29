@@ -1,0 +1,48 @@
+Index: main.py
+===================================================================
+diff --git a/main.py b/main.py
+deleted file mode 100644
+--- a/main.py	(revision 2547f135f93554579316f475773d688a7a01e497)
++++ /dev/null	(revision 2547f135f93554579316f475773d688a7a01e497)
+@@ -1,1 +0,0 @@
+-#prueba.
+\ No newline at end of file
+Index: app/config/database.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/config/database.py b/app/config/database.py
+new file mode 100644
+--- /dev/null	(date 1782494274111)
++++ b/app/config/database.py	(date 1782494274111)
+@@ -0,0 +1,18 @@
++from sqlalchemy import create_engine
++from sqlalchemy.orm import sessionmaker, declarative_base
++
++DATABASE_URL = "mysql+pymysql://root:12345@localhost:3306/monitoreo_costero"
++
++engine = create_engine(DATABASE_URL, echo=False)
++
++SessionLocal = sessionmaker(bind=engine)
++
++Base = declarative_base()
++
++
++def init_db():
++
++    from app.models.usuario import Usuario
++    from app.models.voluntario import Voluntario
++
++    Base.metadata.create_all(bind=engine)
+\ No newline at end of file
+diff --git a/app/models/animal_afectado.py b/app/models/animal_afectado.py
+new file mode 100644
+diff --git a/app/models/basura_recolectada.py b/app/models/basura_recolectada.py
+new file mode 100644
+diff --git a/app/models/jornada_limpieza.py b/app/models/jornada_limpieza.py
+new file mode 100644
+diff --git a/app/models/material.py b/app/models/material.py
+new file mode 100644
+diff --git a/app/models/zona.py b/app/models/zona.py
+new file mode 100644
