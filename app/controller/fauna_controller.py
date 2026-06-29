@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from app.services.fauna_service import FaunaService
-# fauna_controller.py
 from app.schemas.schema_fauna import AnimalAfectadoSchema, AnimalAfectadoCrearSchema
 
 router = APIRouter(prefix="/fauna", tags=["Fauna"])

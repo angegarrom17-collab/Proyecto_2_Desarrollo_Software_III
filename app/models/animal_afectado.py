@@ -1,11 +1,14 @@
 from sqlalchemy import Column, Integer, String
 from app.config.database import Base
 
-class AnimalORM(Base):
+
+class AnimalAfectadoORM(Base):
     __tablename__ = "animales_afectados"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True)
     especie = Column(String(100), nullable=False)
-    estado = Column(String(50), nullable=False)
-    descripcion = Column(String(255))
-    id_zona = Column(Integer, nullable=True)
+    estado = Column(String(20), nullable=False)
+    descripcion = Column(String(300), nullable=False)
+
+    def __repr__(self):
+        return f"AnimalAfectado(especie='{self.especie}', estado='{self.estado}')"

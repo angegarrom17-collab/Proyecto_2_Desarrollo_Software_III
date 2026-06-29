@@ -1,5 +1,5 @@
 from app.config.database import SessionLocal
-from app.models.animal_afectado import AnimalORM
+from app.models.animal_afectado import AnimalAfectadoORM
 
 
 class FaunaRepository:
@@ -7,7 +7,7 @@ class FaunaRepository:
         self.db = SessionLocal()
 
     def crear(self, especie, estado, descripcion):
-        animal = AnimalORM(
+        animal = AnimalAfectadoORM(
             especie=especie,
             estado=estado,
             descripcion=descripcion
@@ -18,10 +18,10 @@ class FaunaRepository:
         return animal
 
     def obtener(self, animal_id):
-        return self.db.query(AnimalORM).filter_by(id=animal_id).first()
+        return self.db.query(AnimalAfectadoORM).filter_by(id=animal_id).first()
 
     def obtener_todos(self):
-        return self.db.query(AnimalORM).all()
+        return self.db.query(AnimalAfectadoORM).all()
 
     def actualizar(self, animal_id, especie, estado, descripcion):
         animal = self.obtener(animal_id)
@@ -40,4 +40,4 @@ class FaunaRepository:
         return animal
 
     def obtener_por_estado(self, estado):
-        return self.db.query(AnimalORM).filter_by(estado=estado).all()
+        return self.db.query(AnimalAfectadoORM).filter_by(estado=estado).all()
