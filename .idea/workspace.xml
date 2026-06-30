@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Trabajando.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/jornadas.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/jornadas.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/jornadas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/jornadas.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
