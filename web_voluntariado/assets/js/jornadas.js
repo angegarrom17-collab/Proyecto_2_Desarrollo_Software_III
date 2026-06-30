@@ -72,6 +72,40 @@ function extraerMensajeError(datos) {
 }
 
 // ============================================
+// CARGAR ZONAS EN EL COMBO BOX
+// ============================================
+async function cargarZonas() {
+    try {
+        const respuesta = await fetch(`${API_URL}/zonas/`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!respuesta.ok) {
+            const datos = await respuesta.json().catch(() => ({}));
+            throw new Error(extraerMensajeError(datos) || `Error HTTP ${respuesta.status}`);
+        }
+
+        const zonas = await respuesta.json();
+
+        // Guardar la opción por defecto
+        entryZona.innerHTML = '<option value="">-- Seleccione una zona --</option>';
+
+        if (Array.isArray(zonas)) {
+            zonas.forEach(z => {
+                const option = document.createElement("option");
+                option.value = z.id_zona;
+                option.textContent = `${z.id_zona} - ${z.nombre_zona} (${z.ubicacion})`;
+                entryZona.appendChild(option);
+            });
+        }
+    } catch (error) {
+        mostrarMensaje("❌ Error al cargar zonas: " + error.message, "error");
+        console.error("Error cargarZonas:", error);
+    }
+}
+
+// ============================================
 // LIMPIAR CAMPOS
 // ============================================
 function limpiarCampos() {
@@ -110,7 +144,7 @@ function validarCampos(id, fecha, desc, basura, obs, zona, vols) {
     }
 
     if (isNaN(idZona) || idZona <= 0) {
-        mostrarMensaje("El ID de zona debe ser un número entero válido.", "error");
+        mostrarMensaje("Seleccione una zona válida.", "error");
         return false;
     }
 
@@ -149,7 +183,6 @@ async function cargarTabla() {
 
         jornadas.forEach((j) => {
             const tr = document.createElement("tr");
-            // Usar el campo cantidad_voluntarios del backend
             const numVoluntarios = j.cantidad_voluntarios !== undefined ? j.cantidad_voluntarios : 0;
 
             tr.innerHTML = `
@@ -411,4 +444,7 @@ btnBorrar.addEventListener("click", eliminarJornada);
 btnReporte.addEventListener("click", verReporte);
 
 // CARGAR AL INICIAR
-document.addEventListener("DOMContentLoaded", cargarTabla);
+document.addEventListener("DOMContentLoaded", () => {
+    cargarZonas();
+    cargarTabla();
+});
