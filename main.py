@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.config.database import engine, Base
 
+
 # IMPORTAR TODOS LOS MODELOS para que SQLAlchemy los registre
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
@@ -11,6 +12,7 @@ from app.models.animal_afectado import AnimalAfectadoORM
 from app.models.basura_recolectada import BasuraORM
 from app.models.jornada_limpieza import JornadaORM
 from app.models.material import MaterialORM
+from app.models.reporte_generado import ReporteGeneradoORM
 
 # IMPORTAR CONTROLLERS
 from app.controller.basura_controller import router as basura_router

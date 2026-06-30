@@ -1,20 +1,20 @@
 from fastapi import APIRouter, HTTPException
-
 from app.services.basura_service import BasuraService
 from app.services.jornada_service import JornadaService
-from app.services.fauna_service import FaunaService  
+from app.services.fauna_service import FaunaService
 from app.services.material_service import MaterialService
+from app.services.reporte_service import ReporteService
 
-router = APIRouter(prefix="/reportes", tags=["Reportes"])
+router = APIRouter( tags=["Reportes"])
 service_basura = BasuraService()
 service_jornada = JornadaService()
 service_fauna = FaunaService()
 service_material = MaterialService()
+service_reporte = ReporteService()
 
 
 @router.get("/resumen-ambiental")
 def resumen_ambiental():
-
     total_basura = service_basura.total_basura()
     average_basura = service_basura.average_basura()
     por_tipo = service_basura.residuos_por_tipo()
@@ -28,7 +28,7 @@ def resumen_ambiental():
     except Exception:
         total_animales = animales_heridos = animales_muertos = 0
 
-    return {
+    resultado = {
         "total_basura_kg": total_basura,
         "promedio_basura_kg": average_basura,
         "residuos_por_tipo": por_tipo,
@@ -37,6 +37,14 @@ def resumen_ambiental():
         "animales_heridos": animales_heridos,
         "animales_muertos": animales_muertos
     }
+
+    # Guardar en base de datos
+    try:
+        service_reporte.guardar_reporte(resultado)
+    except Exception as e:
+        print(f"Error guardando reporte: {e}")
+
+    return resultado
 
 
 @router.get("/jornadas-detalle")
@@ -68,3 +76,9 @@ def materiales_bajo_stock(umbral: int = 10):
             status_code=503,
             detail=f"Servicio de materiales no disponible: {str(e)}"
         )
+
+
+@router.get("/historial")
+def historial_reportes():
+    """Devuelve todos los reportes guardados en la base de datos."""
+    return service_reporte.listar_reportes()
