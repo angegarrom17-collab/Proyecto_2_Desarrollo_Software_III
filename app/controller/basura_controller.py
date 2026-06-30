@@ -3,7 +3,7 @@ from app.services.basura_service import BasuraService
 from app.schemas.schema_basura_recolectada import BasuraSchema, BasuraRegistroSchema
 import uuid
 
-router = APIRouter(prefix="/basura", tags=["Basura"])
+router = APIRouter(tags=["Basura"])
 service = BasuraService()
 
 

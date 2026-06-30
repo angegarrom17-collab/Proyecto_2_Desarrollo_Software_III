@@ -17,6 +17,7 @@ const btnRegistrar = document.getElementById("btnRegistrar");
 const btnEditar = document.getElementById("btnEditar");
 const btnLimpiar = document.getElementById("btnLimpiar");
 const btnSalir = document.getElementById("btnSalir");
+const btnBorrar = document.getElementById("btnBorrar");
 
 let idEditando = null;
 
@@ -36,9 +37,6 @@ function mostrarMensaje(texto, tipo = "success") {
     }, 4000);
 }
 
-// ============================================
-// EXTRAER MENSAJE DE ERROR DEL BACKEND
-// ============================================
 function extraerMensajeError(datos) {
     if (!datos) return 'Error desconocido';
 
@@ -104,9 +102,7 @@ async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/basura/`, {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         });
 
         if (!respuesta.ok) {
@@ -138,6 +134,7 @@ async function cargarTabla() {
                 entryTipo.value = b.tipoResiduo;
                 entryPeso.value = b.pesoKilos;
                 entryFecha.value = b.fecha;
+
                 idEditando = b.idBasura;
             });
 
@@ -255,8 +252,6 @@ async function editarBasura() {
 // ELIMINAR BASURA EN LA API (DELETE)
 // ============================================
 async function eliminarBasura() {
-    const id = idEditando || entryTipo.value.trim(); // Usamos idEditando si hay selección
-
     if (!idEditando) {
         mostrarMensaje("Seleccione un registro de la tabla para eliminar.", "warning");
         return;
@@ -269,9 +264,7 @@ async function eliminarBasura() {
     try {
         const respuesta = await fetch(`${API_URL}/basura/${idEditando}`, {
             method: 'DELETE',
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         });
 
         let datos = {};
@@ -309,9 +302,9 @@ btnSalir.addEventListener("click", () => {
     }
 });
 
-// Agregar botón de borrar si no existe en el HTML
-// (Se puede agregar al HTML o manejar con doble click en la tabla)
-// Por ahora, usamos la tecla Delete o un botón adicional
+if (btnBorrar) {
+    btnBorrar.addEventListener("click", eliminarBasura);
+}
 
 // CARGAR AL INICIAR
 document.addEventListener("DOMContentLoaded", cargarTabla);
