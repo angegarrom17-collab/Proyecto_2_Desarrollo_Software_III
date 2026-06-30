@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Trabajando.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/jornadas.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/jornadas.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/jornadas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/jornadas.html" afterDir="false" />
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="estilo jornadas">
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/voluntarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/voluntarios.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/voluntarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/voluntarios.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -406,7 +403,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782780365389</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="estilo jornadas">
+      <option name="closed" value="true" />
+      <created>1782856103268</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1782856103268</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -423,6 +428,7 @@
     <MESSAGE value="web edicion" />
     <MESSAGE value="commit revisar funcionar" />
     <MESSAGE value="commit revisar" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit revisar" />
+    <MESSAGE value="estilo jornadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="estilo jornadas" />
   </component>
 </project>
