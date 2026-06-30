@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar" />
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/fauna_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/fauna_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/animal_afectado.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/animal_afectado.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repository/fauna_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/repository/fauna_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/schema_fauna.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/schema_fauna.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/fauna_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/fauna_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/js/fauna.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -354,7 +363,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782776640153</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="commit revisar">
+      <option name="closed" value="true" />
+      <created>1782777403744</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1782777403744</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

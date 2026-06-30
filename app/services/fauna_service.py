@@ -2,7 +2,6 @@ from app.repository.fauna_repository import FaunaRepository
 
 ESTADOS_VALIDOS = {"vivo", "herido", "muerto"}
 
-
 class FaunaService:
     def __init__(self):
         self.repo = FaunaRepository()
@@ -17,9 +16,12 @@ class FaunaService:
                 raise ValueError(f"El campo '{campo}' no puede estar vacío")
         self._validar_estado(estado)
 
-    def crear_animal(self, especie, estado, descripcion):
+    def crear_animal(self, id, especie, estado, descripcion):
+        if not isinstance(id, int) or id <= 0:
+            raise ValueError("El ID debe ser un número entero positivo.")
         self._validar_campos(especie, estado, descripcion)
         return self.repo.crear(
+            id=id,
             especie=str(especie).strip(),
             estado=estado.lower().strip(),
             descripcion=str(descripcion).strip()

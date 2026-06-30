@@ -1,3 +1,4 @@
+const API_URL = "http://localhost:8000/fauna";
 
 const entryId = document.getElementById("entry_id");
 const entryEspecie = document.getElementById("entry_especie");
@@ -7,41 +8,15 @@ const tbody = document.getElementById("tbodyFauna");
 const lblFooter = document.getElementById("lblFooter");
 const messageBox = document.getElementById("messageBox");
 
-const STORAGE_KEY = "fauna_monitoreo";
 let idEditando = null;
-
-const datosIniciales = [
-    { idAnimal: "45", especie: "tortu", estado: "herido", descripcion: "pata mala" },
-    { idAnimal: "22", especie: "pez", estado: "herido", descripcion: "Sin aleta" }
-];
 
 function mostrarMensaje(texto, tipo = "success") {
     messageBox.textContent = texto;
     messageBox.className = `message-box ${tipo}`;
-
+    messageBox.classList.remove("hidden");
     setTimeout(() => {
         messageBox.classList.add("hidden");
     }, 3000);
-}
-
-function obtenerAnimales() {
-    const data = localStorage.getItem(STORAGE_KEY);
-
-    if (!data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
-
-    try {
-        return JSON.parse(data);
-    } catch {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(datosIniciales));
-        return [...datosIniciales];
-    }
-}
-
-function guardarAnimales(lista) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
 }
 
 function limpiarCampos() {
@@ -49,58 +24,66 @@ function limpiarCampos() {
     entryEspecie.value = "";
     entryEstado.value = "";
     entryDescripcion.value = "";
-
     idEditando = null;
     entryId.disabled = false;
-
     document.querySelectorAll("#tbodyFauna tr").forEach(tr => tr.classList.remove("seleccionada"));
 }
 
 function validar(id, especie, estado) {
     if (!id || !especie || !estado) {
-        mostrarMensaje("Complete los campos obligatorios: ID, Especie y Estado.", "warning");
+        mostrarMensaje("Complete ID, Especie y Estado.", "warning");
         return false;
     }
-
+    const idNum = parseInt(id);
+    if (isNaN(idNum) || idNum <= 0) {
+        mostrarMensaje("El ID debe ser un número entero positivo.", "error");
+        return false;
+    }
     const estadoNorm = estado.trim().toLowerCase();
-
     if (!["vivo", "herido", "muerto"].includes(estadoNorm)) {
         mostrarMensaje("El estado debe ser: vivo, herido o muerto.", "error");
         return false;
     }
-
-    return { estadoNorm };
+    return { idNum, estadoNorm };
 }
 
-function cargarTabla() {
-    const animales = obtenerAnimales();
-    tbody.innerHTML = "";
+async function cargarTabla() {
+    try {
+        const res = await fetch(API_URL + "/");
+        if (!res.ok) {
+            mostrarMensaje("Error al obtener datos del servidor.", "error");
+            return;
+        }
+        const animales = await res.json();
+        tbody.innerHTML = "";
 
-    animales.forEach((a) => {
-        const tr = document.createElement("tr");
+        animales.forEach((a) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${a.id}</td><td>${a.especie}</td><td>${a.estado}</td><td>${a.descripcion}</td>`;
 
-        tr.innerHTML = `<td>${a.idAnimal}</td><td>${a.especie}</td><td>${a.estado}</td><td>${a.descripcion}</td>`;
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#tbodyFauna tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
 
-        tr.addEventListener("click", () => {
-            document.querySelectorAll("#tbodyFauna tr").forEach(r => r.classList.remove("seleccionada"));
-            tr.classList.add("seleccionada");
+                entryId.value = a.id;
+                entryEspecie.value = a.especie;
+                entryEstado.value = a.estado;
+                entryDescripcion.value = a.descripcion;
 
-            entryId.value = a.idAnimal;
-            entryEspecie.value = a.especie;
-            entryEstado.value = a.estado;
-            entryDescripcion.value = a.descripcion;
+                idEditando = a.id;
+                entryId.disabled = true;
+            });
 
-            idEditando = a.idAnimal;
-            entryId.disabled = true;
+            tbody.appendChild(tr);
         });
 
-        tbody.appendChild(tr);
-    });
-
-    lblFooter.textContent = `Mostrando ${animales.length} animal(es) registrado(s)`;
+        lblFooter.textContent = `Mostrando ${animales.length} animal(es)`;
+    } catch (e) {
+        mostrarMensaje("Error al cargar datos del servidor.", "error");
+    }
 }
 
-function registrar() {
+async function registrar() {
     const id = entryId.value.trim();
     const especie = entryEspecie.value.trim();
     const estado = entryEstado.value.trim();
@@ -109,75 +92,97 @@ function registrar() {
     const valid = validar(id, especie, estado);
     if (!valid) return;
 
-    const animales = obtenerAnimales();
+    try {
+        const res = await fetch(API_URL + "/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: valid.idNum,
+                especie: especie,
+                estado: valid.estadoNorm,
+                descripcion: desc
+            })
+        });
 
-    if (animales.some(a => a.idAnimal === id)) {
-        mostrarMensaje(`Ya existe un animal con ID ${id}.`, "error");
-        return;
+        if (!res.ok) {
+            const err = await res.json();
+            mostrarMensaje(err.detail || "Error al registrar", "error");
+            return;
+        }
+
+        mostrarMensaje("Animal registrado correctamente.", "success");
+        limpiarCampos();
+        cargarTabla();
+    } catch (e) {
+        mostrarMensaje("No se pudo conectar con el servidor.", "error");
     }
-
-    animales.push({ idAnimal: id, especie, estado: valid.estadoNorm, descripcion: desc });
-
-    guardarAnimales(animales);
-    mostrarMensaje(`Animal '${especie}' registrado correctamente.`, "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
-function editar() {
-    const id = entryId.value.trim();
-    const especie = entryEspecie.value.trim();
-    const estado = entryEstado.value.trim();
-    const desc = entryDescripcion.value.trim();
-
+async function editar() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un animal de la tabla para editar.", "warning");
         return;
     }
 
+    const id = entryId.value.trim();
+    const especie = entryEspecie.value.trim();
+    const estado = entryEstado.value.trim();
+    const desc = entryDescripcion.value.trim();
+
     const valid = validar(id, especie, estado);
     if (!valid) return;
 
-    const animales = obtenerAnimales();
-    const idx = animales.findIndex(a => a.idAnimal === idEditando);
+    try {
+        const res = await fetch(`${API_URL}/${idEditando}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: valid.idNum,
+                especie: especie,
+                estado: valid.estadoNorm,
+                descripcion: desc
+            })
+        });
 
-    if (idx === -1) {
-        mostrarMensaje(`No existe animal con ID ${id}.`, "error");
-        return;
+        if (!res.ok) {
+            const err = await res.json();
+            mostrarMensaje(err.detail || "Error al actualizar", "error");
+            return;
+        }
+
+        mostrarMensaje("Animal actualizado correctamente.", "success");
+        limpiarCampos();
+        cargarTabla();
+    } catch (e) {
+        mostrarMensaje("No se pudo conectar con el servidor.", "error");
     }
-
-    animales[idx] = { idAnimal: id, especie, estado: valid.estadoNorm, descripcion: desc };
-
-    guardarAnimales(animales);
-    mostrarMensaje(`Animal '${especie}' actualizado correctamente.`, "success");
-    limpiarCampos();
-    cargarTabla();
 }
 
-function buscar() {
+async function buscar() {
     const id = entryId.value.trim();
-
     if (!id) {
         mostrarMensaje("Ingrese un ID para buscar.", "warning");
         return;
     }
 
-    const animales = obtenerAnimales();
-    const animal = animales.find(a => a.idAnimal === id);
-
-    if (animal) {
+    try {
+        const res = await fetch(`${API_URL}/${id}`);
+        if (!res.ok) {
+            mostrarMensaje("Animal no encontrado.", "warning");
+            return;
+        }
+        const animal = await res.json();
         entryEspecie.value = animal.especie;
         entryEstado.value = animal.estado;
         entryDescripcion.value = animal.descripcion;
         mostrarMensaje("Animal encontrado.", "success");
-    } else {
-        mostrarMensaje(`No se encontró animal con ID '${id}'.`, "warning");
+    } catch (e) {
+        mostrarMensaje("No se pudo conectar con el servidor.", "error");
     }
 }
 
-function eliminar() {
+async function eliminar() {
     const id = entryId.value.trim();
-
     if (!id) {
         mostrarMensaje("Ingrese un ID para borrar.", "warning");
         return;
@@ -185,12 +190,19 @@ function eliminar() {
 
     if (!confirm(`¿Está seguro de eliminar el registro con ID '${id}'?`)) return;
 
-    const animales = obtenerAnimales().filter(a => a.idAnimal !== id);
-
-    guardarAnimales(animales);
-    mostrarMensaje("Registro eliminado.", "success");
-    limpiarCampos();
-    cargarTabla();
+    try {
+        const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (!res.ok) {
+            const err = await res.json();
+            mostrarMensaje(err.detail || "Error al eliminar", "error");
+            return;
+        }
+        mostrarMensaje("Registro eliminado.", "success");
+        limpiarCampos();
+        cargarTabla();
+    } catch (e) {
+        mostrarMensaje("No se pudo conectar con el servidor.", "error");
+    }
 }
 
 // Event Listeners
