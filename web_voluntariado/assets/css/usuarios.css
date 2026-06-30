@@ -316,3 +316,15 @@ td {
         padding: 16px;
     }
 }
+
+/* ========== ICONO DEL TÍTULO ========== */
+.titulo-con-icono {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icono-titulo {
+    font-size: 36px;
+    line-height: 1;
+}

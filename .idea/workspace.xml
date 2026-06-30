@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="estilo jornadas">
+    <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/zonas.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/zonas.css" afterDir="false" />
@@ -400,7 +400,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782856103268</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="commit revisar">
+      <option name="closed" value="true" />
+      <created>1782859297882</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1782859297882</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -416,8 +424,8 @@
     <MESSAGE value="ediciones" />
     <MESSAGE value="web edicion" />
     <MESSAGE value="commit revisar funcionar" />
-    <MESSAGE value="commit revisar" />
     <MESSAGE value="estilo jornadas" />
-    <option name="LAST_COMMIT_MESSAGE" value="estilo jornadas" />
+    <MESSAGE value="commit revisar" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit revisar" />
   </component>
 </project>
