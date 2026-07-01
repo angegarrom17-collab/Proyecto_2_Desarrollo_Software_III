@@ -38,7 +38,6 @@ def resumen_ambiental():
         "animales_muertos": animales_muertos
     }
 
-    # Guardar en base de datos
     try:
         service_reporte.guardar_reporte(resultado)
     except Exception as e:
@@ -80,5 +79,4 @@ def materiales_bajo_stock(umbral: int = 10):
 
 @router.get("/historial")
 def historial_reportes():
-    """Devuelve todos los reportes guardados en la base de datos."""
     return service_reporte.listar_reportes()

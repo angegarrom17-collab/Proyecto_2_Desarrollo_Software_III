@@ -1,11 +1,7 @@
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
+
 const API_URL = 'http://127.0.0.1:8000';
 
-// ============================================
-// REFERENCIAS AL DOM
-// ============================================
+
 const entryTipo = document.getElementById("entry_tipo");
 const entryPeso = document.getElementById("entry_peso");
 const entryFecha = document.getElementById("entry_fecha");
@@ -21,9 +17,7 @@ const btnBorrar = document.getElementById("btnBorrar");
 
 let idEditando = null;
 
-// ============================================
-// MENSAJES
-// ============================================
+
 function mostrarMensaje(texto, tipo = "success") {
     if (typeof texto !== 'string') {
         texto = JSON.stringify(texto);
@@ -63,9 +57,7 @@ function extraerMensajeError(datos) {
     return JSON.stringify(datos);
 }
 
-// ============================================
-// LIMPIAR CAMPOS
-// ============================================
+
 function limpiarCampos() {
     entryTipo.value = "";
     entryPeso.value = "";
@@ -77,9 +69,7 @@ function limpiarCampos() {
     });
 }
 
-// ============================================
-// VALIDAR CAMPOS
-// ============================================
+
 function validarCampos(tipo, peso, fecha) {
     if (!tipo || !peso || !fecha) {
         mostrarMensaje("Complete todos los campos.", "warning");
@@ -95,9 +85,7 @@ function validarCampos(tipo, peso, fecha) {
     return { pesoNum };
 }
 
-// ============================================
-// CARGAR BASURA DESDE LA API (GET)
-// ============================================
+
 async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/basura/`, {
@@ -149,9 +137,7 @@ async function cargarTabla() {
     }
 }
 
-// ============================================
-// REGISTRAR BASURA EN LA API (POST)
-// ============================================
+
 async function registrarBasura() {
     const tipo = entryTipo.value.trim();
     const peso = entryPeso.value.trim();
@@ -196,9 +182,7 @@ async function registrarBasura() {
     }
 }
 
-// ============================================
-// EDITAR BASURA EN LA API (PUT)
-// ============================================
+
 async function editarBasura() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un registro de la tabla para editar.", "warning");
@@ -248,9 +232,7 @@ async function editarBasura() {
     }
 }
 
-// ============================================
-// ELIMINAR BASURA EN LA API (DELETE)
-// ============================================
+
 async function eliminarBasura() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un registro de la tabla para eliminar.", "warning");
@@ -287,9 +269,7 @@ async function eliminarBasura() {
     }
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
+
 btnRegistrar.addEventListener("click", registrarBasura);
 btnEditar.addEventListener("click", editarBasura);
 btnLimpiar.addEventListener("click", () => {
@@ -306,5 +286,5 @@ if (btnBorrar) {
     btnBorrar.addEventListener("click", eliminarBasura);
 }
 
-// CARGAR AL INICIAR
+
 document.addEventListener("DOMContentLoaded", cargarTabla);

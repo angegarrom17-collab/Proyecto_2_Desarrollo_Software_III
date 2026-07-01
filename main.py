@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from app.config.database import engine, Base
 
 
-# IMPORTAR TODOS LOS MODELOS para que SQLAlchemy los registre
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
 from app.models.zona import ZonaORM
@@ -14,7 +13,6 @@ from app.models.jornada_limpieza import JornadaORM
 from app.models.material import MaterialORM
 from app.models.reporte_generado import ReporteGeneradoORM
 
-# IMPORTAR CONTROLLERS
 from app.controller.basura_controller import router as basura_router
 from app.controller.jornada_controller import router as jornada_router
 from app.controller.reporte_controller import router as reporte_router
@@ -24,7 +22,6 @@ from app.controller.zona_controller import router as zona_router
 from app.controller.material_controller import router as material_router
 from app.controller.fauna_controller import router as fauna_router
 
-# Crear tablas automáticamente (solo desarrollo)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(

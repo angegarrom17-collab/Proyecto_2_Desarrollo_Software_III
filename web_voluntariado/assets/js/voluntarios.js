@@ -107,7 +107,6 @@ async function cargarVoluntarios() {
                 <td>${v.organizacion}</td>
             `;
 
-            // Seleccionar fila al hacer clic
             tr.addEventListener("click", () => {
                 document.querySelectorAll("#voluntariosTable tr").forEach(r => r.classList.remove("seleccionada"));
                 tr.classList.add("seleccionada");
@@ -280,7 +279,6 @@ async function eliminarVoluntario() {
     }
 }
 
-// Event Listeners
 btnRegistrar.addEventListener("click", registrarVoluntario);
 btnEditar.addEventListener("click", editarVoluntario);
 btnEliminar.addEventListener("click", eliminarVoluntario);

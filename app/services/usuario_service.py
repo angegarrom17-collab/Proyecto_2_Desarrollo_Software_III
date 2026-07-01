@@ -21,7 +21,7 @@ class UsuarioService:
 
         return self.repo.create(
             id=str(id).strip(),
-            nombre=str(nombre).strip(),        # ← NUEVO
+            nombre=str(nombre).strip(),
             email=email.strip(),
             hashed_password=password,
             rol=rol.strip().lower()
@@ -49,7 +49,7 @@ class UsuarioService:
 
         return self.repo.update(
             usuario_id=usuario_id,
-            nombre=str(nombre).strip(),        # ← NUEVO
+            nombre=str(nombre).strip(),
             email=email.strip(),
             hashed_password=nueva_contrasena,
             rol=rol.strip().lower()

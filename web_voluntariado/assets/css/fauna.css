@@ -6,21 +6,19 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #E0F2F1;
-    color: #00352C;
+    background-color: #E0F7FA;
+    color: #006064;
     min-height: 100vh;
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 25px 60px;
-    border-bottom: 1px solid #B2DFDB;
-    background: #E0F2F1;
+    border-bottom: 1px solid #B2EBF2;
+    background: #E0F7FA;
 }
 
 .header-left {
@@ -32,26 +30,26 @@ body {
 .logo-circle {
     width: 55px;
     height: 55px;
-    background: #00897B;
+    background: #26C6DA;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
     color: white;
-    box-shadow: 0 2px 8px rgba(0, 137, 123, 0.3);
+    box-shadow: 0 2px 8px rgba(38, 198, 218, 0.3);
 }
 
 .header-text h1 {
     font-size: 26px;
-    color: #00352C;
+    color: #006064;
     margin-bottom: 4px;
     font-weight: 700;
 }
 
 .header-text p {
     font-size: 14px;
-    color: #00897B;
+    color: #26C6DA;
 }
 
 .header-actions {
@@ -75,24 +73,24 @@ body {
 }
 
 .btn-registrar {
-    background: #00897B;
+    background: #26C6DA;
     color: white;
-    box-shadow: 0 2px 6px rgba(0, 137, 123, 0.4);
+    box-shadow: 0 2px 6px rgba(38, 198, 218, 0.4);
 }
 
 .btn-registrar:hover {
-    background: #00695C;
+    background: #0097A7;
     transform: translateY(-1px);
 }
 
 .btn-editar {
-    background: #E0F2F1;
-    color: #00352C;
-    border: 1px solid #B2DFDB;
+    background: #E0F7FA;
+    color: #006064;
+    border: 1px solid #B2EBF2;
 }
 
 .btn-editar:hover {
-    background: #B2DFDB;
+    background: #B2EBF2;
 }
 
 .btn-buscar {
@@ -128,9 +126,7 @@ body {
     color: white;
 }
 
-/* ============================================
-   ALERTAS
-   ============================================ */
+
 .error-alert {
     position: fixed;
     top: 20px;
@@ -152,18 +148,16 @@ body {
     display: none;
 }
 
-/* ============================================
-   FORM CARD
-   ============================================ */
+
 .form-card {
     width: 90%;
     max-width: 1200px;
     margin: 30px auto;
-    background: #F0FAF9;
-    border: 1px solid #B2DFDB;
+    background: #E0F7FA;
+    border: 1px solid #B2EBF2;
     border-radius: 16px;
     padding: 30px 40px;
-    box-shadow: 0 2px 12px rgba(0, 53, 44, 0.06);
+    box-shadow: 0 2px 12px rgba(0, 96, 100, 0.06);
 }
 
 .form-header {
@@ -173,11 +167,11 @@ body {
     margin-bottom: 25px;
     font-size: 18px;
     font-weight: 700;
-    color: #00352C;
+    color: #006064;
 }
 
 .icon-fauna {
-    color: #00897B;
+    color: #26C6DA;
     font-size: 22px;
 }
 
@@ -200,7 +194,7 @@ body {
 .form-group label {
     font-size: 12px;
     font-weight: 700;
-    color: #00897B;
+    color: #26C6DA;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: flex;
@@ -209,16 +203,16 @@ body {
 }
 
 .form-group label i {
-    color: #00897B;
+    color: #26C6DA;
     font-size: 14px;
 }
 
 .form-group input {
     padding: 12px 15px;
-    border: 1px solid #B2DFDB;
+    border: 1px solid #B2EBF2;
     border-radius: 10px;
     font-size: 14px;
-    color: #00352C;
+    color: #006064;
     background: white;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -226,17 +220,15 @@ body {
 }
 
 .form-group input:focus {
-    border-color: #00897B;
-    box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.15);
+    border-color: #26C6DA;
+    box-shadow: 0 0 0 3px rgba(38, 198, 218, 0.15);
 }
 
 .form-group input::placeholder {
-    color: #80CBC4;
+    color: #80DEEA;
 }
 
-/* ============================================
-   TABLE SECTION
-   ============================================ */
+
 .table-section {
     width: 90%;
     max-width: 1200px;
@@ -256,11 +248,11 @@ body {
     gap: 10px;
     font-size: 18px;
     font-weight: 700;
-    color: #00352C;
+    color: #006064;
 }
 
 .table-title i {
-    color: #00897B;
+    color: #26C6DA;
     font-size: 22px;
 }
 
@@ -295,11 +287,11 @@ body {
     border-spacing: 0;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 53, 44, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 96, 100, 0.08);
 }
 
 .data-table thead {
-    background: #00695C;
+    background: #0097A7;
     color: white;
 }
 
@@ -314,10 +306,10 @@ body {
 
 .data-table td {
     padding: 14px 16px;
-    border-bottom: 1px solid #B2DFDB;
+    border-bottom: 1px solid #B2EBF2;
     font-size: 14px;
-    color: #00352C;
-    background: #F0FAF9;
+    color: #006064;
+    background: #E0F7FA;
 }
 
 .data-table tbody tr {
@@ -326,11 +318,11 @@ body {
 }
 
 .data-table tbody tr:hover td {
-    background: #E0F2F1;
+    background: #E0F7FA;
 }
 
 .data-table tbody tr.seleccionada td {
-    background: #00897B !important;
+    background: #26C6DA !important;
     color: white !important;
 }
 
@@ -341,7 +333,7 @@ body {
 .table-footer {
     text-align: center;
     padding: 20px;
-    color: #00897B;
+    color: #26C6DA;
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -350,13 +342,11 @@ body {
 }
 
 .turtle-icon {
-    color: #00897B;
+    color: #26C6DA;
     font-size: 16px;
 }
 
-/* ============================================
-   MESSAGE BOX
-   ============================================ */
+
 #messageBox {
     position: fixed;
     bottom: 30px;
@@ -375,13 +365,11 @@ body {
     display: none;
 }
 
-#messageBox.success { background-color: #00897B; }
+#messageBox.success { background-color: #26C6DA; }
 #messageBox.error   { background-color: #E53935; }
 #messageBox.warning { background-color: #FB8C00; }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+
 @media (max-width: 900px) {
     .form-grid {
         grid-template-columns: repeat(2, 1fr);

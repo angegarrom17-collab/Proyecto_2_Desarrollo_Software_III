@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from app.services.zona_service import ZonaService
 from app.schemas.schema_zona import ZonaSchema, ZonaCrearSchema
 
-router = APIRouter(tags=["Zonas"])   # <-- quitá prefix="/zonas"
+router = APIRouter(tags=["Zonas"])
 service = ZonaService()
 
 
@@ -23,7 +23,7 @@ def obtener_zona(zona_id: int):
 def crear_zona(data: ZonaCrearSchema):
     try:
         return service.crear_zona(
-            id_zona=data.id_zona,          # <-- agregá id_zona
+            id_zona=data.id_zona,
             nombre_zona=data.nombre_zona,
             ubicacion=data.ubicacion,
             nivel_contaminacion=data.nivel_contaminacion,
