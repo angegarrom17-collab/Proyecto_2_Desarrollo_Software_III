@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Protección del Mar</title>
+    <link rel="stylesheet" href="../assets/css/login.css">
+<base target="_blank">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <span class="icono">🌊</span>
+                <h1>Protección del Mar</h1>
+                <p>Sistema de Monitoreo Costero</p>
+            </div>
+
+            <form id="loginForm" onsubmit="return false;">
+                <div class="campo">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingrese su contraseña" required>
+                </div>
+
+                <button type="submit" id="btnIngresar" class="btn-ingresar">
+                    Ingresar
+                </button>
+            </form>
+
+            <div id="messageBox" class="message-box hidden"></div>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
