@@ -6,7 +6,6 @@ const errorAlert = document.getElementById("errorAlert");
 const errorText = document.getElementById("errorText");
 const contador = document.getElementById("contador");
 
-// Campos del formulario
 const entryId = document.getElementById("id");
 const entryNombre = document.getElementById("nombre");
 const entryTelefono = document.getElementById("telefono");
@@ -14,7 +13,6 @@ const entryEdad = document.getElementById("edad");
 const entryEmail = document.getElementById("email");
 const entryOrganizacion = document.getElementById("organizacion");
 
-// Botones
 const btnRegistrar = document.getElementById("btnRegistrar");
 const btnEditar = document.getElementById("btnEditar");
 const btnEliminar = document.getElementById("btnEliminar");
@@ -173,7 +171,6 @@ async function registrarVoluntario() {
 
     if (!validarCampos(data)) return;
 
-    // Verificar que no exista ya
     try {
         const checkRes = await fetch(API_URL + data.id);
         if (checkRes.ok) {

@@ -205,7 +205,6 @@ async function eliminar() {
     }
 }
 
-// Event Listeners
 document.getElementById("btnRegistrar").addEventListener("click", registrar);
 document.getElementById("btnEditar").addEventListener("click", editar);
 document.getElementById("btnBuscar").addEventListener("click", buscar);

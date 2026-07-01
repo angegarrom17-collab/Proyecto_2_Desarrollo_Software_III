@@ -374,7 +374,6 @@ async function buscarUsuario() {
         idEditando = usuario.id;
         entryId.disabled = true;
 
-        // Seleccionar la fila visualmente
         tr.classList.add("seleccionada");
         tr.addEventListener("click", () => {
             document.querySelectorAll("#tbodyUsuarios tr").forEach(r => r.classList.remove("seleccionada"));
