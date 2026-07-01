@@ -6,6 +6,24 @@ const errorAlert = document.getElementById("errorAlert");
 const errorText = document.getElementById("errorText");
 const contador = document.getElementById("contador");
 
+// Campos del formulario
+const entryId = document.getElementById("id");
+const entryNombre = document.getElementById("nombre");
+const entryTelefono = document.getElementById("telefono");
+const entryEdad = document.getElementById("edad");
+const entryEmail = document.getElementById("email");
+const entryOrganizacion = document.getElementById("organizacion");
+
+// Botones
+const btnRegistrar = document.getElementById("btnRegistrar");
+const btnEditar = document.getElementById("btnEditar");
+const btnEliminar = document.getElementById("btnEliminar");
+const btnLimpiar = document.getElementById("btnLimpiar");
+const btnSalir = document.getElementById("btnSalir");
+const btnBuscar = document.getElementById("btnBuscar");
+
+let idEditando = null;
+
 function showMessage(text, type = "success") {
     messageBox.textContent = text;
     messageBox.classList.remove("hidden");
@@ -24,28 +42,16 @@ function showError(text) {
     }, 5000);
 }
 
-function obtenerDatosFormulario() {
-    return {
-        id: document.getElementById("id").value.trim(),
-        nombre: document.getElementById("nombre").value.trim(),
-        telefono: document.getElementById("telefono").value.trim(),
-        edad: document.getElementById("edad").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        organizacion: document.getElementById("organizacion").value.trim()
-    };
-}
-
-function llenarFormulario(v) {
-    document.getElementById("id").value = v.id;
-    document.getElementById("nombre").value = v.nombre;
-    document.getElementById("telefono").value = v.telefono;
-    document.getElementById("edad").value = v.edad;
-    document.getElementById("email").value = v.email;
-    document.getElementById("organizacion").value = v.organizacion;
-}
-
 function limpiarFormulario() {
-    document.getElementById("voluntarioForm").reset();
+    entryId.value = "";
+    entryNombre.value = "";
+    entryTelefono.value = "";
+    entryEdad.value = "";
+    entryEmail.value = "";
+    entryOrganizacion.value = "";
+    idEditando = null;
+    entryId.disabled = false;
+    document.querySelectorAll("#voluntariosTable tr").forEach(tr => tr.classList.remove("seleccionada"));
     showMessage("Formulario limpiado");
 }
 
@@ -91,17 +97,33 @@ async function cargarVoluntarios() {
 
         tableBody.innerHTML = "";
         data.forEach(v => {
-            const row = `
-                <tr>
-                    <td>${v.id}</td>
-                    <td>${v.nombre}</td>
-                    <td>${v.telefono}</td>
-                    <td>${v.edad}</td>
-                    <td>${v.email}</td>
-                    <td>${v.organizacion}</td>
-                </tr>
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${v.id}</td>
+                <td>${v.nombre}</td>
+                <td>${v.telefono}</td>
+                <td>${v.edad}</td>
+                <td>${v.email}</td>
+                <td>${v.organizacion}</td>
             `;
-            tableBody.innerHTML += row;
+
+            // Seleccionar fila al hacer clic
+            tr.addEventListener("click", () => {
+                document.querySelectorAll("#voluntariosTable tr").forEach(r => r.classList.remove("seleccionada"));
+                tr.classList.add("seleccionada");
+
+                entryId.value = v.id;
+                entryNombre.value = v.nombre;
+                entryTelefono.value = v.telefono;
+                entryEdad.value = v.edad;
+                entryEmail.value = v.email;
+                entryOrganizacion.value = v.organizacion;
+
+                idEditando = v.id;
+                entryId.disabled = true;
+            });
+
+            tableBody.appendChild(tr);
         });
         contador.textContent = data.length;
         return data;
@@ -113,7 +135,7 @@ async function cargarVoluntarios() {
 }
 
 async function buscarVoluntario() {
-    const id = document.getElementById("id").value.trim();
+    const id = entryId.value.trim();
     if (!id) {
         showMessage("Ingrese el ID en el campo de arriba para buscar", "error");
         return;
@@ -126,7 +148,14 @@ async function buscarVoluntario() {
         const res = await fetch(API_URL + id);
         if (!res.ok) throw new Error("No encontrado");
         const v = await res.json();
-        llenarFormulario(v);
+        entryId.value = v.id;
+        entryNombre.value = v.nombre;
+        entryTelefono.value = v.telefono;
+        entryEdad.value = v.edad;
+        entryEmail.value = v.email;
+        entryOrganizacion.value = v.organizacion;
+        idEditando = v.id;
+        entryId.disabled = true;
         showMessage("Voluntario cargado en el formulario");
     } catch (error) {
         showError("Voluntario no encontrado");
@@ -134,19 +163,25 @@ async function buscarVoluntario() {
 }
 
 async function registrarVoluntario() {
-    const data = obtenerDatosFormulario();
+    const data = {
+        id: entryId.value.trim(),
+        nombre: entryNombre.value.trim(),
+        telefono: entryTelefono.value.trim(),
+        edad: entryEdad.value.trim(),
+        email: entryEmail.value.trim(),
+        organizacion: entryOrganizacion.value.trim()
+    };
 
     if (!validarCampos(data)) return;
 
+    // Verificar que no exista ya
     try {
         const checkRes = await fetch(API_URL + data.id);
         if (checkRes.ok) {
             showMessage("Ya existe un voluntario con ese ID. Use otro ID o use Editar.", "error");
             return;
         }
-    } catch (e) {
-
-    }
+    } catch (e) { /* ignorar error 404 */ }
 
     const payload = {
         id: parseInt(data.id),
@@ -165,7 +200,7 @@ async function registrarVoluntario() {
         });
         if (res.ok) {
             showMessage("Voluntario registrado correctamente");
-            document.getElementById("voluntarioForm").reset();
+            limpiarFormulario();
             cargarVoluntarios();
         } else {
             const err = await res.json();
@@ -177,7 +212,19 @@ async function registrarVoluntario() {
 }
 
 async function editarVoluntario() {
-    const data = obtenerDatosFormulario();
+    if (!idEditando) {
+        showMessage("Seleccione un voluntario de la tabla para editar.", "error");
+        return;
+    }
+
+    const data = {
+        id: entryId.value.trim(),
+        nombre: entryNombre.value.trim(),
+        telefono: entryTelefono.value.trim(),
+        edad: entryEdad.value.trim(),
+        email: entryEmail.value.trim(),
+        organizacion: entryOrganizacion.value.trim()
+    };
 
     if (!validarCampos(data)) return;
 
@@ -199,7 +246,7 @@ async function editarVoluntario() {
         });
         if (res.ok) {
             showMessage("Voluntario actualizado correctamente");
-            document.getElementById("voluntarioForm").reset();
+            limpiarFormulario();
             cargarVoluntarios();
         } else {
             const err = await res.json();
@@ -211,24 +258,18 @@ async function editarVoluntario() {
 }
 
 async function eliminarVoluntario() {
-    const id = document.getElementById("id").value.trim();
-
-    if (!id) {
-        showMessage("Ingrese el ID del voluntario a eliminar", "error");
-        return;
-    }
-    if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
-        showMessage("El ID debe ser un numero valido", "error");
+    if (!idEditando) {
+        showMessage("Seleccione un voluntario de la tabla para eliminar.", "error");
         return;
     }
 
-    if (!confirm("¿Esta seguro de eliminar el voluntario con ID " + id + "?")) return;
+    if (!confirm("¿Esta seguro de eliminar el voluntario con ID " + idEditando + "?")) return;
 
     try {
-        const res = await fetch(API_URL + id, { method: "DELETE" });
+        const res = await fetch(API_URL + idEditando, { method: "DELETE" });
         if (res.ok) {
             showMessage("Voluntario eliminado correctamente");
-            document.getElementById("voluntarioForm").reset();
+            limpiarFormulario();
             cargarVoluntarios();
         } else {
             const err = await res.json();
@@ -238,5 +279,17 @@ async function eliminarVoluntario() {
         showMessage("Error de conexion. Asegurese de que el servidor este corriendo en http://127.0.0.1:8000", "error");
     }
 }
+
+// Event Listeners
+btnRegistrar.addEventListener("click", registrarVoluntario);
+btnEditar.addEventListener("click", editarVoluntario);
+btnEliminar.addEventListener("click", eliminarVoluntario);
+btnLimpiar.addEventListener("click", limpiarFormulario);
+btnBuscar.addEventListener("click", buscarVoluntario);
+btnSalir.addEventListener("click", () => {
+    if (confirm("¿Desea salir del módulo de voluntarios?")) {
+        window.location.href = "../index.html";
+    }
+});
 
 cargarVoluntarios();

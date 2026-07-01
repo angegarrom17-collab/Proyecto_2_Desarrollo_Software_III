@@ -93,15 +93,14 @@ body {
 }
 
 .btn-eliminar {
-    background: #F5E6C8;
-    color: #5D4037;
-    border: 1px solid #E8D5B5;
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
 }
 
 .btn-eliminar:hover {
-    background: #FFCDD2;
-    color: #C62828;
-    border-color: #EF9A9A;
+    background: #EF9A9A;
+    color: white;
 }
 
 .btn-limpiar {
@@ -303,8 +302,19 @@ body {
     background: #FFFBF0;
 }
 
+.data-table tbody tr {
+    transition: background-color 0.15s;
+    cursor: pointer;
+}
+
 .data-table tbody tr:hover td {
     background: #FFF3E0;
+}
+
+/* FILA SELECCIONADA */
+.data-table tbody tr.seleccionada td {
+    background: #FFB347 !important;
+    color: white !important;
 }
 
 .data-table tbody tr:last-child td {
