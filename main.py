@@ -3,13 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.config.database import engine, Base
 
-
+# ========== IMPORTAR TODOS LOS MODELOS ANTES DE create_all ==========
+# IMPORTANTE: jornada_voluntario DEBE importarse antes de create_all
+# para que SQLAlchemy registre la tabla de asociación
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
 from app.models.zona import ZonaORM
 from app.models.animal_afectado import AnimalAfectadoORM
 from app.models.basura_recolectada import BasuraORM
-from app.models.jornada_limpieza import JornadaORM
+from app.models.jornada_limpieza import JornadaORM, jornada_voluntario  # <-- IMPORTAR jornada_voluntario
 from app.models.material import MaterialORM
 from app.models.reporte_generado import ReporteGeneradoORM
 
@@ -22,6 +24,7 @@ from app.controller.zona_controller import router as zona_router
 from app.controller.material_controller import router as material_router
 from app.controller.fauna_controller import router as fauna_router
 
+# Crear todas las tablas (incluyendo jornada_voluntario)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -43,9 +46,9 @@ app.include_router(jornada_router,    prefix="/jornadas")
 app.include_router(reporte_router,    prefix="/reportes")
 app.include_router(usuario_router,    prefix="/usuarios")
 app.include_router(voluntario_router, prefix="/voluntarios")
-app.include_router(zona_router, prefix="/zonas")
-app.include_router(material_router, prefix="/materiales")
-app.include_router(fauna_router, prefix="/fauna")
+app.include_router(zona_router,       prefix="/zonas")
+app.include_router(material_router,   prefix="/materiales")
+app.include_router(fauna_router,      prefix="/fauna")
 
 app.mount("/web", StaticFiles(directory="web_voluntariado"), name="web")
 

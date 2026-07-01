@@ -15,9 +15,10 @@ class JornadaService:
             raise ValueError(f"La zona con id '{id_zona}' no existe")
 
     def _validate_voluntario_exists(self, id_voluntario):
-        vol = self.voluntario_repo.get_by_cedula(id_voluntario)
+        # CORREGIDO: usar get() en lugar de get_by_cedula() que no existe
+        vol = self.voluntario_repo.get(id_voluntario)
         if not vol:
-            raise ValueError(f"El voluntario con cedula '{id_voluntario}' no existe")
+            raise ValueError(f"El voluntario con id '{id_voluntario}' no existe")
 
     def _validate_common_data(self, fecha, descripcion, cantidad_basura_total, observaciones):
         if not fecha or fecha.strip() == "":
@@ -87,11 +88,11 @@ class JornadaService:
             raise ValueError("Limite de 20 voluntarios alcanzado")
 
         actuales = self.repo.get_voluntarios(id_jornada)
-        cedulas_actuales = [v.cedula for v in actuales]
-        if id_voluntario in cedulas_actuales:
+        ids_actuales = [v.id for v in actuales]  # CORREGIDO: usar v.id en lugar de v.cedula
+        if id_voluntario in ids_actuales:
             raise ValueError("El voluntario ya esta asignado")
 
-        vol = self.voluntario_repo.get_by_cedula(id_voluntario)
+        vol = self.voluntario_repo.get(id_voluntario)  # CORREGIDO
         self.repo.assign_voluntario(id_jornada, vol.id)
         return {"message": f"Voluntario '{id_voluntario}' asignado a jornada '{id_jornada}'."}
 
