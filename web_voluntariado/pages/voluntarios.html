@@ -23,19 +23,19 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="btn btn-registrar" onclick="registrarVoluntario()">
+            <button class="btn btn-registrar" id="btnRegistrar">
                 <i class="fas fa-plus"></i> Registrar
             </button>
-            <button class="btn btn-editar" onclick="editarVoluntario()">
+            <button class="btn btn-editar" id="btnEditar">
                 <i class="fas fa-pencil-alt"></i> Editar
             </button>
-            <button class="btn btn-eliminar" onclick="eliminarVoluntario()">
+            <button class="btn btn-eliminar" id="btnEliminar">
                 <i class="fas fa-trash-alt"></i> Eliminar
             </button>
-            <button class="btn btn-limpiar" onclick="limpiarFormulario()">
+            <button class="btn btn-limpiar" id="btnLimpiar">
                 <i class="fas fa-broom"></i> Limpiar
             </button>
-            <button class="btn btn-salir" onclick="if(confirm('¿Desea salir del módulo de voluntarios?')) window.location.href='../index.html'">
+            <button class="btn btn-salir" id="btnSalir">
                 <i class="fas fa-sign-out-alt"></i> Salir
             </button>
         </div>
@@ -83,7 +83,7 @@
                 <span>Voluntarios registrados</span>
             </div>
             <div class="table-actions">
-                <button class="btn-buscar-solo" onclick="buscarVoluntario()">
+                <button class="btn-buscar-solo" id="btnBuscar">
                     <i class="fas fa-search"></i> Buscar
                 </button>
             </div>
