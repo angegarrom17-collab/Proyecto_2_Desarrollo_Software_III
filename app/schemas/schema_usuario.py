@@ -20,3 +20,7 @@ class UsuarioActualizarSchema(BaseModel):
     email: str
     password: str | None = None
     rol: str
+
+class UsuarioLoginSchema(BaseModel):
+    email: str
+    password: str
