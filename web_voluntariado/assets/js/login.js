@@ -1,37 +1,123 @@
+// ============================================
+// LOGIN.JS - Validación de inicio de sesión
+// ============================================
+
 const API_URL = 'http://127.0.0.1:8000';
-const btnLogin = document.getElementById('btnLogin');
-const errorMsg = document.getElementById('errorMsg');
 
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    errorMsg.style.display = 'none';
-    btnLogin.disabled = true;
-    btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const btnIngresar = document.getElementById("btnIngresar");
+const messageBox = document.getElementById("messageBox");
+const loginForm = document.getElementById("loginForm");
 
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+function mostrarMensaje(texto, tipo) {
+    messageBox.textContent = texto;
+    messageBox.className = `message-box ${tipo}`;
+    messageBox.classList.remove("hidden");
+}
+
+function ocultarMensaje() {
+    messageBox.classList.add("hidden");
+}
+
+function extraerMensajeError(datos) {
+    if (!datos) return 'Error desconocido';
+    if (datos.detail) {
+        if (typeof datos.detail === 'string') return datos.detail;
+        if (Array.isArray(datos.detail)) {
+            return datos.detail.map(err => err.msg || JSON.stringify(err)).join('; ');
+        }
+        return JSON.stringify(datos.detail);
+    }
+    if (datos.message) return datos.message;
+    if (datos.error) return datos.error;
+    return JSON.stringify(datos);
+}
+
+async function iniciarSesion() {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    // Validaciones básicas del frontend
+    if (!email || !password) {
+        mostrarMensaje("Complete todos los campos.", "error");
+        return;
+    }
+
+    if (!email.includes("@")) {
+        mostrarMensaje("Ingrese un correo válido.", "error");
+        return;
+    }
+
+    // Deshabilitar botón mientras se procesa
+    btnIngresar.disabled = true;
+    btnIngresar.textContent = "Verificando...";
+    ocultarMensaje();
 
     try {
-        const resp = await fetch(`${API_URL}/login/login`, {
+        // Llamar al endpoint de login del backend
+        const respuesta = await fetch(`${API_URL}/usuarios/login`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
         });
 
-        const data = await resp.json();
-
-        if (resp.ok && data.success) {
-            localStorage.setItem('usuario', JSON.stringify(data.usuario));
-            window.location.href = 'index.html';
-        } else {
-            errorMsg.textContent = data.detail || 'Correo o contraseña incorrectos';
-            errorMsg.style.display = 'block';
+        let datos = {};
+        const textoRespuesta = await respuesta.text();
+        if (textoRespuesta) {
+            try { datos = JSON.parse(textoRespuesta); } catch (e) { datos = { raw: textoRespuesta }; }
         }
-    } catch (err) {
-        errorMsg.textContent = 'Error de conexión con el servidor';
-        errorMsg.style.display = 'block';
+
+        if (respuesta.ok) {
+            // Login exitoso
+            mostrarMensaje("✅ Inicio de sesión exitoso. Redirigiendo...", "success");
+
+            // Guardar datos básicos en sessionStorage (simple, sin token JWT)
+            sessionStorage.setItem("usuario_logueado", JSON.stringify({
+                email: datos.email || email,
+                nombre: datos.nombre || email,
+                rol: datos.rol || "encargado"
+            }));
+
+            setTimeout(() => {
+                window.location.href = "../index.html";  // ← CORREGIDO: ../ para subir de pages/ a raíz
+            }, 1000);
+
+            // Redirigir al panel principal - RUTA CORREGIDA
+            setTimeout(() => {
+                window.location.href = "index.html";  // Misma carpeta pages/ → sube a web_voluntariado/
+            }, 1000);
+
+        } else {
+            mostrarMensaje(`❌ ${extraerMensajeError(datos)}`, "error");
+        }
+
+    } catch (error) {
+        mostrarMensaje("❌ Error de conexión. Verifique que el servidor esté activo.", "error");
+        console.error("Error login:", error);
     } finally {
-        btnLogin.disabled = false;
-        btnLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+        btnIngresar.disabled = false;
+        btnIngresar.textContent = "Ingresar";
     }
+}
+
+// Event Listeners
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    iniciarSesion();
+});
+
+// Limpiar mensaje al escribir
+emailInput.addEventListener("input", ocultarMensaje);
+passwordInput.addEventListener("input", ocultarMensaje);
+
+// Enfocar campo email al cargar
+document.addEventListener("DOMContentLoaded", () => {
+    emailInput.focus();
 });
