@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="236d724c-41bd-48fb-9a66-7f6db8e0c31c" name="Changes" comment="commit revisar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/usuarios.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/zonas.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/zonas.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/usuarios.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/zonas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/assets/css/material.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/assets/css/material.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_voluntariado/pages/material.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_voluntariado/pages/material.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="ORM" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="HTML" />
@@ -38,12 +50,12 @@
     &quot;assignee&quot;: &quot;angegarrom17-collab&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git&quot;,
-    &quot;accountId&quot;: &quot;580c3f6f-459c-4233-bd4a-cc780ffa663b&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/angegarrom17-collab/Proyecto_2_Desarrollo_Software_III.git",
+    "accountId": "4af6dd24-8a1e-4c52-a8e7-8775e3905e3d"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -92,7 +104,7 @@
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.python.exe">
     <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Proyecto_2_Desarrollo_Software_III" />
       <option name="ENV_FILES" value="" />
@@ -384,31 +396,7 @@
       <option name="project" value="LOCAL" />
       <updated>1782779630710</updated>
     </task>
-    <task id="LOCAL-00014" summary="commit revisar">
-      <option name="closed" value="true" />
-      <created>1782780365389</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1782780365389</updated>
-    </task>
-    <task id="LOCAL-00015" summary="estilo jornadas">
-      <option name="closed" value="true" />
-      <created>1782856103268</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1782856103268</updated>
-    </task>
-    <task id="LOCAL-00016" summary="commit revisar">
-      <option name="closed" value="true" />
-      <created>1782859297882</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1782859297882</updated>
-    </task>
-    <option name="localTasksCounter" value="17" />
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,7 +412,6 @@
     <MESSAGE value="ediciones" />
     <MESSAGE value="web edicion" />
     <MESSAGE value="commit revisar funcionar" />
-    <MESSAGE value="estilo jornadas" />
     <MESSAGE value="commit revisar" />
     <option name="LAST_COMMIT_MESSAGE" value="commit revisar" />
   </component>
