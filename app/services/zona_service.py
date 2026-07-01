@@ -21,7 +21,7 @@ class ZonaService:
     def crear_zona(self, id_zona, nombre_zona, ubicacion, nivel_contaminacion, descripcion):
         self._validar_campos(nombre_zona, ubicacion, nivel_contaminacion, descripcion)
         return self.repo.crear(
-            id_zona=id_zona,              # <-- agregado
+            id_zona=id_zona,
             nombre_zona=str(nombre_zona).strip(),
             ubicacion=str(ubicacion).strip(),
             nivel_contaminacion=nivel_contaminacion.lower().strip(),

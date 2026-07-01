@@ -1,11 +1,7 @@
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
+
 const API_URL = 'http://127.0.0.1:8000';
 
-// ============================================
-// REFERENCIAS AL DOM
-// ============================================
+
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryUnidad = document.getElementById("entry_unidad");
@@ -16,9 +12,7 @@ const messageBox = document.getElementById("messageBox");
 
 let idEditando = null;
 
-// ============================================
-// MENSAJES
-// ============================================
+
 function mostrarMensaje(texto, tipo = "success") {
     if (typeof texto !== 'string') texto = JSON.stringify(texto);
     messageBox.textContent = texto;
@@ -41,9 +35,7 @@ function extraerMensajeError(datos) {
     return JSON.stringify(datos);
 }
 
-// ============================================
-// LIMPIAR CAMPOS
-// ============================================
+
 function limpiarCampos() {
     entryId.value = "";
     entryNombre.value = "";
@@ -54,9 +46,7 @@ function limpiarCampos() {
     document.querySelectorAll("#tbodyMateriales tr").forEach(tr => tr.classList.remove("seleccionada"));
 }
 
-// ============================================
-// VALIDAR CAMPOS
-// ============================================
+
 function validarCampos(id, nombre, cantidad) {
     if (!id || !nombre || cantidad === "") {
         mostrarMensaje("Complete todos los campos obligatorios.", "warning");
@@ -75,9 +65,7 @@ function validarCampos(id, nombre, cantidad) {
     return { id: idNum, cant };
 }
 
-// ============================================
-// CARGAR MATERIALES (GET)
-// ============================================
+
 async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/materiales/`, {
@@ -131,9 +119,7 @@ async function cargarTabla() {
     }
 }
 
-// ============================================
-// REGISTRAR MATERIAL (POST)
-// ============================================
+
 async function registrar() {
     const id = entryId.value.trim();
     const nombre = entryNombre.value.trim();
@@ -178,9 +164,7 @@ async function registrar() {
     }
 }
 
-// ============================================
-// EDITAR MATERIAL (PUT)
-// ============================================
+
 async function editar() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un material de la tabla para editar.", "warning");
@@ -229,9 +213,7 @@ async function editar() {
     }
 }
 
-// ============================================
-// USAR MATERIAL (POST /usar/{id})
-// ============================================
+
 async function usarMaterial() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un material de la tabla para usar.", "warning");
@@ -274,9 +256,7 @@ async function usarMaterial() {
     }
 }
 
-// ============================================
-// ELIMINAR MATERIAL (DELETE)
-// ============================================
+
 async function eliminar() {
     if (!idEditando) {
         mostrarMensaje("Seleccione un material de la tabla para eliminar.", "warning");
@@ -309,9 +289,6 @@ async function eliminar() {
     }
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
 document.getElementById("btnRegistrar").addEventListener("click", registrar);
 document.getElementById("btnEditar").addEventListener("click", editar);
 document.getElementById("btnUsar").addEventListener("click", usarMaterial);
@@ -324,5 +301,4 @@ document.getElementById("btnSalir").addEventListener("click", () => {
 });
 document.getElementById("btnBorrar").addEventListener("click", eliminar);
 
-// CARGAR AL INICIAR
 document.addEventListener("DOMContentLoaded", cargarTabla);

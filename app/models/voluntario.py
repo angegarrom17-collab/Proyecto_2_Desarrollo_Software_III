@@ -4,7 +4,7 @@ from app.config.database import Base
 class VoluntarioORM(Base):
     __tablename__ = "voluntarios"
 
-    id = Column(Integer, primary_key=True, autoincrement=False)  # ← Agrega autoincrement=False
+    id = Column(Integer, primary_key=True, autoincrement=False)
     nombre = Column(String(100), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     edad = Column(Integer, nullable=False)

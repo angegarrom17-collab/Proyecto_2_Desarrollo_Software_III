@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ZonaSchema(BaseModel):
-    id_zona: int              # <-- era 'id'
+    id_zona: int
     nombre_zona: str
     ubicacion: str
     nivel_contaminacion: str
@@ -12,7 +12,7 @@ class ZonaSchema(BaseModel):
 
 
 class ZonaCrearSchema(BaseModel):
-    id_zona: int | None = None   # <-- permití que el frontend envíe el ID
+    id_zona: int | None = None
     nombre_zona: str
     ubicacion: str
     nivel_contaminacion: str

@@ -1,7 +1,5 @@
-// CONFIGURACIÓN DE LA API
 const API_URL = 'http://127.0.0.1:8000';
 
-// REFERENCIAS AL DOM
 const entryId = document.getElementById("entry_id");
 const entryNombre = document.getElementById("entry_nombre");
 const entryUbicacion = document.getElementById("entry_ubicacion");

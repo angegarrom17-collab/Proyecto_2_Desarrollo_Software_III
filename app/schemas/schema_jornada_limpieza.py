@@ -25,7 +25,7 @@ class JornadaSchema(BaseModel):
     cantidad_basura_total: int
     observaciones: str
     id_zona: int
-    cantidad_voluntarios: int = 0          # <-- NUEVO
+    cantidad_voluntarios: int = 0
     zona: Optional[ZonaResumenSchema] = None
     voluntarios: List[VoluntarioResumenSchema] = []
 

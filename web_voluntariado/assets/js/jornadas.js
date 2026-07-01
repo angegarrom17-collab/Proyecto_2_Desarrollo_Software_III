@@ -1,11 +1,7 @@
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
+
 const API_URL = 'http://127.0.0.1:8000';
 
-// ============================================
-// REFERENCIAS AL DOM
-// ============================================
+
 const entryId = document.getElementById("entry_id");
 const entryFecha = document.getElementById("entry_fecha");
 const entryDesc = document.getElementById("entry_descripcion");
@@ -26,9 +22,7 @@ const btnReporte = document.getElementById("btnReporte");
 
 let idEditando = null;
 
-// ============================================
-// MENSAJES
-// ============================================
+
 function mostrarMensaje(texto, tipo = "success") {
     if (typeof texto !== 'string') {
         texto = JSON.stringify(texto);
@@ -42,9 +36,6 @@ function mostrarMensaje(texto, tipo = "success") {
     }, 4000);
 }
 
-// ============================================
-// EXTRAER MENSAJE DE ERROR DEL BACKEND
-// ============================================
 function extraerMensajeError(datos) {
     if (!datos) return 'Error desconocido';
 
@@ -71,9 +62,7 @@ function extraerMensajeError(datos) {
     return JSON.stringify(datos);
 }
 
-// ============================================
-// CARGAR ZONAS EN EL COMBO BOX
-// ============================================
+
 async function cargarZonas() {
     try {
         const respuesta = await fetch(`${API_URL}/zonas/`, {
@@ -88,7 +77,6 @@ async function cargarZonas() {
 
         const zonas = await respuesta.json();
 
-        // Guardar la opción por defecto
         entryZona.innerHTML = '<option value="">-- Seleccione una zona --</option>';
 
         if (Array.isArray(zonas)) {
@@ -105,9 +93,7 @@ async function cargarZonas() {
     }
 }
 
-// ============================================
-// LIMPIAR CAMPOS
-// ============================================
+
 function limpiarCampos() {
     entryId.value = "";
     entryFecha.value = "";
@@ -125,9 +111,7 @@ function limpiarCampos() {
     });
 }
 
-// ============================================
-// VALIDAR CAMPOS
-// ============================================
+
 function validarCampos(id, fecha, desc, basura, obs, zona, vols) {
     if (!id || !fecha || !desc || !basura || !obs || !zona) {
         mostrarMensaje("Complete todos los campos obligatorios.", "warning");
@@ -156,9 +140,7 @@ function validarCampos(id, fecha, desc, basura, obs, zona, vols) {
     return { cantidad, idZona, voluntarios };
 }
 
-// ============================================
-// CARGAR JORNADAS DESDE LA API (GET)
-// ============================================
+
 async function cargarTabla() {
     try {
         const respuesta = await fetch(`${API_URL}/jornadas/`, {
@@ -220,9 +202,6 @@ async function cargarTabla() {
     }
 }
 
-// ============================================
-// REGISTRAR JORNADA EN LA API (POST)
-// ============================================
 async function registrarJornada() {
     const id = entryId.value.trim();
     const fecha = entryFecha.value.trim();
@@ -275,9 +254,7 @@ async function registrarJornada() {
     }
 }
 
-// ============================================
-// EDITAR JORNADA EN LA API (PUT)
-// ============================================
+
 async function editarJornada() {
     if (!idEditando) {
         mostrarMensaje("Seleccione una jornada de la tabla para editar.", "warning");
@@ -334,9 +311,7 @@ async function editarJornada() {
     }
 }
 
-// ============================================
-// ELIMINAR JORNADA EN LA API (DELETE)
-// ============================================
+
 async function eliminarJornada() {
     if (!idEditando) {
         mostrarMensaje("Seleccione una jornada de la tabla para eliminar.", "warning");
@@ -375,9 +350,7 @@ async function eliminarJornada() {
     }
 }
 
-// ============================================
-// VER REPORTE DE JORNADAS DESDE LA API
-// ============================================
+
 async function verReporte() {
     try {
         const respuesta = await fetch(`${API_URL}/jornadas/report/jornadas`, {
@@ -426,9 +399,7 @@ async function verReporte() {
     }
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
+
 btnRegistrar.addEventListener("click", registrarJornada);
 btnEditar.addEventListener("click", editarJornada);
 btnLimpiar.addEventListener("click", () => {
@@ -443,7 +414,7 @@ btnSalir.addEventListener("click", () => {
 btnBorrar.addEventListener("click", eliminarJornada);
 btnReporte.addEventListener("click", verReporte);
 
-// CARGAR AL INICIAR
+
 document.addEventListener("DOMContentLoaded", () => {
     cargarZonas();
     cargarTabla();

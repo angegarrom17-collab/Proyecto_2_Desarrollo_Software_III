@@ -9,7 +9,7 @@ class AnimalAfectadoSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class AnimalAfectadoCrearSchema(BaseModel):
-    id: int          # ← ahora se exige el ID
+    id: int
     especie: str
     estado: str
     descripcion: str

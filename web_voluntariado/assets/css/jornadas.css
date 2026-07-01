@@ -11,9 +11,7 @@ body {
     min-height: 100vh;
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
+
 .header {
     display: flex;
     align-items: center;
@@ -139,9 +137,7 @@ body {
     color: white;
 }
 
-/* ============================================
-   ALERTAS
-   ============================================ */
+
 .error-alert {
     position: fixed;
     top: 20px;
@@ -163,9 +159,7 @@ body {
     display: none;
 }
 
-/* ============================================
-   FORM CARD
-   ============================================ */
+
 .form-card {
     width: 90%;
     max-width: 1200px;
@@ -249,9 +243,7 @@ body {
     height: 44px;
 }
 
-/* ============================================
-   TABLE SECTION
-   ============================================ */
+
 .table-section {
     width: 90%;
     max-width: 1200px;
@@ -344,9 +336,7 @@ body {
     font-size: 16px;
 }
 
-/* ============================================
-   MESSAGE BOX
-   ============================================ */
+
 #messageBox {
     position: fixed;
     bottom: 30px;
@@ -369,9 +359,7 @@ body {
 #messageBox.error   { background-color: #E53935; }
 #messageBox.warning { background-color: #FB8C00; }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+
 @media (max-width: 900px) {
     .form-grid {
         grid-template-columns: repeat(2, 1fr);

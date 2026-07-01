@@ -1,17 +1,17 @@
 :root {
-    --color-topbar: #0B3C5D;
-    --color-topbar2: #1565C0;
-    --color-fondo: #EEF4FB;
-    --color-acento: #1976D2;
-    --color-borde: #90B4D8;
+    --color-topbar: #C4A46E;
+    --color-topbar2: #B08D5F;
+    --color-fondo: #FDF5E6;
+    --color-acento: #D4A35E;
+    --color-borde: #E4CA99;
     --color-campo-bg: #FFFFFF;
-    --color-texto: #062036;
-    --color-label: #0B3C5D;
-    --color-sep: #90B4D8;
-    --color-row-par: #E3F2FD;
-    --color-th-fg: #E3F2FD;
+    --color-texto: #5C4033;
+    --color-label: #8B6914;
+    --color-sep: #E4CA99;
+    --color-row-par: #F5E6CC;
+    --color-th-fg: #FFF8E7;
     --color-card-bg: #FFFFFF;
-    --color-card-bd: #B0CDE6;
+    --color-card-bd: #D4B896;
 }
 
 * {
@@ -46,7 +46,7 @@ body {
 
 .bloque-texto p {
     font-size: 12px;
-    color: #90B4D8;
+    color: #5C4033;
     margin: 2px 0 0 0;
 }
 
@@ -73,7 +73,7 @@ button {
 }
 
 .btn-primario:hover {
-    background-color: #1565C0;
+    background-color: #B08D5F;
 }
 
 .btn-outline {
@@ -189,7 +189,7 @@ tbody tr:nth-child(odd) {
 }
 
 tbody tr:hover {
-    background-color: #BBDEFB;
+    background-color: #EAD4B0;
 }
 
 td {
@@ -200,7 +200,7 @@ td {
 
 .footer-tabla {
     font-size: 12px;
-    color: #5A7FA0;
+    color: #8D6E63;
     margin-top: 10px;
 }
 
