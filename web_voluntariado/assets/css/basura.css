@@ -203,6 +203,11 @@ button svg { flex: none; }
 }
 .campo label svg { flex: none; opacity: 0.85; }
 
+.icono-label {
+    vertical-align: -2px;
+    margin-right: 4px;
+}
+
 .campo input {
     font-family: "Segoe UI", sans-serif;
     font-size: 14px;
