@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Protección del Mar</title>
     <link rel="stylesheet" href="../assets/css/login.css">
-<base target="_blank">
+    <!-- SIN base target="_blank" para que la redirección funcione en la misma pestaña -->
 </head>
 <body>
     <div class="login-container">
@@ -36,6 +36,8 @@
         </div>
     </div>
 
-    <script src="js/login.js"></script>
+    <!-- Ruta corregida: el JS está en assets/js/ -->
+    <script src="../assets/js/login.js"></script>
+    <!-- NO incluir auth-guard.js en login.html (evita redirección circular) -->
 </body>
 </html>

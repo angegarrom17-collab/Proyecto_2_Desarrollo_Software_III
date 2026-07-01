@@ -85,9 +85,9 @@ async function iniciarSesion() {
                 rol: datos.rol || "encargado"
             }));
 
-            // Redirigir al panel principal después de 1 segundo
+            // Redirigir al panel principal - RUTA CORREGIDA
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "index.html";  // Misma carpeta pages/ → sube a web_voluntariado/
             }, 1000);
 
         } else {
