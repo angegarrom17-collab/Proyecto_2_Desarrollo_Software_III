@@ -87,7 +87,7 @@ async function iniciarSesion() {
 
             // Redirigir al panel principal después de 1 segundo
             setTimeout(() => {
-                window.location.href = "../web_voluntariado/index.html";
+                window.location.href = "../index.html";
             }, 1000);
 
         } else {

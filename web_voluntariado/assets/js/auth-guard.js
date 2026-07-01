@@ -9,7 +9,7 @@
 
     if (!usuario) {
         // No hay sesión, redirigir al login
-        window.location.href = "../login/login.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -19,6 +19,6 @@
         console.log("Usuario autenticado:", datos.nombre || datos.email);
     } catch (e) {
         sessionStorage.removeItem("usuario_logueado");
-        window.location.href = "../login/login.html";
+        window.location.href = "login.html";
     }
 })();
