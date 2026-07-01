@@ -1,39 +1,441 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basura Recolectada - Sistema de Monitoreo Costero</title>
-    <link rel="stylesheet" href="../assets/css/basura.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basura Recolectada - Sistema de Monitoreo Costero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<style>
+:root {
+    --color-topbar: #5C4A73;
+    --color-topbar2: #74628C;
+    --color-fondo: #EDE8F0;
+    --color-acento: #8676A0;
+    --color-borde: #D2C7DC;
+    --color-campo-bg: #FFFFFF;
+    --color-texto: #362350;
+    --color-label: #5C4A73;
+    --color-sep: #D2C7DC;
+    --color-row-par: #EFEAF3;
+    --color-th-fg: #F1EDF5;
+    --morado-fuerte:#3A2E4C;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(92,74,115,0.14) 0, transparent 42%),
+      radial-gradient(circle at 92% 8%, rgba(92,74,115,0.12) 0, transparent 38%),
+      radial-gradient(circle at 50% 100%, rgba(92,74,115,0.10) 0, transparent 45%);
+    background-attachment: fixed;
+}
+
+.topbar {
+    position:relative;
+    background: linear-gradient(120deg, var(--color-topbar) 0%, var(--color-topbar2) 100%);
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    box-shadow: 0 6px 18px -8px rgba(62,32,101,0.45);
+    flex-wrap: wrap;
+    gap: 14px;
+    overflow:hidden;
+}
+
+.topbar::after{
+    content:"";
+    position:absolute;
+    top:-30%; right:-6%;
+    width:40%; height:220%;
+    background:radial-gradient(circle at center, rgba(255,255,255,0.09), transparent 70%);
+    pointer-events:none;
+}
+
+.bloque-texto{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    position:relative;
+    z-index:2;
+}
+
+.icono-badge-header{
+    flex:none;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    border:1.5px solid rgba(255,255,255,0.28);
+    display:flex;align-items:center;justify-content:center;
+}
+
+.bloque-texto h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color-th-fg);
+    margin: 0;
+}
+
+.bloque-texto p {
+    font-size: 12px;
+    color: #D8CFE2;
+    margin: 2px 0 0 0;
+}
+
+.bloque-btns {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    position:relative;
+    z-index:2;
+}
+
+button {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight:700;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 9px 19px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+}
+button:hover{ transform:translateY(-1px); }
+button:active{ transform:translateY(0); }
+button svg{ flex:none; }
+
+.btn-primario {
+    background-color: #fff;
+    color: var(--color-topbar);
+    font-weight: 800;
+    padding: 9px 22px;
+    box-shadow:0 8px 16px -8px rgba(0,0,0,0.3);
+}
+
+.btn-primario:hover {
+    background-color: #F6EFFF;
+}
+
+.btn-secundario {
+    background-color: rgba(255,255,255,0.9);
+    color: var(--morado-fuerte);
+    font-weight: 800;
+    padding: 9px 22px;
+}
+
+.btn-secundario:hover {
+    background-color: #fff;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-th-fg);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    padding: 8.5px 18px;
+}
+.btn-outline:hover {
+    background-color: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.75);
+}
+
+.btn-borrar-id {
+    background-color: transparent;
+    color: var(--color-th-fg);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    font-size: 13px;
+    font-weight:700;
+    padding: 8.5px 18px;
+}
+
+.btn-borrar-id:hover {
+    background-color: #E4574E;
+    color: white;
+    border-color: #E4574E;
+}
+
+.contenedor {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 36px 60px;
+    position:relative;
+}
+
+.formulario {
+    background-color: var(--color-campo-bg);
+    border:1px solid var(--color-borde);
+    border-radius:16px;
+    box-shadow: 0 18px 40px -26px rgba(106,62,161,0.4);
+    padding: 26px 28px 20px;
+    margin-bottom: 10px;
+}
+
+.formulario-titulo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
+    color:var(--color-topbar);
+    font-weight:800;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+}
+
+.grupo-campos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 22px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.campo label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--color-label);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 0.4px;
+    display:flex;
+    align-items:center;
+}
+.campo label svg{ flex:none; opacity:0.85; }
+
+.campo input {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--color-borde);
+    border-radius: 6px;
+    background-color: #FCFAFF;
+    color: var(--color-texto);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.campo input::placeholder{
+    color:#9C8FB2;
+}
+
+.campo input:focus {
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 4px rgba(154,107,209,0.16);
+    background-color:#fff;
+}
+
+.separador {
+    height: 1px;
+    background-color: var(--color-sep);
+    margin: 18px 0;
+}
+
+.tabla-section {
+    margin-top: 10px;
+}
+
+.tabla-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.tabla-header h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--morado-fuerte);
+    margin: 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.tabla-header h2 .icono-badge{
+    flex:none;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:var(--color-topbar);
+    display:inline-flex;align-items:center;justify-content:center;
+}
+
+.tabla-contenedor {
+    background-color: var(--color-campo-bg);
+    border: 1px solid var(--color-borde);
+    border-radius: 14px;
+    overflow: hidden;
+    overflow-x:auto;
+    box-shadow: 0 14px 30px -26px rgba(62,32,101,0.35);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width:480px;
+}
+
+thead tr {
+    background-color: var(--color-topbar);
+    color: var(--color-th-fg);
+}
+
+th {
+    padding: 13px 14px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+}
+
+tbody tr {
+    transition: background-color 0.15s;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-row-par);
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--color-campo-bg);
+}
+
+tbody tr:hover {
+    background-color: #E4D7F8;
+    cursor: pointer;
+}
+
+tbody tr.seleccionada {
+    background-color: var(--color-acento) !important;
+    color: white;
+}
+
+td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-sep);
+    font-weight:600;
+}
+
+.footer-tabla {
+    font-size: 12.5px;
+    font-weight:600;
+    color: var(--color-topbar);
+    margin-top: 12px;
+    text-align:center;
+}
+
+.message-box {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.message-box.success { background-color: #5cb85c; }
+.message-box.error { background-color: #d9534f; }
+.message-box.warning { background-color: #f0ad4e; }
+
+.hidden { display: none; }
+
+@media (max-width: 768px) {
+    .grupo-campos { grid-template-columns: 1fr; }
+    .topbar { flex-direction: column; padding: 16px; gap: 12px; }
+    .bloque-btns { flex-wrap: wrap; justify-content: center; }
+    .contenedor { padding: 20px 16px 50px; }
+}
+</style>
 </head>
 <body>
     <header class="topbar">
         <div class="bloque-texto">
-            <h1>Basura Recolectada</h1>
-            <p>Sistema de monitoreo costero · Módulo de residuos</p>
+            <span class="icono-badge-header">
+                <!-- bolsa de basura / reciclaje, estilo plano -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
+                    <path d="M9 2c-.55 0-1 .45-1 1v1H5.5a1 1 0 000 2H6l1.1 13.2A2 2 0 009.1 21h5.8a2 2 0 002-1.8L18 6h.5a1 1 0 000-2H16V3c0-.55-.45-1-1-1H9zm1 2h4v1h-4V4zm-1.4 5h1.1l.4 9H9.6l-.4-9h.4zm3.2 0h1.6l-.4 9h-1.6l.4-9z"/>
+                </svg>
+            </span>
+            <div>
+                <h1>Basura Recolectada</h1>
+                <p>Sistema de monitoreo costero · Módulo de residuos</p>
+            </div>
         </div>
         <div class="bloque-btns">
-            <button id="btnRegistrar" class="btn-primario">Registrar</button>
-            <button id="btnEditar" class="btn-secundario">Editar</button>
-            <button id="btnLimpiar" class="btn-outline">Limpiar</button>
-            <button id="btnBorrar" class="btn-borrar-id">Borrar</button>
-            <button id="btnSalir" class="btn-outline">Salir</button>
+            <button id="btnRegistrar" class="btn-primario">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Registrar
+            </button>
+            <button id="btnEditar" class="btn-secundario">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                Editar
+            </button>
+            <button id="btnLimpiar" class="btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.36 2.72l1.42 1.42-5.72 5.71c1.19 1.61 1.63 3.6 1.19 5.48l-8.09-8.09c1.88-.44 3.87 0 5.48 1.19l5.72-5.71M5.93 17.57c-2.01-2.01-3.24-4.41-3.87-6.57l3.15-3.16 8.09 8.09-3.16 3.15c-2.16-.63-4.56-1.86-6.57-3.87l2.36-2.36-.94-.94-2.06-.34z"/></svg>
+                Limpiar
+            </button>
+            <button id="btnBorrar" class="btn-borrar-id">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                Borrar
+            </button>
+            <button id="btnSalir" class="btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 17v-3H3v-4h7V7l5 5-5 5zM10 3H5a2 2 0 00-2 2v3h2V5h5V3z"/></svg>
+                Salir
+            </button>
         </div>
     </header>
 
     <main class="contenedor">
         <section class="formulario">
+            <div class="formulario-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2c-.55 0-1 .45-1 1v1H5.5a1 1 0 000 2H6l1.1 13.2A2 2 0 009.1 21h5.8a2 2 0 002-1.8L18 6h.5a1 1 0 000-2H16V3c0-.55-.45-1-1-1H9z"/></svg>
+                Datos del residuo
+            </div>
             <div class="grupo-campos">
                 <div class="campo">
-                    <label for="entry_tipo">TIPO DE RESIDUO</label>
+                    <label for="entry_tipo">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M9 2c-.55 0-1 .45-1 1v1H5.5a1 1 0 000 2H6l1.1 13.2A2 2 0 009.1 21h5.8a2 2 0 002-1.8L18 6h.5a1 1 0 000-2H16V3c0-.55-.45-1-1-1H9zm1 2h4v1h-4V4z"/></svg>
+                        Tipo de residuo
+                    </label>
                     <input type="text" id="entry_tipo" placeholder="Ej: vidrio, plástico, red">
                 </div>
                 <div class="campo">
-                    <label for="entry_peso">PESO (kg)</label>
+                    <label for="entry_peso">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M12 2a4 4 0 00-4 4c0 1.14.48 2.16 1.24 2.9L6.4 20.7A1 1 0 007.36 22h9.28a1 1 0 00.96-1.3L14.76 8.9A4 4 0 0016 6a4 4 0 00-4-4zm0 2a2 2 0 012 2 2 2 0 01-2 2 2 2 0 01-2-2 2 2 0 012-2z"/></svg>
+                        Peso (kg)
+                    </label>
                     <input type="text" id="entry_peso" placeholder="Peso en kilos">
                 </div>
                 <div class="campo">
-                    <label for="entry_fecha">FECHA</label>
+                    <label for="entry_fecha">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M19 4h-1V3a1 1 0 00-2 0v1H8V3a1 1 0 00-2 0v1H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+                        Fecha
+                    </label>
                     <input type="text" id="entry_fecha" placeholder="DD-MM">
                 </div>
             </div>
@@ -43,7 +445,12 @@
 
         <section class="tabla-section">
             <div class="tabla-header">
-                <h2>REGISTROS DE BASURA</h2>
+                <h2>
+                    <span class="icono-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M20 8H4a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2zm-9 7H6v-2h5v2zm7-3h-7v-2h7v2zM7 7V5a2 2 0 012-2h6a2 2 0 012 2v2h-2V5H9v2H7z"/></svg>
+                    </span>
+                    Registros de basura
+                </h2>
             </div>
             <div class="tabla-contenedor">
                 <table id="tablaBasura">
@@ -55,14 +462,17 @@
                             <th>Fecha</th>
                         </tr>
                     </thead>
-                    <tbody id="tbodyBasura"></tbody>
+                    <tbody id="tbodyBasura">
+                        <tr><td>001</td><td>Plástico</td><td>3.4</td><td>28-06</td></tr>
+                        <tr><td>002</td><td>Vidrio</td><td>5.1</td><td>29-06</td></tr>
+                        <tr><td>003</td><td>Red de pesca</td><td>7.8</td><td>30-06</td></tr>
+                    </tbody>
                 </table>
             </div>
-            <p id="lblFooter" class="footer-tabla">Mostrando 0 registro(s)</p>
+            <p id="lblFooter" class="footer-tabla">Mostrando 3 registro(s)</p>
         </section>
     </main>
 
     <div id="messageBox" class="message-box hidden"></div>
-    <script src="../assets/js/basura.js"></script>
 </body>
 </html>
