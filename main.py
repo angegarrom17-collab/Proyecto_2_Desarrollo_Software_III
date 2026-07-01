@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.config.database import engine, Base
 
-
 from app.models.usuario import UsuarioORM
 from app.models.voluntario import VoluntarioORM
 from app.models.zona import ZonaORM
@@ -21,6 +20,7 @@ from app.controller.voluntario_controller import router as voluntario_router
 from app.controller.zona_controller import router as zona_router
 from app.controller.material_controller import router as material_router
 from app.controller.fauna_controller import router as fauna_router
+from app.controller.login_controller import router as login_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -38,14 +38,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(login_router,      prefix="/login")
 app.include_router(basura_router,     prefix="/basura")
 app.include_router(jornada_router,    prefix="/jornadas")
 app.include_router(reporte_router,    prefix="/reportes")
 app.include_router(usuario_router,    prefix="/usuarios")
 app.include_router(voluntario_router, prefix="/voluntarios")
-app.include_router(zona_router, prefix="/zonas")
-app.include_router(material_router, prefix="/materiales")
-app.include_router(fauna_router, prefix="/fauna")
+app.include_router(zona_router,       prefix="/zonas")
+app.include_router(material_router,   prefix="/materiales")
+app.include_router(fauna_router,      prefix="/fauna")
 
 app.mount("/web", StaticFiles(directory="web_voluntariado"), name="web")
 
