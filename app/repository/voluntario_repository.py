@@ -33,6 +33,14 @@ class VoluntarioRepository:
             self.db.rollback()
             raise
 
+    # NUEVO: método get_by_cedula que faltaba
+    def get_by_cedula(self, cedula):
+        try:
+            return self.db.query(VoluntarioORM).filter_by(id=cedula).first()
+        except Exception:
+            self.db.rollback()
+            raise
+
     def get_all(self):
         try:
             return self.db.query(VoluntarioORM).all()
