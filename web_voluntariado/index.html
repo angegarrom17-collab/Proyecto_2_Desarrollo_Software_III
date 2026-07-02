@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script>
+    const usuario = localStorage.getItem('usuario');
+    if (!usuario) {
+        window.location.href = 'login.html';
+    }
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protección del Mar - Panel Principal</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Patrick+Hand&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+<base target="_blank">
+</head>
+<body>
+
+    <header>
+        <h1>PROTEJAMOS NUESTRO MAR</h1>
+        <p>Pequeñas acciones, grandes cambios</p>
+    </header>
+
+    <main>
+        <section class="menu-dashboard">
+            <div class="btn-grid">
+                <button class="menu-btn" style="background-color: #90caf9;" onclick="window.location.href='pages/usuarios.html'">Usuarios</button>
+                <button class="menu-btn" style="background-color: #a5d6a7;" onclick="window.location.href='pages/jornadas.html'">Jornadas</button>
+                <button class="menu-btn" style="background-color: #F0DF93;" onclick="window.location.href='pages/voluntarios.html'">Voluntarios</button>
+                <button class="menu-btn" style="background-color: #80cbc4;" onclick="window.location.href='pages/zonas.html'">Zonas</button>
+                <button class="menu-btn" style="background-color: #f48fb1;" onclick="window.location.href='pages/material.html'">Material</button>
+                <button class="menu-btn" style="background-color: #80deea;" onclick="window.location.href='pages/fauna.html'">Animal Afectado</button>
+                <button class="menu-btn" style="background-color: #ce93d8;" onclick="window.location.href='pages/basura.html'">Basura Recolectada</button>
+                <button class="menu-btn" style="background-color: #E4CA99;" onclick="window.location.href='pages/reporte.html'">Reporte</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>JUNTOS HACEMOS LA DIFERENCIA</p>
+    </footer>
+    <script src="../../login/js/auth-guard.js"></script>
+</body>
+</html>
